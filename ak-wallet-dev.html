@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Dashboard | Arching Kaos</title>
+    <title>Arching Kaos</title>
     <style type="text/css">
         pre { white-space: pre-wrap; }
         #stellar-freigher-connect-address-button {
@@ -26,11 +26,23 @@
     <link rel="stylesheet" type="text/css" href="//ipfs.arching-kaos.com/ipfs/Qme4Lao1ffeyDtn4r9z8ZPCUPipRWJHPJig9Kh9XHw1ete?filename=style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-freighter-api/1.1.2/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div class="header">
         <img src="//ipfs.arching-kaos.com/ipfs/QmcyDhApg19qDcjdCpTFaezXrjfcUrC9MZq9wKo69trRDH">
         <h1 style="text-align: center;">Arching Kaos</h1>
+    </div>
+    <div class="options-menu">
+            <select>
+                    <option value="Arching Kaos">ARCHINGKAOS</option>
+                    <option value="KAOTISKHUND" disabled>KAOTISKHUND</option>
+            </select>
+            <select>
+                    <option value="archingkaos">ipfs.arching-kaos.com</option>
+                    <option value="ipfsio" disabled>ipfs.io</option>
+                    <option value="localhost" disabled>localhost</option>
+            </select>
     </div>
     <hr>
     <div id="menu" class="linkin">
@@ -43,15 +55,18 @@
         <a href="#zchain-data-section" onclick="menusel(this)">zchain</a> |
         <a href="#stats-section" onclick="menusel(this)">Stats</a> |
         <a href="#chat-section" onclick="menusel(this)">Chat</a> |
-        <a href="#about-section" onclick="menusel(this)">About</a>
+        <a href="#about-section" onclick="menusel(this)">About</a> |
+        <a href="#loading-status" onclick="menusel(this)">Logs</a>
     </div>
     <hr>
 <p class="sub-input" id="stellar-freigher-connect-address-button" onclick="connect()" >Connect with Stellar address</p>
 <div>
     <div id="about-section">
         <h2>About</h2>
-        <p>Arching Kaos is a project about radio, music, communications and decentralization. On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news of the network and chat.</p>
-        <p>Note that to participate you will need to set up your Arching Kaos set, which is not so convinient yet (under development).</p>
+        <p>Arching Kaos is a project about radio, music, communications and decentralization.</p>
+        <p>On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).</p>
+        <p>You can see the zchains appearing in "zchain" and logs of the process on "Logs"</p>
+        <p>Note that to participate you will need to set up your Arching Kaos set, which is not so convinient yet but possible.</p>
         <p>Furthermore, if you are using Freighter extension you can additionally see:</p>
         <ol>
             <li>Your balances on your wallet</li>
@@ -78,20 +93,22 @@
         <div id="my-mixtapes"></div>
         <div id="my-zchain"></div>
     </div>
+    <div id="loading-status"></div>
 </div>
 <hr>
 <div class="footer">
     Arching Kaos <a target="_blank" href="https://git.kaotisk-hund.com/arching-kaos-tools/.git">Tools</a>, <a target="_blank" href="https://arching-kaos.org">Org</a>, <a target="_blank" href="https://arching-kaos.net">Net</a> |
+    <a target="_blank" href="https://github.com/arching-kaos/arching-kaos-web-ui/issues/new/choose">Report an issue</a> |
     Powered by <a target="_blank" href="https://www.kaotisk-hund.com">Kaotisk Hund</a>.
 </div>
 </body>
 <script src="//cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.0.1/stellar-sdk.js"></script>
 <script>
     var profilemenuids = []
-    /* 
+    /*
      * Array of all the menu-panes IDs
      */
-    var menuids = ['#about-section','#zchain-data-section','#news-section','#stats-section','#mixtapes-section','#chat-section','#mypage-section','#stellar-balances','#stellar-data-config','#arching-kaos-id'];
+    var menuids = ['#about-section','#zchain-data-section','#news-section','#stats-section','#mixtapes-section','#chat-section','#mypage-section','#stellar-balances','#stellar-data-config','#arching-kaos-id', '#loading-status'];
     // Function to hide all the panes
     function menuinit(){
         menuids.forEach(m=>document.querySelector(m).hidden=true)
@@ -107,15 +124,22 @@
      */
     function menusel(m){
         menuinit();
-        console.log(m)
         document.querySelector(m.hash).hidden=false
     }
 
+    // Here we store the participants found
+    var participants = [];
+
+    // loading-status element
+    var lse = document.querySelector("#loading-status")
     /*
      * Get Trustlines for ARCHINGKAOS asset
      * Returns DOM element with number of trustlines
      */
     function gettrustlines(){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Loading trustlines..."
+        lse.appendChild(sta);
         var url='https://horizon.stellar.org/assets?asset_code=ARCHINGKAOS&asset_issuer=GB4QVKD6NW3CSNO5TNPARAWNPPXOPSSTKB35XCWB7PUNBIQTK3DVELB2'
         fetch(url, {
             method:'GET',
@@ -131,6 +155,7 @@
                     stats.appendChild(small)
                 })
             }
+            sta.innerHTML+=" Done!"
         })
     }
     gettrustlines()
@@ -144,6 +169,9 @@
      * the address both in innerHTML and in id of the div.
      */
     function getholders(a=0){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Searching holders..."
+        lse.appendChild(sta);
         var url='https://horizon.stellar.org/accounts?asset=ARCHINGKAOS:GB4QVKD6NW3CSNO5TNPARAWNPPXOPSSTKB35XCWB7PUNBIQTK3DVELB2&limit=200'
         fetch(url, {
             method:'GET',
@@ -165,6 +193,7 @@
                 })
             }
         })
+        sta.innerHTML+=" Done"
     }
     getholders()
 
@@ -176,6 +205,9 @@
      * get nickname from the variables
      */
     function checkforconfig(addr) {
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Checking configuration for "+ addr+ "..."
+        lse.appendChild(sta);
         url='https://horizon.stellar.org/accounts/'+addr+'/data/config'
         fetch(url, {
             method:'GET',
@@ -196,12 +228,15 @@
     }
 
     /*
-     * Function that gets nickname and parses the config variable. 
+     * Function that gets nickname and parses the config variable.
      *
      * Returns the key:value pairs of the configuration and proceeds
      * to get the zchain
      */
     function getnickname(a,eid){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Parsing the configuration..."
+        lse.appendChild(sta);
         url='https://ipfs.arching-kaos.com/ipns/'+a
         fetch(url, {
             method:'GET',
@@ -240,7 +275,8 @@
                         p.innerHTML="zchain: " +json.zchain
                         divs.appendChild(p)
                     }
-                    zseek(json.zchain)
+                    participants[eid]=json;
+                    zseek(json.zchain);
                 })
             }
         })
@@ -262,14 +298,16 @@
         readit(i)
         for (b in i.balances) {
             x = i.balances[b]
-            console.log(x)
             var as = document.createElement("p")
             as.innerHTML = x.balance + " "+ ( x.asset_code && x.asset_code != "undefined" ? x.asset_code : 'XLM')
             ta.appendChild(as)
         }
     }
-    // We also search for a config file and display it 
+    // We also search for a config file and display it
     async function dataf(i){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Loading your profile..."
+        lse.appendChild(sta);
         url='https://horizon.stellar.org/accounts/'+i+'/data/config'
         fetch(url, {
             method:'GET',
@@ -298,6 +336,9 @@
      * Returns p DOM elements on #arching-kaos-id pane
      */
     function akiseek(i){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Parsing AKID..."
+        lse.appendChild(sta);
         url='https://ipfs.arching-kaos.com/ipns/'+i
         fetch(url, {
             method:'GET',
@@ -343,12 +384,15 @@
     }
     /*
      * Function to seek Zblocks
-     * 
+     *
      * Returns Block and Signature for each ZBLOCK found.
      *
      * Proceeds to the blocks found.
      */
     function zseek(i,d,j){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Seeking zchain "+i+"..."
+        lse.appendChild(sta);
         url = 'https://ipfs.arching-kaos.com/ipns/'+i
         fetch(url, {
             method:'GET',
@@ -382,13 +426,16 @@
 
     /*
      * Seeks a block and parses it.
-     * 
+     *
      * Returns each element found in #zchain-data-section pane.
      *
      * Proceeds to execute the block.
      */
     function seekblock(i,l,d,j){
-        console.log(i)
+        console.log(i,l,d,j)
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Seeking block "+i+"..."
+        lse.appendChild(sta);
         url = 'https://ipfs.arching-kaos.com/ipfs/'+i
         fetch(url, {
             method:'GET',
@@ -454,12 +501,15 @@
 
     /*
      * Function gets ZBLOCK and parses it
-     * 
+     *
      * Returns Block and Signature elements on DOM as p
      *
      * Proceeds to seek the block found
      */
     function seekzblock(i){
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Seeking ZBLOCK "+i+"..."
+        lse.appendChild(sta);
         url = 'https://ipfs.arching-kaos.com/ipfs/'+i
         fetch(url, {
             method:'GET',
@@ -498,7 +548,10 @@
      * Returns the result of execution on the proper page in DOM
      */
     function exe(a,d,j,x,y,z){
-        console.log(a,d,j,x,y,z)
+        //console.log("Executing...",a,d,j,x,y,z)
+        var sta = document.createElement("pre");
+        sta.innerHTML = "Executing block "+d+"..."
+        lse.appendChild(sta);
         gurl = 'https://ipfs.arching-kaos.com/ipfs/'
         fetch(gurl+d, {
             method:'GET',
@@ -522,16 +575,24 @@
                             art.appendChild(h3)
                         }
                         if(json.datetime){
-                            var small = document.createElement("small")
+                            var small = document.createElement("p")
                             small.innerHTML="Published: " +json.datetime
                             art.appendChild(small)
+                        }
+                        for (let i  in participants){
+                            if ( participants[i].gpg === j.gpg ){
+                                if (participants[i].profile.nickname){
+                                    var small = document.createElement("p")
+                                    small.innerHTML="Author: " +participants[i].profile.nickname
+                                    art.appendChild(small)
+                                }
+                            }
                         }
                         if(json.ipfs){
                             getipfstext(json.ipfs,art.id)
                         }
                         divs.appendChild(art)
                         divs.appendChild(document.createElement("hr"));
-
                     }
                     if (a == "mixtape/add") {
                         var divs = document.querySelector('#mixtapes-section');
@@ -585,19 +646,19 @@
                 response.text().then(text=>{
                     var divs = document.querySelector('#'+articleid);
                     if(text){
-                        var pre = document.createElement("pre")
+                        var pre = document.createElement("div")
                         var lines = text.split('\n');
                         // remove one line, starting at the first position
                         lines.splice(0,1);
                         // join the array back into a single string
                         var newtext = lines.join('\n');
-                        pre.innerHTML = newtext
+                        pre.innerHTML = marked.parse(newtext)
                         divs.appendChild(pre)
                     }
                     //    seekblock(json.block)
                 })
             }
-        }) 
+        })
     }
     // Whatever function XD
     function readit(i){
