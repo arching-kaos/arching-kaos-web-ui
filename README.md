@@ -20,12 +20,10 @@ through your local HTTP server or your IPFS gateway.
 ```
 git clone https://github.com/arching-kaos/arching-kaos-web-ui
 cd arching-kaos-web-ui
-xdg-open http://127.0.0.1:/8080/$(ipfs add -Q ak-wallet.dev.html)
+xdg-open http://127.0.0.1:8080/$(ipfs add -Q -r src)
 ```
 
 ## Contribute
 
 1. Did you find a bug? Report it by opening an issue.
 2. Did you code it better? Open a pull request.
-
-## 
