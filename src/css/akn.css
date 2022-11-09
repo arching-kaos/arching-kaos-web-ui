@@ -1,0 +1,124 @@
+pre { white-space: pre-wrap; }
+#stellar-freigher-connect-address {
+    position: fixed;
+    top: 0;
+    right: 7vw;
+    z-index: 998;
+    padding: 0.5vh 1vw;
+    font-size: 0.9rem;
+}
+#stats-section div {
+    border: #1c241c 2px solid;
+    color: #ff1e1e;
+    padding: 2px;
+    width: fit-content;
+    margin: 0;
+}
+#progress {
+    word-wrap: break-word;
+}
+select {
+    border: 1px solid;
+    background-color: #1a1a1a;
+    color: #7ef07e;
+}
+article {
+    border: 2px solid #672178;
+    padding: 24px;
+}
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    float: left;
+    max-width: 25vw;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+.main{
+    position: absolute;
+    top: 0;
+    right: 2vw;
+    left: 27vw;
+    max-width: 86vw;
+    width: auto;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    overflow-y: auto;
+    max-height: 89vh;
+}
+@font-face {
+    font-family: 'terminessttf_nerd_font_monoMd';
+    src: url('https://ipfs.arching-kaos.com/ipfs/QmTiFZ9BjPGaoz5FEqsy5FJcVNRXrknsGkLPQXca6fb8Hz?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff2') format('woff2'),
+	 url('https://ipfs.arching-kaos.com/ipfs/QmeTV8JiVLdYw4Jt1gDngH2P6dZXkDucNKaruSMMAMkMhq?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    display: block;
+    font-family: 'terminessttf_nerd_font_monoMd';
+}
+.footer {
+    position: fixed;
+    height: 8vh;
+    bottom: 0;
+    background: #1c241c;
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
+.header img {
+    max-width: 15vw;
+    width: -moz-available;
+    width: -webkit-fill-available;
+}
+h1 {
+    font-size: large;
+}
+#menu {
+    padding: 2px;
+}
+#menu a {
+    display: flex;
+}
+#menu a {
+      display: flex;
+      background: #1c241c;
+      border: 1px solid #17392e;
+      padding: 1px;
+      margin: 1px;
+}
+#menu a:hover {
+      background: #008033;
+}
+div {
+    padding: 0;
+}
+.hsm {
+    z-index: 999;
+    position: fixed;
+    text-decoration-line: overline;
+    background: #1c241c;
+    border: 1px solid #1c241c;
+    box-shadow: 2px 2px #2c223c;
+    top: 0px;
+    text-shadow: 1px 2px #461551;
+    right: 1vw;
+}
+audio {
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
