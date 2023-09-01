@@ -507,7 +507,7 @@ function getipfstext(ipfs,articleid){
                     lines.splice(0,1);
                     // join the array back into a single string
                     var newtext = lines.join('\n');
-                    pre.innerHTML = marked.parse(newtext);
+                    pre.innerHTML = DOMPurify.sanitize(marked.parse(newtext));
                     divs.appendChild(pre);
                 }
                 progressPlaceholder.max++;
