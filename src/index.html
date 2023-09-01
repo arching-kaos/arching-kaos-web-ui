@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <title>Arching Kaos</title>
-        <link rel="stylesheet" type="text/css" href="./css/style-layer-1.css">
-        <link rel="stylesheet" type="text/css" href="./css/style-layer-2.css">
         <link rel="stylesheet" type="text/css" href="./css/akn.css">
         <style type="text/css">
         </style>
@@ -15,138 +13,224 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-freighter-api/1.1.2/index.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <meta name="theme-color" content="#7ef07e" />
+        <link rel="manifest" href="manifest.json">
     </head>
     <body>
-        <p class="hsm" onclick="hsm()">Hide menu</p>
-        <div class="sidebar">
-            <div class="header">
-                <img src="./img/header-logo.png">
-                <h1 style="text-align: center;">Arching Kaos</h1>
+        <div class="page-layout">
+            <div class="topbar">
+                <div class="header">
+                    <img src="./img/header-logo.png">
+                    <h1 style="text-align: center;">Arching Kaos</h1>
+                </div>
+                <button class="menu-clickable" id="mobile-menu" onclick="toggleMenu(this)">Show menu</button>
+                <nav id="double-floor" class="linkin">
+                    <div id="menu" class="linkin upper-floor">
+                        <button class="menu-clickable" id="#/welcome-section" onclick="menusel(this)">Home</button>
+                        <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">Modules</button>
+                        <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">Explore</button>
+                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">Chat</button>
+                        <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">Settings</button>
+                        <button class="menu-clickable" id="#/stellar-section" onclick="menusel(this)">Stellar</button>
+                        <button class="menu-clickable" id="#/about-section" onclick="menusel(this)">About</button>
+                    </div>
+                    <div id="menu" class="linkin lower-floor">
+                        <div class="dropdown" id="modules-submenu">
+                            <button class="menu-clickable" onclick="modulesSubToggle(this)">..</button>
+                            <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)">Mixtapes</button>
+                            <button class="menu-clickable" id="#/news-section" onclick="menusel(this)">News</button>
+                            <button class="menu-clickable" id="#/files-section" onclick="menusel(this)">Files</button>
+                        </div>
+                        <div class="dropdown" id="explore-submenu">
+                            <button class="menu-clickable" onclick="exploreSubToggle(this)">..</button>
+                            <button class="menu-clickable" id="#/zchain-data-section" onclick="menusel(this)">zchain</button>
+                            <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
+                        </div>
+                        <div class="dropdown" id="stellar-submenu">
+                            <span id="mypage-section-link">
+                                <button href="#mypage-section" onclick="menusel(this)">My page</button>
+                            </span>
+                            <span id="stellar-balances-link">
+                                <button href="#stellar-balances" onclick="menusel(this)">Balances</button>
+                            </span>
+                            <span id="stellar-data-config-link">
+                                <button href="#stellar-data-config" onclick="menusel(this)">Data</button>
+                            </span>
+                            <span id="arching-kaos-id-link">
+                                <button href="#arching-kaos-id" onclick="menusel(this)">AKID</button>
+                            </span>
+                        </div>
+                    </div>
+                </nav>
+                <audio id="radio-player" controls autoplay hidden></audio>
+                <div>
+                    <span>Radio</span>
+                    <button id="radio-button-controller" class="menu-clickable" onclick="radioToggle();">Loading...</button>
+                </div>
             </div>
-            <div class="options-menu" style="display:none;">
-                    <select>
+            <div id="stellar-freigher-connect-address" onmouseenter="showStellar()" onmouseleave="hideStellar()"> 
+                <div id="stellar-related-dropdown" class="linkin">
+                    <div id="menu">
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div id="welcome-section">
+                    <h2>Welcome!!!</h2>
+                    <p>This is the application page of Arching Kaos project.</p>
+                    <p>Please wait for your web browser to find the content!</p>
+                    <button onclick="scanStellarNetworkForPeers()">Scan Stellar Network</button>
+                    <button onclick="ringlocalbell()">Ask local API</button>
+                    <div style="padding: 10%;" class="dialog">
+                        <p>Loading ...</p>
+                        <progress id="total-progress"></progress>
+                        <pre id="current-log-message"></pre>
+                        <details id="logs-area-element">
+                            <summary>Logs</summary>
+                        </details>
+                    </div>
+                </div>
+                <div id="about-section">
+                    <h2>About</h2>
+                    <p>Arching Kaos is a project about radio, music, communications and decentralization.</p>
+                    <p>On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).</p>
+                    <p>You can see the zchains appearing in "zchain" and logs of the process on "Logs"</p>
+                    <p>Note that to participate you will need to set up your Arching Kaos set, which is not so convinient yet but possible.</p>
+                    <p>Furthermore, if you are using Freighter extension you can additionally see:</p>
+                    <ol>
+                        <li>Your balances on your wallet</li>
+                        <li>Your configuration IPNS address (if any)</li>
+                        <li>Your Arching Kaos configuration (if any)</li>
+                        <li>Your zchain (...)</li>
+                        <li>Your posted newsfeed (...)</li>
+                    </ol>
+                    <p>Finally, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin.</p>
+                </div>
+                <div id="stellar-balances">
+                    <h2>Balances</h2>
+                    <em id="stellar-balances-not-found">No data found (yet?)!</em>
+                    <table id="stellar-balances-table"></table>
+                </div>
+                <div id="stellar-data-config">
+                    <h2>Data</h2>
+                    <em id="stellar-data-config-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="arching-kaos-id">
+                    <h2>AKID</h2>
+                    <em id="akid-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="stellar-section">
+                    <h2>Stellar dashboard</h2>
+                    <button class="sub-input" id="stellar-freigher-connect-address-button" onclick="connect()" >Connect with Stellar address</button>
+                </div>
+                <div id="mypage-section">
+                    <h2>My page</h2>
+                    <div id="my-news">
+                        <h3>My news</h3>
+                        <em id="my-news-sec-not-found">No data found (yet?)!</em>
+                    </div>
+                    <div id="my-mixtapes">
+                        <h3>My mixtapes</h3>
+                        <em id="my-mixtapes-sec-not-found">No data found (yet?)!</em>
+                    </div>
+                    <div id="my-zchain">
+                        <h3>My zchain</h3>
+                        <em id="my-zchain-sec-not-found">No data found (yet?)!</em>
+                    </div>
+                </div>
+                <div id="zchain-data-section">
+                    <h2>zchains</h2>
+                    <em id="zchain-data-sec-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="news-section">
+                    <h2>News</h2>
+                    <em id="news-sec-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="mixtapes-section">
+                    <h2>Mixtapes</h2>
+                    <em id="mixtapes-sec-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="files-section">
+                    <h2>Files</h2>
+                    <em id="files-sec-not-found">No data found (yet?)!</em>
+                </div>
+                <div id="settings-section">
+                    <h2>Settings</h2>
+                    <div class="options-menu">
+                        <select>
                             <option value="ARCHINGKAOS">ARCHINGKAOS</option>
                             <option value="KAOTISKHUND" disabled>KAOTISKHUND</option>
-                    </select>
-                    <select>
+                        </select>
+                        <select>
                             <option value="archingkaos">ipfs.arching-kaos.com</option>
                             <option value="ipfsio" disabled>ipfs.io</option>
                             <option value="localhost" disabled>localhost</option>
-                    </select>
-            </div>
-            <hr>
-            <div id="menu" class="linkin">
-                <a href="#welcome-section" onclick="menusel(this)">Home</a>
-                <a href="#mixtapes-section" onclick="menusel(this)">Mixtapes</a>
-                <a href="#news-section" onclick="menusel(this)">News</a>
-                <a href="#files-section" onclick="menusel(this)">Files</a>
-                <a href="#zchain-data-section" onclick="menusel(this)">zchain</a>
-                <a href="#stats-section" onclick="menusel(this)">Stats</a>
-                <a href="#chat-section" onclick="menusel(this)">Chat</a>
-                <a href="#about-section" onclick="menusel(this)">About</a>
-                <a href="#loading-status" onclick="menusel(this)">Logs</a>
-            </div>
-        </div>
-        <div id="stellar-freigher-connect-address" onmouseenter="showStellar()" onmouseleave="hideStellar()"> 
-            <button class="sub-input" id="stellar-freigher-connect-address-button" onclick="connect()" >Connect with Stellar address</button>
-            <div id="stellar-related-dropdown" class="linkin">
-                <div id="menu">
-                    <span id="mypage-section-link"><a href="#mypage-section" onclick="menusel(this)">My page</a>  </span>
-                    <span id="stellar-balances-link"><a href="#stellar-balances" onclick="menusel(this)">Balances</a>  </span>
-                    <span id="stellar-data-config-link"><a href="#stellar-data-config" onclick="menusel(this)">Data</a>  </span>
-                    <span id="arching-kaos-id-link"><a href="#arching-kaos-id" onclick="menusel(this)">AKID</a>  </span>
+                        </select>
+                    </div>
+                </div>
+                <div id="chat-section">
+                    <h2>Chat</h2>
+                    <iframe src="https://irc.arching-kaos.net" style="width: -webkit-fill-available; width: -moz-available; height: 64vh;"></iframe>
+                </div>
+                <div id="stats-section">
+                    <h2>Stats</h2>
+                    <div class="available-networks">
+                        <h3>Networks</h3>
+                        <details class="stellar-network">
+                            <summary>Stellar</summary>
+                        </details>
+                        <details class="aknet-network">
+                            <summary>Arching Kaos Experimental Instance</summary>
+                        </details>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="main">
-            <div id="welcome-section">
-                <h2>Welcome!!!</h2>
-                <p>This is the application page of Arching Kaos project.</p>
-                <p>Please wait for your web browser to find the content!</p>
-                <p>Loading ...</p>
-                <progress id="total-progress"></progress>
-                <pre id="logtext"></pre>
-                <em>* When you see "Reached genesis link..." it means that a zchain was properly loaded in the page.</em>
-            </div>
-            <div id="about-section">
-                <h2>About</h2>
-                <p>Arching Kaos is a project about radio, music, communications and decentralization.</p>
-                <p>On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).</p>
-                <p>You can see the zchains appearing in "zchain" and logs of the process on "Logs"</p>
-                <p>Note that to participate you will need to set up your Arching Kaos set, which is not so convinient yet but possible.</p>
-                <p>Furthermore, if you are using Freighter extension you can additionally see:</p>
-                <ol>
-                    <li>Your balances on your wallet</li>
-                    <li>Your configuration IPNS address (if any)</li>
-                    <li>Your Arching Kaos configuration (if any)</li>
-                    <li>Your zchain (...)</li>
-                    <li>Your posted newsfeed (...)</li>
-                </ol>
-                <p>Finally, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin.</p>
-            </div>
-            <div id="stellar-balances">
-                <h2>Balances</h2>
-                <em id="stellar-balances-not-found">No data found (yet?)!</em>
-                <table id="stellar-balances-table"></table>
-            </div>
-            <div id="stellar-data-config">
-                <h2>Data</h2>
-                <em id="stellar-data-config-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="arching-kaos-id">
-                <h2>AKID</h2>
-                <em id="akid-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="mypage-section">
-                <h2>My page</h2>
-                <div id="my-news">
-                    <h3>My news</h3>
-                    <em id="my-news-sec-not-found">No data found (yet?)!</em>
+            <div class="footer">
+                <div>
+                    <p>
+                        Arching Kaos
+                        <a target="_blank" href="https://github.com/arching-kaos/arching-kaos-tools">Tools</a>,
+                        <a target="_blank" href="https://arching-kaos.org">Org</a>,
+                        <a target="_blank" href="https://arching-kaos.net">Net</a>
+                    </p>
                 </div>
-                <div id="my-mixtapes">
-                    <h3>My mixtapes</h3>
-                    <em id="my-mixtapes-sec-not-found">No data found (yet?)!</em>
+                <span>::</span>
+                <div>
+                    <p>
+                        <a target="_blank" href="https://github.com/arching-kaos/arching-kaos-web-ui/issues/new/choose">Report an issue</a>
+                    </p>
                 </div>
-                <div id="my-zchain">
-                    <h3>My zchain</h3>
-                    <em id="my-zchain-sec-not-found">No data found (yet?)!</em>
+                <span>::</span>
+                <div>
+                    <p>
+                        Fra <a target="_blank" href="https://www.kaotisk-hund.com">Kaotisk Hund</a> med kjærlighet.
+                    </p>
                 </div>
             </div>
-            <div id="zchain-data-section">
-                <h2>zchains</h2>
-                <em id="zchain-data-sec-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="news-section">
-                <h2>News</h2>
-                <em id="news-sec-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="mixtapes-section">
-                <h2>Mixtapes</h2>
-                <em id="mixtapes-sec-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="files-section">
-                <h2>Files</h2>
-                <em id="files-sec-not-found">No data found (yet?)!</em>
-            </div>
-            <div id="chat-section">
-                <h2>Chat</h2>
-                <iframe src="https://irc.arching-kaos.com" style="width: -webkit-fill-available; width: -moz-available; height: 80vh;"></iframe>
-            </div>
-            <div id="stats-section">
-                <h2>Stats</h2>
-            </div>
-            <div id="loading-status">
-                <h2>Logs</h2>
-            </div>
-        </div>
-        <div class="footer">
-            <hr>
-            Arching Kaos <a target="_blank" href="https://github.com/arching-kaos/arching-kaos-tools">Tools</a>, <a target="_blank" href="https://arching-kaos.org">Org</a>, <a target="_blank" href="https://arching-kaos.net">Net</a> |
-            <a target="_blank" href="https://github.com/arching-kaos/arching-kaos-web-ui/issues/new/choose">Report an issue</a> | Powered by <a target="_blank" href="https://www.kaotisk-hund.com">Kaotisk Hund</a>.
         </div>
     </body>
     <script src="//cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.0.1/stellar-sdk.js"></script>
+    <script src="./js/environment-setup.js"></script>
+    <script src="./js/arching-kaos-web-ui-settings.js"></script>
+    <script src="./js/arching-kaos-fetch.js"></script>
+    <script src="./js/arching-kaos-log.js"></script>
+    <script src="./js/menu-magic.js"></script>
+    <script src="./js/arching-kaos-tools.js"></script>
+    <script src="./js/arching-kaos-stellar-network.js"></script>
+    <script src="./js/arching-kaos-decentralized-radio.js"></script>
     <script src="./js/app.js"></script>
+    <!--    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log(registration);
+                    })
+                    .catch(console.error);
+            });
+        }
+    </script>
+    -->
 </html>
 
 <!-- vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
