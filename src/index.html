@@ -31,7 +31,7 @@
                         <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">Explore</button>
                         <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">Chat</button>
                         <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">Settings</button>
-                        <button class="menu-clickable" id="#/stellar-section" onclick="menusel(this)">Stellar</button>
+                        <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">Stellar</button>
                         <button class="menu-clickable" id="#/about-section" onclick="menusel(this)">About</button>
                     </div>
                     <div id="menu" class="linkin lower-floor">
@@ -47,18 +47,11 @@
                             <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
                         </div>
                         <div class="dropdown" id="stellar-submenu">
-                            <span id="mypage-section-link">
-                                <button href="#mypage-section" onclick="menusel(this)">My page</button>
-                            </span>
-                            <span id="stellar-balances-link">
-                                <button href="#stellar-balances" onclick="menusel(this)">Balances</button>
-                            </span>
-                            <span id="stellar-data-config-link">
-                                <button href="#stellar-data-config" onclick="menusel(this)">Data</button>
-                            </span>
-                            <span id="arching-kaos-id-link">
-                                <button href="#arching-kaos-id" onclick="menusel(this)">AKID</button>
-                            </span>
+                            <button class="menu-clickable" onclick="stellarSubToggle(this)">..</button>
+                            <button class="menu-clickable" id="#/mypage-section" onclick="menusel(this)">My page</button>
+                            <button class="menu-clickable" id="#/stellar-balances" onclick="menusel(this)">Balances</button>
+                            <button class="menu-clickable" id="#/stellar-data-config" onclick="menusel(this)">Data</button>
+                            <button class="menu-clickable" id="#/arching-kaos-id" onclick="menusel(this)">AKID</button>
                         </div>
                     </div>
                 </nav>

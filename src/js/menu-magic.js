@@ -25,6 +25,13 @@ function exploreSubToggle(){
     lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
 }
 
+var stellarSubmenu = document.querySelector('#stellar-submenu');
+stellarSubmenu.style.display = 'none';
+function stellarSubToggle(){
+    stellarSubmenu.style.display = stellarSubmenu.style.display === 'none' ? 'flex' : 'none';
+    upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
+    lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
+}
 
 // Function to hide all the panes
 function menuinit(){
