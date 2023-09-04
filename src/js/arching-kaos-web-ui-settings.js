@@ -61,7 +61,7 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://gw.ipfs.z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
     activeSettings.ipfsSelectedGatewayAddress = 1;
-} else if ( location.origin === "http://localhost" ) {
+} else if ( location.origin === "http://localhost:3000" ) {
     activeSettings.ipfsSelectedGatewayAddress = 2;
 } else {
     activeSettings.ipfsSelectedGatewayAddress = 0;
