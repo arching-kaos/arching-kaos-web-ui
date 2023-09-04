@@ -1,18 +1,43 @@
 function archingKaosFetchJSON( url, callback ){
-    fetch(url, {
-        method:'GET',
-        headers:{
-            Accept: 'application/json'
-        }
-    }).then(response=>{
-        if(response.ok){
-            response.json().then(json=>{
-                callback(json);
-            })
+//    fetch(url, {
+//        method:'GET',
+//        headers:{
+//            Accept: 'application/json'
+//        }
+//    }).then(response=>{
+//        if(response.ok){
+//            response.json().then(json=>{
+//                callback(json);
+//            })
+//        } else {
+//            if (DEBUG) console.log(e);
+//        }
+//    }).catch( e=>{
+//        if (DEBUG) console.log(e);
+//    })
+    const request = new XMLHttpRequest();
+    request.addEventListener("load", ()=>{
+        console.log(request.response);
+        var json = JSON.parse(request.response);
+        callback(json);
+    });
+    request.addEventListener("error", ()=>{
+        console.log("An error occured.");
+    });
+    request.addEventListener("progress", (event)=>{
+        console.log(request.response);
+        if (event.lengthComputable && progressPlaceholder){
+            progressPlaceholder = (event.loaded / event.total) * 100;
         } else {
-            if (DEBUG) console.log(e);
+            progressPlaceholder = 0;
         }
-    })
+    });
+    request.addEventListener("abort", ()=>{
+        console.log("Request aborted.");
+    });
+    request.open("GET", url);
+    request.send();
+
 }
 
 async function archingKaosFetchText( url, callback ){
