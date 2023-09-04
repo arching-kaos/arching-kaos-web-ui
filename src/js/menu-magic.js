@@ -6,15 +6,17 @@
  */
 var upperFloor = document.querySelector('.upper-floor');
 var lowerFloor = document.querySelector('.lower-floor');
-var modulesSubmenu = document.querySelector('#modules-submenu');
-modulesSubmenu.style.display = 'none';
 upperFloor.style.display = 'flex';
 lowerFloor.style.display = 'none';
+
+var modulesSubmenu = document.querySelector('#modules-submenu');
+modulesSubmenu.style.display = 'none';
 function modulesSubToggle(){
     modulesSubmenu.style.display = modulesSubmenu.style.display === 'none' ? 'flex' : 'none';
     upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
     lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
 }
+
 var exploreSubmenu = document.querySelector('#explore-submenu');
 exploreSubmenu.style.display = 'none';
 function exploreSubToggle(){
@@ -22,6 +24,8 @@ function exploreSubToggle(){
     upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
     lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
 }
+
+
 // Function to hide all the panes
 function menuinit(){
     menuids.forEach(m=>document.querySelector(m).hidden=true);
