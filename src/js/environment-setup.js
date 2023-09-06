@@ -38,7 +38,8 @@ var menuids = [
     '#arching-kaos-id',
     '#files-section',
     '#settings-section',
-    '#stellar-section'
+    '#stellar-section',
+    '#not-found-section'
 ];
 
 /*
