@@ -8,20 +8,14 @@
 
 
 @font-face {
-    /*    font-family: 'terminessttf_nerd_font_monoMd';*/
     font-family: 'Hack Nerd Font';
-    src: url('https://ipfs.arching-kaos.com/ipfs/QmbzXvjvvoPDXkLBmyDeJt2iv55vj7ALVHVtn4VXpxsf1A/font.woff2') format('woff');
-    /*
-    src: url('https://ipfs.arching-kaos.com/ipfs/QmTiFZ9BjPGaoz5FEqsy5FJcVNRXrknsGkLPQXca6fb8Hz?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff2') format('woff2'),
-    url('https://ipfs.arching-kaos.com/ipfs/QmeTV8JiVLdYw4Jt1gDngH2P6dZXkDucNKaruSMMAMkMhq?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff') format('woff');*/
+    src: url('../fonts/Hack.woff2') format('woff');
     font-weight: normal;
 }
 body {
     word-break: break-all;
     padding: 1%;
     background-color: #1a1a1a;
-    /*	font-family: monospace;
-    font-family: 'terminessttf_nerd_font_monoMd';*/
     font-family: 'Hack Nerd Font';
     font-size: medium;
     color: #7ef07e;
