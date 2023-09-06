@@ -44,7 +44,8 @@ function menuinit(){
  */
 function menusel(m){
     menuinit();
-    document.querySelector(m.id.replace('/','')).hidden=false;
+    // document.querySelector(m.id.replace('/','')).hidden=false;
+    locationHashSetter(m.id);
     
     mainContainer.style.display = 'block';
     if ( isMobile ) {

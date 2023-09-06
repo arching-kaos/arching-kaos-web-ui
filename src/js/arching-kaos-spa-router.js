@@ -1,4 +1,3 @@
-
 /*
  * A new feature for a new future:
  *
@@ -11,3 +10,29 @@
  * the "route" we got from `location.search`.
  *
  */
+
+function locationHashSetter(value){
+    window.location.hash = value;
+    locationHashOnChange();
+}
+
+function locationHashGetter(){
+    return window.location.hash;
+}
+
+function locationHashOnChange(){
+    if ( window.location.hash !== 'undefined' ){
+        var route = new Object;
+        route.id = window.location.hash;
+        console.log(route);
+        menuinit();
+        if ( menuids.includes(route.id.replace('/','')) ){
+            document.querySelector(route.id.replace('/','')).hidden=false;
+        } else {
+            document.querySelector('#not-found-section').hidden=false;
+        }
+        //menusel(route);
+    } else {
+        menuinit();
+    }
+}
