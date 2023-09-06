@@ -161,6 +161,7 @@ function zseek(i,d,j){
     var divs = document.querySelector('#zchain-data-section');
     var details = document.createElement("details");
     details.id = 'zd-' + i;
+    details.className = 'zchain-details';
     divs.appendChild(details);
 
     if(i){

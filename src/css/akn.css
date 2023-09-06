@@ -15,7 +15,6 @@
     src: url('https://ipfs.arching-kaos.com/ipfs/QmTiFZ9BjPGaoz5FEqsy5FJcVNRXrknsGkLPQXca6fb8Hz?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff2') format('woff2'),
     url('https://ipfs.arching-kaos.com/ipfs/QmeTV8JiVLdYw4Jt1gDngH2P6dZXkDucNKaruSMMAMkMhq?filename=terminess_ttf_nerd_font_complete_mono-webfont.woff') format('woff');*/
     font-weight: normal;
-    font-style: larger;
 }
 body {
     word-break: break-all;
@@ -390,7 +389,7 @@ details {
     background-color: #2a2a2a;
     padding: 24px;
 }
-#zd-* {
+.zchain-details {
     border: 2px solid #672178;
     padding: 24px;
 }
@@ -408,7 +407,7 @@ details {
 
 #settings-section p {}
 #settings-section label {
-    font-style: bold;
+    font-weight: bold;
 }
 #settings-section button {}
 
