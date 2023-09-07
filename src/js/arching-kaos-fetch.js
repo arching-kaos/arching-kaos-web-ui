@@ -1,4 +1,4 @@
-function archingKaosFetchJSON( url, callback ){
+function archingKaosFetchJSON( url, callback, params ){
 //    fetch(url, {
 //        method:'GET',
 //        headers:{
@@ -19,7 +19,7 @@ function archingKaosFetchJSON( url, callback ){
     request.addEventListener("load", ()=>{
         console.log(request.response);
         var json = JSON.parse(request.response);
-        callback(json);
+        callback(json, params);
     });
     request.addEventListener("error", ()=>{
         console.log("An error occured.");
