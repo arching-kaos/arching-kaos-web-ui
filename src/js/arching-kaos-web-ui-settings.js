@@ -79,7 +79,21 @@ function settingPlaceToDOM(key, value){
     var paragraph = document.createElement("p");
     container.appendChild(paragraph);
     if ( Array.isArray(value) ){
-        paragraph.innerText = "You will need to map this!";
+        var ul = document.createElement("ul");
+        value.map((v)=>{
+            if (v.constructor.name === "Object"){
+                Object.keys(v).forEach((value)=>{
+                    var li = document.createElement("li");
+                    li.innerText = value + ': ' + v[value];
+                    ul.appendChild(li);
+                });
+            } else {
+                var li = document.createElement("li");
+                li.innerText = v;
+                ul.appendChild(li);
+            }
+        });
+        paragraph.appendChild(ul);
     } else {
         paragraph.innerText = value;
     }
