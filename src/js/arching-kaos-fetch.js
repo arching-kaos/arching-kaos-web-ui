@@ -17,7 +17,6 @@ function archingKaosFetchJSON( url, callback, params ){
 //    })
     const request = new XMLHttpRequest();
     request.addEventListener("load", ()=>{
-        console.log(request.response);
         var json = JSON.parse(request.response);
         callback(json, params);
     });
@@ -25,7 +24,6 @@ function archingKaosFetchJSON( url, callback, params ){
         console.log("An error occured.");
     });
     request.addEventListener("progress", (event)=>{
-        console.log(request.response);
         if (event.lengthComputable && progressPlaceholder){
             progressPlaceholder = (event.loaded / event.total) * 100;
         } else {
