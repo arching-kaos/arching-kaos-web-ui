@@ -21,33 +21,41 @@ var menuids = [
 // Here we store the participants found
 // var participants = [];
 
+function getTrustlinesURL(){
+    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
+        'assets?asset_code='+
+        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+
+        '&asset_issuer='+
+        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer;
+}
+
+function getNumberOfTrustlinesAndRenderThem(json){
+    var number = json._embedded.records[0].accounts.authorized;
+    var stats = document.querySelector('.stellar-network').querySelector('summary');
+    var small = document.createElement("span");
+    small.innerText = ' (' + number + ')';
+    stats.appendChild(small);
+    archingKaosLog("Loading trustlines... Found "+number+"!");
+    progressPlaceholder.value++;
+}
+
 /*
  * Get Trustlines for ARCHINGKAOS asset
  * Returns DOM element with number of trustlines
  */
 function getTrustlines(){
     archingKaosLog("Loading trustlines...");
-    var url=activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+'assets?asset_code='+activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+'&asset_issuer='+activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer;
-    fetch(url, {
-        method:'GET',
-        headers:{
-            Accept: 'application/json'
-        }
-    }).then(response=>{
-        if(response.ok){
-            response.json().then(json=>{
-                var number = json._embedded.records[0].accounts.authorized;
-                var stats = document.querySelector('.stellar-network').querySelector('summary');
-                var small = document.createElement("span");
-                small.innerText = ' (' + number + ')';
-                stats.appendChild(small);
-            })
-        }
-        archingKaosLog("Loading trustlines... Found "+number+"!");
-        progressPlaceholder.value++;
-    })
+    archingKaosFetchJSON(getTrustlinesURL(), getNumberOfTrustlinesAndRenderThem);
 }
 
+function getHoldersOfActiveAssetURL(){
+    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
+        'accounts?asset='+
+        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+
+        ':'+
+        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer+
+        '&limit=200';
+}
 /*
  * Get addresses that trust the asset
  * Limit is 200 addresses cause horizon API limitations.
@@ -61,7 +69,7 @@ function getHolders(a=0){
     archingKaosLog("Searching holders...");
     var url = '';
     if ( a === 0 ) {
-        url=activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+'accounts?asset='+activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+':'+activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer+'&limit=200';
+        url=getHoldersOfActiveAssetURL();
     } else {
         if ( lastPage === '' ) {
             url = a;
@@ -104,6 +112,23 @@ function getHolders(a=0){
 }
 // getHolders();
 
+function getStellarConfigurationVariableURL(stellarAddress){
+    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
+        'accounts/'+
+        stellarAddress+
+        '/data/'+
+        activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig];
+}
+
+function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
+    var cnf = document.createElement("p")
+    if(document.querySelector("#stellar-data-config-not-found")) document.querySelector("#stellar-data-config-not-found").hidden = true;
+    cnf.innerText = atob(json.value)
+    document.querySelector('#'+stellarAddress).appendChild(cnf)
+    document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
+    stellarNetworkConfiguredAddresses += 1;
+    getConfiguration(atob(json.value),stellarAddress)
+}
 /*
  * Function that checks the address' variable 'config' to see
  * if it's set up.
@@ -111,35 +136,9 @@ function getHolders(a=0){
  * Returns the IPNS link in the DOM as p element and proceeds to
  * get nickname from the variables
  */
-function checkAddressForConfigurationVariable(addr) {
-    archingKaosLog("Checking configuration for "+ addr+ "...");
-    url=activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+'accounts/'+addr+'/data/'+activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig]
-    try {
-        fetch(url, {
-            method:'GET',
-            headers:{
-                Accept: 'application/json'
-            }
-        }).then(response=>{
-            if(response.ok){
-                response.json().then(json=>{
-                    var cnf = document.createElement("p")
-                    if(document.querySelector("#stellar-data-config-not-found")) document.querySelector("#stellar-data-config-not-found").hidden = true;
-                    cnf.innerText = atob(json.value)
-                    document.querySelector('#'+addr).appendChild(cnf)
-                    document.querySelector('#'+addr).style="color: #3dbb3d;"
-                    stellarNetworkConfiguredAddresses += 1;
-                    getConfiguration(atob(json.value),addr)
-                })
-            }  else {
-                if (DEBUG) console.log(response)
-            }
-        }).catch((e)=>{
-            console.log(e)
-        })
-    } catch (e) {
-        if (DEBUG) console.log(e);
-    }
+function checkAddressForConfigurationVariable(stellarAddress) {
+    archingKaosLog("Checking configuration for "+ stellarAddress+ "...");
+    archingKaosFetchJSON(getStellarConfigurationVariableURL(stellarAddress), renderConfigurationIPNSLinkAndProceed, stellarAddress);
     progressPlaceholder.value++;
 }
 
@@ -156,7 +155,6 @@ function letme(a){
 // We print them
 function putit(i){
     var ta=document.querySelector("#stellar-balances-table");
-    readit(i);
     for (b in i.balances) {
         var row = document.createElement("tr");
         x = i.balances[b];
@@ -182,10 +180,9 @@ function putit(i){
  * Moves on to retrieve the found link 
  *
  */
-async function dataf(i){
+async function fetchAKIDFromClientWallet(stellarAddress){
     archingKaosLog("Loading your profile...");
-    var url=activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+'accounts/'+i+'/data/'+activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig];
-    fetch(url, {
+    fetch(getStellarConfigurationVariableURL(stellarAddress), {
         method:'GET',
         headers:{
             Accept: 'application/json'
@@ -198,15 +195,10 @@ async function dataf(i){
                 document.querySelector('#stellar-data-config').appendChild(cnf);
                 progressPlaceholder.max++;
                 progressPlaceholder.value++;
-                getConfiguration(atob(json.value),i);
+                getConfiguration(atob(json.value),stellarAddress);
             })
         }
     })
-}
-
-// Whatever function XD
-function readit(i){
-    if (DEBUG) console.log(i);
 }
 
 // var stellar_connection_status = 0;
@@ -215,39 +207,39 @@ function readit(i){
 function putKeyToField(k){
     let base = document.querySelector("#stellar-freigher-connect-address-button");
     stellar_connection_status = 1;
-    dataf(k);
+    fetchAKIDFromClientWallet(k);
     base.innerText=k;
     base.onclick='';
 }
 
-function showStellar(){
-    if (stellar_connection_status === 1 ){
-        document.querySelector("#stellar-balances-link").hidden=false;
-        document.querySelector("#stellar-data-config-link").hidden=false;
-        document.querySelector("#arching-kaos-id-link").hidden=false;
-        document.querySelector("#mypage-section-link").hidden=false;
-    }
-}
-
+// TODO: Clarify which parts of here will be needed
+//function showStellar(){
+//    if (stellar_connection_status === 1 ){
+//        document.querySelector("#stellar-balances-link").hidden=false;
+//        document.querySelector("#stellar-data-config-link").hidden=false;
+//        document.querySelector("#arching-kaos-id-link").hidden=false;
+//        document.querySelector("#mypage-section-link").hidden=false;
+//    }
+//}
+// TODO: (follow up) eg below
 // Hide stellar stuff if no freighter
-if (!window.freighterApi.isConnected()) {
-    document.querySelector("#stellar-freigher-connect-address-button").hidden=true;
-}
-
-function hideStellar(){
-    document.querySelector("#stellar-balances-link").hidden=true;
-    document.querySelector("#stellar-data-config-link").hidden=true;
-    document.querySelector("#arching-kaos-id-link").hidden=true;
-    document.querySelector("#mypage-section-link").hidden=true;
-}
-
-hideStellar();
+//if (!window.freighterApi.isConnected()) {
+//    document.querySelector("#stellar-freigher-connect-address-button").hidden=true;
+//}
+//
+//function hideStellar(){
+//    document.querySelector("#stellar-balances-link").hidden=true;
+//    document.querySelector("#stellar-data-config-link").hidden=true;
+//    document.querySelector("#arching-kaos-id-link").hidden=true;
+//    document.querySelector("#mypage-section-link").hidden=true;
+//}
+//
+//hideStellar();
 
 // That's how we get the publicKey
 const retrievePublicKey = async () => {
     let publicKey = "";
     let error = "";
-
     try {
         publicKey = await window.freighterApi.getPublicKey()
         .then(publicKey => {putKeyToField(publicKey);letme(publicKey)});
