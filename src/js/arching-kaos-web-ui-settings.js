@@ -56,14 +56,16 @@ var default_settings = {
 // with the settings above.
 //
 // if ( window.localStorage.getItem("ak-settings") === null ) {
-    window.localStorage.setItem("ak-settings", JSON.stringify(default_settings))
+//    window.localStorage.setItem("ak-settings", JSON.stringify(default_settings));
 // }
-var activeSettings = JSON.parse(window.localStorage.getItem("ak-settings"));
+// var activeSettings = JSON.parse(window.localStorage.getItem("ak-settings"));
 //
 // All comments above are replaced by temporary initializing without saving
 // anything in the localStorage
+var activeSettings = default_settings;
 
 // Also, remove any settings stored from previous runs
+window.localStorage.removeItem("ak-settings");
 
 // Full functionality for Stellar intergration, requires clearnet connection
 // However, we have other ways of running the WEB-UI, eg locally or via a
