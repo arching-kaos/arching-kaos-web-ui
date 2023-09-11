@@ -19,8 +19,7 @@ window.addEventListener('resize', () => {
 
 // And call
 menuinit();
-// We bring up the default pane ( #welcome-section )
-document.querySelector('#welcome-section').hidden=false;
+locationHashOnChange();
 
 progressPlaceholder.value = '0';
 
