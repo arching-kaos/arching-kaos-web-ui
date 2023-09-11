@@ -1,6 +1,13 @@
 // Irrelevant for now
 if (DEBUG) console.log(window.location);
 
+
+/*
+ * Body and pageLayout resizer to device's resolution.
+ *
+ * TODO: Figure out why it doesn't work in fullscreen App mode (android)
+ *
+ */
 body.width = window.innerWidth;
 body.height = window.innerHeight;
 pageLayout.width = window.innerWidth;

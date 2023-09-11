@@ -6,13 +6,6 @@ var holders = [];
 var stellarNetworkConfiguredAddresses = 0;
 var zchain = new Array;
 var zchains = new Array;
-
-/*
- * Body and pageLayout resizer to device's resolution.
- *
- * TODO: Figure out why it doesn't work in fullscreen App mode (android)
- *
- */
 var body = document.querySelector('body');
 var pageLayout = document.querySelector('.page-layout');
 var mainContainer = document.querySelector('.main');

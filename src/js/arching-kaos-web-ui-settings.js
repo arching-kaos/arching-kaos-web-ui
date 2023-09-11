@@ -49,6 +49,9 @@ var default_settings = {
     zblockBasedDepthSeek: 10,
 }
 
+// TODO: Make up a settings configuration page to set this up initially rather
+// than forcing visitors to just save them into their local storage.
+//
 // We are overriding the settings each time to test our changes
 // with the settings above.
 //
@@ -56,7 +59,15 @@ var default_settings = {
     window.localStorage.setItem("ak-settings", JSON.stringify(default_settings))
 // }
 var activeSettings = JSON.parse(window.localStorage.getItem("ak-settings"));
+//
+// All comments above are replaced by temporary initializing without saving
+// anything in the localStorage
 
+// Also, remove any settings stored from previous runs
+
+// Full functionality for Stellar intergration, requires clearnet connection
+// However, we have other ways of running the WEB-UI, eg locally or via a
+// cjdns-based ipfs gateway.
 if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://gw.ipfs.z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
