@@ -18,7 +18,11 @@ function archingKaosFetchJSON( url, callback, params ){
     const request = new XMLHttpRequest();
     request.addEventListener("load", ()=>{
         var json = JSON.parse(request.response);
-        callback(json, params);
+        if(request.status !== 404){
+            callback(json, params);
+        } else {
+            archingKaosLog(`ERROR ${request.status} while loading ${url}`);
+        }
     });
     request.addEventListener("error", ()=>{
         console.log("An error occured.");
