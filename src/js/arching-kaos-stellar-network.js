@@ -56,6 +56,21 @@ function getHoldersOfActiveAssetURL(){
         activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer+
         '&limit=200';
 }
+function renderStellarAddressesAndProceed(json){
+    var stats = document.querySelector('.stellar-network');
+    json._embedded.records.forEach(r=>{
+        var p = document.createElement("div");
+        p.className = "stellar-address";
+        p.innerText = r.account_id;
+        console.log(r);
+        p.id = r.account_id;
+        holders.push(r.account_id);
+        progressPlaceholder.max++;
+        checkAddressForConfigurationVariable(r.account_id);
+        stats.appendChild(p);
+    })
+    if (json._links.next) getHolders(json._links.next.href);
+}
 /*
  * Get addresses that trust the asset
  * Limit is 200 addresses cause horizon API limitations.
@@ -83,30 +98,7 @@ function getHolders(a=0){
     }
     lastPage=url;
     if (doIt) {
-        fetch(url, {
-            method:'GET',
-            headers:{
-                Accept: 'application/json'
-            }
-        }).then(response=>{
-            if(response.ok){
-                response.json().then(json=>{
-                    var stats = document.querySelector('.stellar-network');
-                    json._embedded.records.forEach(r=>{
-                        var p = document.createElement("div");
-                        p.className = "stellar-address";
-                        p.innerText = r.account_id;
-                        console.log(r);
-                        p.id = r.account_id;
-                        holders.push(r.account_id);
-                        progressPlaceholder.max++;
-                        checkAddressForConfigurationVariable(r.account_id);
-                        stats.appendChild(p);
-                    })
-                    if (json._links.next) getHolders(json._links.next.href);
-                })
-            }
-        })
+        archingKaosFetchJSON(url, renderStellarAddressesAndProceed);
     }
     archingKaosLog("Searching holders... Done!");
 }
