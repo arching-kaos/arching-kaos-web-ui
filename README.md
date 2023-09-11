@@ -1,27 +1,52 @@
 Web UI for arching-kaos
 -----------------------
 
-This repository hosts the html and js files for presenting "arching-kaos" to visitors.
+This repository hosts the html, css and js files for presenting "arching-kaos"
+to visitors.
 
 ## Visit the demo pages
-For demo, you can visit https://arching-kaos.net and there is another instance dedicated on rendering "news" at https://news.arching-kaos.net
+For demo, you can visit https://arching-kaos.net .
 
-### More links
+### More demo links (may vary)
 - [Net](https://arching-kaos.net),
 - [Com](https://arching-kaos.com),
 - [Xyz](https://arching-kaos.xyz),
 - [News](https://news.arching-kaos.net)
 
 ## Usage
+1) You will need to clone the repository,
+2) host the files on a HTTP server,
+3) make a SSL certificate (is needed for Stellar connectivity) for your server,
+4) edit `js/arching-kaos-web-ui-settings.js` to match your desired links.
 
-Clone the repository, host the files on a HTTP server, or add them on IPFS. Visit the links,
-through your local HTTP server or your IPFS gateway.
+## Development workflow proposal (how I 've done it so far)
+Instead of serving the files statically on a server, I use IPFS and fetch them
+from a public IPFS gateway that I've set up for the project.
+
+The workflow would be like:
 
 ```
 git clone https://github.com/arching-kaos/arching-kaos-web-ui
 cd arching-kaos-web-ui
 xdg-open http://127.0.0.1:8080/$(ipfs add -Q -r src)
 ```
+
+Then you can edit as far as you want and see your changes by issuing the
+following command.
+```
+xdg-open http://127.0.0.1:8080/$(ipfs add -Q -r src)
+```
+
+Of course, `http://127.0.0.1:8080/` should be replaced in both cases with your
+remote IPFS gateway.
+
+## Notes
+
+If you are trying to view the same results as in the demo pages but from a
+public IPFS gateway, you may fail. Your IPFS nodes need to be in the same swarm
+as the one Arching Kaos is operating at. For that, you will need to install
+[arching-kaos-tools](https://github.com/arching-kaos/arching-kaos-tools). You
+can also remove or change swarm to start your own network.
 
 ## Contribute
 
