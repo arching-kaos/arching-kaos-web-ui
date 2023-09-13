@@ -1,11 +1,17 @@
-
-const DEBUG = false
-
 var mixtapeIds = [];
+var mixtapes = [];
+var sortedMixtapes = [];
+var zchainsFound = 0;
 var holders = [];
+var participants = [];
 var stellarNetworkConfiguredAddresses = 0;
-var zchain = new Array;
+var stellarParticipants = 0;
+var zchain = [];
 var zchains = new Array;
+var zblocks = new Array;
+var blocks = new Array;
+var data = new Array;
+var akid = new Array;
 var body = document.querySelector('body');
 var pageLayout = document.querySelector('.page-layout');
 var mainContainer = document.querySelector('.main');
@@ -48,8 +54,6 @@ var logsAreaElement = document.querySelector("#logs-area-element");
 var radio = document.querySelector("#radio-player");
 var radioButton = document.querySelector("#radio-button-controller");
 
-// Here we store the participants found
-var participants = [];
 /*
  * Get addresses that trust the asset
  * Limit is 200 addresses cause horizon API limitations.

@@ -1,37 +1,10 @@
-/*
- * A new feature for a new future:
- *
- * We will get `location.search` values to figure out where the visitor wants
- * to go.
- *
- * We should then replace the menu links with these ones.
- *
- * We should also modify the existing menu mechanism to show/hide depending on
- * the "route" we got from `location.search`.
- *
- */
-
-// Irrelevant for now
-if (DEBUG) console.log(window.location);
-
-
-/*
- * Array of all the menu-panes IDs
-var menuids = [
-    '#welcome-section',
-    '#about-section',
-    '#zchain-data-section',
-    '#news-section',
-    '#stats-section',
-    '#mixtapes-section',
-    '#chat-section',
-    '#mypage-section',
-    '#stellar-balances',
-    '#stellar-data-config',
-    '#arching-kaos-id',
-    '#files-section'
-];
-*/
+function getArrayLength(array){
+    var len = 0;
+    for ( e in array ) {
+        len++;
+    }
+    return len;
+}
 
 function akidRenderAndProceed(json, stellarAddress){
     /* Could be json object with
@@ -41,6 +14,7 @@ function akidRenderAndProceed(json, stellarAddress){
      *     - nickname
      *    }
      *  - zchain
+     *  - zlatest
      */
     var divs = document.querySelector('#'+stellarAddress)
     if(json.genesis){
@@ -63,97 +37,15 @@ function akidRenderAndProceed(json, stellarAddress){
         p.innerText="zchain: " +json.zchain
         divs.appendChild(p)
     }
+    if(json.zlatest){
+        var p = document.createElement("p")
+        p.innerText="zlatest: " +json.zlatest
+        divs.appendChild(p)
+    }
     participants[stellarAddress]=json;
     progressPlaceholder.value++;
-//    zseek(json.zchain);
     zseek(json.zchain,stellarAddress,json);
 }
-
-/*
- * Function that gets nickname and parses the config variable.
- *
- * Returns the key:value pairs of the configuration and proceeds
- * to get the zchain
- */
-function getConfiguration(akidIPNSLink,stellarAddress){
-    progressPlaceholder.max++;
-    archingKaosLog("Parsing the configuration...")
-    archingKaosFetchJSON(getIPNSURL(akidIPNSLink), akidRenderAndProceed, stellarAddress)
-}
-
-function getIPNSURL(ipnsKey){
-    return activeSettings.ipfsGatewayAddress[activeSettings.ipfsSelectedGatewayAddress]+'ipns/'+ipnsKey;
-}
-
-function getIPFSURL(ipfsHash){
-    return activeSettings.ipfsGatewayAddress[activeSettings.ipfsSelectedGatewayAddress]+'ipfs/'+ipfsHash;
-}
-
-/*
- * Function to seek Zblocks
- *
- * Returns Block and Signature for each ZBLOCK found.
- *
- * Proceeds to the blocks found.
- */
-function zseek(zchainIPNSLink,stellarAddress,j){
-    var divs = document.querySelector('#zchain-data-section');
-    var details = document.createElement("details");
-    details.id = 'zd-' + zchainIPNSLink;
-    details.className = 'zchain-details';
-    divs.appendChild(details);
-
-    if(zchainIPNSLink){
-        var p = document.createElement("summary");
-        p.innerText="zchain: " + zchainIPNSLink;
-        details.appendChild(p);
-    }
-    archingKaosLog("Seeking zchain " + zchainIPNSLink + "...");
-    fetch(getIPNSURL(zchainIPNSLink), {
-        method:'GET',
-        headers:{
-            Accept: 'application/json'
-        }
-    }).then(response=>{
-        if(response.ok){
-            var zblock = "";
-            if ( DEBUG ) console.log(response);
-            if ( response.headers.has('Etag') ){
-                zblock = response.headers.get('Etag').replace(/"/g,'');
-                zchain[zchainIPNSLink] = {loading : "started"};
-                // console.log(zchain);
-                // callHereToSetUpListenerFor(zchain[zchainIPNSLink]);
-            }
-            response.json().then(json=>{
-                /* Could be json object with
-                 *  - block
-                 *  - block_signature
-                 */
-                if(zblock === "" ) {
-                    var divs = document.querySelector('#zchain-data-section');
-                    if(json.block){
-                        var p = document.createElement("p");
-                        p.innerText="Block: " + json.block;
-                        details.appendChild(p);
-                    }
-                    if(json.block_signature){
-                        var p = document.createElement("p");
-                        p.innerText="Signature: " + json.block_signature;
-                        details.appendChild(p);
-                    }
-                    divs.appendChild(details);
-                } else {
-                    progressPlaceholder.max++;
-                    progressPlaceholder.value++;
-                    seekzblock(zblock, zchainIPNSLink, stellarAddress, j);
-                }
-            })
-        }
-    })
-}
-
-// seeks a zblock obviously. another double function
-// TODO: figure out why the second one exists
 
 function renderZblockAndProceed(json, params){
     const [zblockIPFSHash, zchainIPNSLink, zblockElement] = params;
@@ -175,34 +67,10 @@ function renderZblockAndProceed(json, params){
     }
     progressPlaceholder.max++;
     progressPlaceholder.value++;
-    seekblock(json.block,zblockIPFSHash,zchainIPNSLink);
+    seekblock(json.block,zblockIPFSHash,zchainIPNSLink,json);
 }
-/*
- * Function gets ZBLOCK and parses it
- *
- * Returns Block and Signature elements on DOM as p
- *
- * Proceeds to seek the block found
- */
-function seekzblock(zblockIPFSHash,zchainIPNSLink){
-    if (DEBUG) console.log("Zblock::  "+zblockIPFSHash);
-    if (DEBUG) console.log("Zchain::  "+zchainIPNSLink);
-    var divs = document.querySelector('#zd-' + zchainIPNSLink);
-    var zblockElement = document.createElement("article");
-    zblockElement.id = 'zb-' + zblockIPFSHash;
-    if (document.querySelector("#zchain-data-sec-not-found")) document.querySelector("#zchain-data-sec-not-found").hidden=true;
-    if(zblockIPFSHash){
-        var p = document.createElement("p");
-        p.innerText="zblock: " + zblockIPFSHash;
-        zblockElement.appendChild(p);
-    }
-    divs.appendChild(zblockElement);
-    archingKaosLog("Seeking ZBLOCK " + zblockIPFSHash + "...");
-    archingKaosFetchJSON(getIPFSURL(zblockIPFSHash), renderZblockAndProceed, [zblockIPFSHash, zchainIPNSLink, zblockElement]);
-}
-
 function blockRenderAndProceed(json, params){
-    const [zchainIPNSLink, zblockIPFSHash, blockIPFSHash, j] = params;
+    const [zchainIPNSLink, zblockIPFSHash, blockIPFSHash, zblockObject] = params;
     /* Could be json object with
      *  - action
      *  - data
@@ -247,17 +115,122 @@ function blockRenderAndProceed(json, params){
         if(detailsPlace!== null) detailsPlace.appendChild(p);
     }
     progressPlaceholder.value++;
-    exe(json.action,json.data,json,zblockIPFSHash,zchainIPNSLink,j);
-    if(json.previous!="QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH"){
-        if (DEBUG) console.log(json.previous, zchainIPNSLink);
-        seekzblock(json.previous, zchainIPNSLink);
-    } else {
+    exe(json.action,json.data,json,zblockIPFSHash,zchainIPNSLink,zblockObject);
+    if ( checkIfGenesis(json.previous) ){
         archingKaosLog("Done loading " + zchainIPNSLink + " zchain!")
         progressPlaceholder.value++;
         zchain[zchainIPNSLink] = {loading: "completed"};
-
+    } else {
+        seekzblock(json.previous, zchainIPNSLink);
     }
 }
+/*
+ * Function that gets nickname and parses the config variable.
+ *
+ * Returns the key:value pairs of the configuration and proceeds
+ * to get the zchain
+ */
+function getConfiguration(akidIPNSLink,stellarAddress){
+    progressPlaceholder.max++;
+    archingKaosLog("Parsing the configuration...")
+    archingKaosFetchJSON(getIPNSURL(akidIPNSLink), akidRenderAndProceed, stellarAddress)
+}
+
+
+/*
+ * Function to seek Zblocks
+ *
+ * Returns Block and Signature for each ZBLOCK found.
+ *
+ * Proceeds to the blocks found.
+ */
+function zseek(zchainIPNSLink,stellarAddress,j){
+    var divs = document.querySelector('#zchain-data-section');
+    var details = document.createElement("details");
+    details.id = 'zd-' + zchainIPNSLink;
+    details.className = 'zchain-details';
+    divs.appendChild(details);
+
+    if(zchainIPNSLink){
+        var p = document.createElement("summary");
+        p.innerText="zchain: " + zchainIPNSLink;
+        details.appendChild(p);
+    }
+    archingKaosLog("Seeking zchain " + zchainIPNSLink + "...");
+    fetch(getIPNSURL(zchainIPNSLink), {
+        method:'GET',
+        headers:{
+            Accept: 'application/json'
+        }
+    }).then(response=>{
+        if(response.ok){
+            var zblock = "";
+            if ( response.headers.has('Etag') ){
+                zblock = response.headers.get('Etag').replace(/"/g,'');
+                zchain[zchainIPNSLink] = {loading : "started"};
+                zchainsFound++;
+                zchains[zchainIPNSLink] = [];
+                // console.log(zchain);
+                // callHereToSetUpListenerFor(zchain[zchainIPNSLink]);
+            }
+            response.json().then(json=>{
+                /* Could be json object with
+                 *  - block
+                 *  - block_signature
+                 */
+                if(zblock === "" ) {
+                    var divs = document.querySelector('#zchain-data-section');
+                    if(json.block){
+                        var p = document.createElement("p");
+                        p.innerText="Block: " + json.block;
+                        details.appendChild(p);
+                    }
+                    if(json.block_signature){
+                        var p = document.createElement("p");
+                        p.innerText="Signature: " + json.block_signature;
+                        details.appendChild(p);
+                    }
+                    divs.appendChild(details);
+                } else {
+                    progressPlaceholder.max++;
+                    progressPlaceholder.value++;
+                    seekzblock(zblock, zchainIPNSLink, stellarAddress, j);
+                }
+            })
+        }
+    })
+}
+
+/*
+ * Function gets ZBLOCK and parses it
+ *
+ * Returns Block and Signature elements on DOM as p
+ *
+ * Proceeds to seek the block found
+ */
+function seekzblock(zblockIPFSHash,zchainIPNSLink){
+    var divs = document.querySelector('#zd-' + zchainIPNSLink);
+    var zblockElement = document.createElement("article");
+    zblockElement.id = 'zb-' + zblockIPFSHash;
+    if (document.querySelector("#zchain-data-sec-not-found")) document.querySelector("#zchain-data-sec-not-found").hidden=true;
+    if(zblockIPFSHash){
+        var p = document.createElement("p");
+        p.innerText="zblock: " + zblockIPFSHash;
+        zblockElement.appendChild(p);
+    }
+    divs.appendChild(zblockElement);
+    archingKaosLog("Seeking ZBLOCK " + zblockIPFSHash + "...");
+    archingKaosFetchJSON(getIPFSURL(zblockIPFSHash), renderZblockAndProceed, [zblockIPFSHash, zchainIPNSLink, zblockElement]);
+}
+
+function checkIfGenesis(zblockIPFSHash){
+    if(zblockIPFSHash==="QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH"){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 /*
  * Seeks a block and parses it.
  *
@@ -265,13 +238,11 @@ function blockRenderAndProceed(json, params){
  *
  * Proceeds to execute the block.
  */
-function seekblock(blockIPFSHash,zblockIPFSHash,zchainIPNSLink,j){
-    if (DEBUG) console.log("THE CHAIN: " + zchainIPNSLink);
-    if (DEBUG) console.log("THE ZBLOCK: " + zblockIPFSHash);
+function seekblock(blockIPFSHash,zblockIPFSHash,zchainIPNSLink,zblockObject){
     detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     archingKaosLog("Seeking block "+blockIPFSHash+"...");
     progressPlaceholder.max++;
-    archingKaosFetchJSON(getIPFSURL(blockIPFSHash), blockRenderAndProceed, [zchainIPNSLink, zblockIPFSHash, blockIPFSHash, j]);
+    archingKaosFetchJSON(getIPFSURL(blockIPFSHash), blockRenderAndProceed, [zchainIPNSLink, zblockIPFSHash, blockIPFSHash, zblockObject]);
 }
 
 /*
@@ -279,8 +250,7 @@ function seekblock(blockIPFSHash,zblockIPFSHash,zchainIPNSLink,j){
  *
  * Returns the result of execution on the proper page in DOM
  */
-function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,z){
-    if (DEBUG) console.log("Executing...",action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,z)
+function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,zblockObject){
     archingKaosLog("Render ZBLOCK "+zblockIPFSHash+" as " + action + " ...");
     fetch(getIPFSURL(dataIPFSHash), {
         method:'GET',
@@ -389,17 +359,66 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,z){
                         radio.appendChild(rs);
                         art.appendChild(audio);
                         audio.addEventListener( "loadedmetadata", ()=>{
-                            console.log(zblockIPFSHash+"'s duration is: "+ audio.duration + " Ceiled: " + Math.ceil(audio.duration) + " added on " +  blockObject.timestamp + " or " + json.timestamp + " DIFF: " + (blockObject.timestamp - json.timestamp));
+                            if ( mixtapes[zblockIPFSHash] === undefined ){
+                                mixtapes[zblockIPFSHash]={
+                                    zblock:zblockIPFSHash,
+                                    block:zblockObject.block,
+                                    block_signature:zblockObject.block_signature,
+                                    action:action,
+                                    previous:blockObject.previous,
+                                    data:blockObject.data,
+                                    dataExpansion:json,
+                                    detach:blockObject.detach,
+                                    gpg:blockObject.gpg,
+                                    timestamp:blockObject.timestamp,
+                                    audioDuration:audio.duration
+                                };
+                            }
+                            if ( zchainsFound === stellarNetworkConfiguredAddresses ) {
+                                var x = 0;
+                                console.log("::HIT::");
+                                for ( element in zchain ) {
+                                    console.log("::HAT::")
+                                    if ( zchain[element].loading === "completed" ){
+                                        x++;
+                                        console.log("::HET::")
+                                    }
+                                }
+                                if ( x === stellarNetworkConfiguredAddresses ) {
+                                    sortedMixtapes = mixtapes.sort(function(a,b){return a.timestamp - b.timestamp})
+                                    console.log("::HUT::")
+
+                                }
+                            }
+                            console.log(
+                                zblockIPFSHash+"'s duration is: "+
+                                audio.duration +
+                                " Ceiled: " + Math.ceil(audio.duration) +
+                                " added on " +  blockObject.timestamp + " or "
+                                + json.timestamp +
+                                " DIFF: " + (blockObject.timestamp - json.timestamp)
+                            );
                         }, false );
                     }
                     if (document.querySelector("#mixtapes-sec-not-found")) document.querySelector("#mixtapes-sec-not-found").hidden=true;
                     divs.appendChild(art);
                 }
                 else {
-                    if (DEBUG) console.log("Found unknown module/action: "+action);
                     archingKaosLog(action + " module not found");
                 }
-                //    seekblock(json.block)
+                zchains[zchainIPNSLink].push({
+                    zblock:zblockIPFSHash,
+                    block:zblockObject.block,
+                    block_signature:zblockObject.block_signature,
+                    action:action,
+                    previous:blockObject.previous,
+                    data:blockObject.data,
+                    dataExpansion:json,
+                    detach:blockObject.detach,
+                    gpg:blockObject.gpg,
+                    timestamp:blockObject.timestamp
+                });
+                data[dataIPFSHash]=json;
                 progressPlaceholder.max++;
                 progressPlaceholder.value++;
             })
@@ -434,7 +453,6 @@ function getipfstext(ipfsHash, articleid){
                 }
                 progressPlaceholder.max++;
                 progressPlaceholder.value++;
-                //    seekblock(json.block)
             })
         }
     })

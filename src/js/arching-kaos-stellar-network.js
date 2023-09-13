@@ -1,34 +1,4 @@
 
-/*
- * Array of all the menu-panes IDs
- * TODO: Add to menuids stellar relevant
-var menuids = [
-    '#welcome-section',
-    '#about-section',
-    '#zchain-data-section',
-    '#news-section',
-    '#stats-section',
-    '#mixtapes-section',
-    '#chat-section',
-    '#mypage-section',
-    '#stellar-balances',
-    '#stellar-data-config',
-    '#arching-kaos-id',
-    '#files-section'
-];
- */
-
-// Here we store the participants found
-// var participants = [];
-
-function getTrustlinesURL(){
-    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
-        'assets?asset_code='+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+
-        '&asset_issuer='+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer;
-}
-
 function getNumberOfTrustlinesAndRenderThem(json){
     var number = json._embedded.records[0].accounts.authorized;
     var stats = document.querySelector('.stellar-network').querySelector('summary');
@@ -37,24 +7,7 @@ function getNumberOfTrustlinesAndRenderThem(json){
     stats.appendChild(small);
     archingKaosLog("Loading trustlines... Found "+number+"!");
     progressPlaceholder.value++;
-}
-
-/*
- * Get Trustlines for ARCHINGKAOS asset
- * Returns DOM element with number of trustlines
- */
-function getTrustlines(){
-    archingKaosLog("Loading trustlines...");
-    archingKaosFetchJSON(getTrustlinesURL(), getNumberOfTrustlinesAndRenderThem);
-}
-
-function getHoldersOfActiveAssetURL(){
-    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
-        'accounts?asset='+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+
-        ':'+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer+
-        '&limit=200';
+    stellarParticipants=number;
 }
 function renderStellarAddressesAndProceed(json){
     var stats = document.querySelector('.stellar-network');
@@ -71,6 +24,27 @@ function renderStellarAddressesAndProceed(json){
     })
     if (json._links.next) getHolders(json._links.next.href);
 }
+function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
+    var cnf = document.createElement("p");
+    if(document.querySelector("#stellar-data-config-not-found")){
+        document.querySelector("#stellar-data-config-not-found").hidden = true;
+    }
+    cnf.innerText = atob(json.value)
+    document.querySelector('#'+stellarAddress).appendChild(cnf)
+    document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
+    stellarNetworkConfiguredAddresses += 1;
+    getConfiguration(atob(json.value),stellarAddress)
+}
+
+/*
+ * Get Trustlines for ARCHINGKAOS asset
+ * Returns DOM element with number of trustlines
+ */
+function getTrustlines(){
+    archingKaosLog("Loading trustlines...");
+    archingKaosFetchJSON(getTrustlinesURL(), getNumberOfTrustlinesAndRenderThem);
+}
+
 /*
  * Get addresses that trust the asset
  * Limit is 200 addresses cause horizon API limitations.
@@ -102,7 +76,6 @@ function getHolders(a=0){
     }
     archingKaosLog("Searching holders... Done!");
 }
-// getHolders();
 
 function getStellarConfigurationVariableURL(stellarAddress){
     return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
@@ -112,15 +85,6 @@ function getStellarConfigurationVariableURL(stellarAddress){
         activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig];
 }
 
-function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
-    var cnf = document.createElement("p")
-    if(document.querySelector("#stellar-data-config-not-found")) document.querySelector("#stellar-data-config-not-found").hidden = true;
-    cnf.innerText = atob(json.value)
-    document.querySelector('#'+stellarAddress).appendChild(cnf)
-    document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
-    stellarNetworkConfiguredAddresses += 1;
-    getConfiguration(atob(json.value),stellarAddress)
-}
 /*
  * Function that checks the address' variable 'config' to see
  * if it's set up.
@@ -246,13 +210,11 @@ const retrievePublicKey = async () => {
 
 // Function that initiates the connection with the Wallet ( we just read )
 function connect(){
-    if (DEBUG) console.log("When pressed: "+stellar_connection_status);
     if ( stellar_connection_status === 1 ){
         showStellar();
     } else {
         const result = retrievePublicKey();
     }
-    if (DEBUG) console.log("After "+stellar_connection_status);
 }
 
 function scanStellarNetworkForPeers(){
