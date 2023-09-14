@@ -24,6 +24,7 @@ function renderStellarAddressesAndProceed(json){
     })
     if (json._links.next) getHolders(json._links.next.href);
 }
+
 function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     var cnf = document.createElement("p");
     if(document.querySelector("#stellar-data-config-not-found")){
@@ -36,23 +37,11 @@ function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     getConfiguration(atob(json.value),stellarAddress)
 }
 
-/*
- * Get Trustlines for ARCHINGKAOS asset
- * Returns DOM element with number of trustlines
- */
 function getTrustlines(){
     archingKaosLog("Loading trustlines...");
     archingKaosFetchJSON(getTrustlinesURL(), getNumberOfTrustlinesAndRenderThem);
 }
 
-/*
- * Get addresses that trust the asset
- * Limit is 200 addresses cause horizon API limitations.
- *
- * Returns div DOM elements for each found address, embedding
- * the address both in innerText and in id of the div.
- */
-// var lastPage = '';
 function getHolders(a=0){
     var doIt = true
     archingKaosLog("Searching holders...");
@@ -85,30 +74,19 @@ function getStellarConfigurationVariableURL(stellarAddress){
         activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig];
 }
 
-/*
- * Function that checks the address' variable 'config' to see
- * if it's set up.
- *
- * Returns the IPNS link in the DOM as p element and proceeds to
- * get nickname from the variables
- */
 function checkAddressForConfigurationVariable(stellarAddress) {
     archingKaosLog("Checking configuration for "+ stellarAddress+ "...");
     archingKaosFetchJSON(getStellarConfigurationVariableURL(stellarAddress), renderConfigurationIPNSLinkAndProceed, stellarAddress);
     progressPlaceholder.value++;
 }
 
-/*
- * We now connect our client to horizon
- */
 var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]);
-// We ask for the 'a' stellar address the balances
 function letme(a){
     server.accounts()
     .accountId(a)
-    .call().then(function(r){ const L = r; putit(r); });
+    .call().then(function(r){ const L = r; putit(L); });
 }
-// We print them
+
 function putit(i){
     var ta=document.querySelector("#stellar-balances-table");
     for (b in i.balances) {
@@ -126,16 +104,7 @@ function putit(i){
         if(document.querySelector("#stellar-balances-not-found")) document.querySelector("#stellar-balances-not-found").hidden = true;
     }
 }
-// We also search for a config file and display it
-/*
- * Seeks to find an IPNS link under the 'config' variable of an i Stellar
- * Address.
- *
- * Outputs found value if any under #stellar-data-config
- * Adds to progressPlaceholder.
- * Moves on to retrieve the found link 
- *
- */
+
 async function fetchAKIDFromClientWallet(stellarAddress){
     archingKaosLog("Loading your profile...");
     fetch(getStellarConfigurationVariableURL(stellarAddress), {
@@ -157,9 +126,6 @@ async function fetchAKIDFromClientWallet(stellarAddress){
     })
 }
 
-// var stellar_connection_status = 0;
-
-// Put it there. in the field
 function putKeyToField(k){
     let base = document.querySelector("#stellar-freigher-connect-address-button");
     stellar_connection_status = 1;
@@ -208,12 +174,12 @@ const retrievePublicKey = async () => {
     return publicKey;
 };
 
-// Function that initiates the connection with the Wallet ( we just read )
 function connect(){
     if ( stellar_connection_status === 1 ){
         showStellar();
     } else {
         const result = retrievePublicKey();
+        console.log(result);
     }
 }
 
