@@ -33,6 +33,11 @@ body {
     display: block;
 }
 
+div {
+    padding: 0;
+    margin: 0;
+}
+
 p {
     text-align: justify;
     margin: 0px;
@@ -72,9 +77,6 @@ a:hover{
     border: 1px;
 }
 
-#menu {
-    text-align: center;
-}
 
 #menu a {display:inline-block;}
 
@@ -99,15 +101,6 @@ pre {overflow:auto;}
 
 h1 {
     text-align: left;
-}
-
-p {
-    text-align: justify;
-}
-
-div {
-    margin: auto;
-    padding: 10px;
 }
 
 #contact {
@@ -163,26 +156,6 @@ textarea {
 .alert {
     background-color: red;
     color: black;
-}
-
-.button {
-    border: 0px;
-    padding: 7px;
-    color: white;
-}
-
-button {
-    color: rgb(51, 200, 234);
-    text-decoration: none;
-    font-family: 'Hack Nerd Font';
-    background: #1c241c;
-    border: 1px solid #17392e;
-    padding: 10px;
-    margin: 1px;
-}
-
-button:hover {
-    background: #008033;
 }
 
 pre { white-space: pre-wrap; }
@@ -258,6 +231,9 @@ article {
     overflow-y: auto;
     z-index: 1;
 }
+.main div {
+    height: 100%;
+}
 
 .page-layout {
     display: flex;
@@ -282,13 +258,27 @@ h1 {
 }
 
 #menu {
+    text-align: center;
     padding: 2px;
     overflow-y: auto;
     display: flex;
     color:rgb(51, 200, 234);
 }
 
-#menu button, #modules-submenu-link, .menu-clickable {
+.button {
+    border: 0px;
+    padding: 7px;
+    color: white;
+}
+
+button {
+    color: rgb(51, 200, 234);
+    text-decoration: none;
+    font-family: 'Hack Nerd Font';
+    background: #1c241c;
+    border: 1px solid #17392e;
+    padding: 10px;
+    margin: 1px;
     cursor: pointer;
     display: flex;
     background: #1c241c;
@@ -297,7 +287,8 @@ h1 {
     margin: 1px;
 }
 
-#menu button:hover, #modules-submenu-link:hover, .menu-clickable:hover  {
+button:hover {
+    background: #008033;
     background: #008033;
 }
 
@@ -361,11 +352,6 @@ h1 {
     }
 }
 
-div {
-    padding: 0;
-    margin: 0;
-}
-
 .hsm {
     z-index: 999;
     position: fixed;
@@ -377,6 +363,7 @@ div {
     text-shadow: 1px 2px #461551;
     right: 1vw;
 }
+
 audio {
     width: -webkit-fill-available;
     width: -moz-available;

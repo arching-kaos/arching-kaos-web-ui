@@ -26,8 +26,8 @@
                     <h1 style="text-align: center;">Arching Kaos</h1>
                 </div>
                 <button class="menu-clickable" id="mobile-menu" onclick="toggleMenu(this)">Show menu</button>
-                <nav id="double-floor" class="linkin">
-                    <div id="menu" class="linkin upper-floor">
+                <nav id="double-floor" class="">
+                    <div id="menu" class="upper-floor">
                         <button class="menu-clickable" id="#/welcome-section" onclick="menusel(this)">Home</button>
                         <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">Modules</button>
                         <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">Explore</button>
@@ -36,7 +36,7 @@
                         <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">Stellar</button>
                         <button class="menu-clickable" id="#/about-section" onclick="menusel(this)">About</button>
                     </div>
-                    <div id="menu" class="linkin lower-floor">
+                    <div id="menu" class="lower-floor">
                         <div class="dropdown" id="modules-submenu">
                             <button class="menu-clickable" onclick="modulesSubToggle(this)">..</button>
                             <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)">Mixtapes</button>
@@ -70,12 +70,14 @@
                     <p>Please wait for your web browser to find the content!</p>
                     <button onclick="scanStellarNetworkForPeers()">Scan Stellar Network</button>
                     <button onclick="ringlocalbell()">Ask local API</button>
-                    <div style="padding: 10%;" class="dialog">
+                    <div class="dialog">
                         <p>Loading ...</p>
                         <progress id="total-progress"></progress>
                         <pre id="current-log-message"></pre>
-                        <details id="logs-area-element">
-                            <summary>Logs</summary>
+                        <details id="logs-area">
+                            <summary>Logs (click to expand)</summary>
+                            <div id="logs-area-element">
+                            </div>
                         </details>
                     </div>
                 </div>
@@ -157,9 +159,8 @@
                         </select>
                     </div>
                 </div>
-                <div id="chat-section">
-                    <h2>Chat</h2>
-                    <iframe src="https://irc.arching-kaos.net" style="width: -webkit-fill-available; width: -moz-available; height: 64vh;"></iframe>
+                <div id="chat-section" style="height: 100%;">
+                    <iframe src="https://irc.arching-kaos.net" style="width: 100%; height: 100%;"></iframe>
                 </div>
                 <div id="stats-section">
                     <h2>Stats</h2>

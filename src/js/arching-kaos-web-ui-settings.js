@@ -40,7 +40,8 @@ var default_settings = {
         'kh-config'
     ],
     horizonAddresses: [
-        'https://horizon.stellar.org/'
+        'https://horizon.stellar.org/',
+        'http://horizon.stellar.z.kaotisk-hund.com/'
     ],
     horizonSelectedAddress: 0,
     stellarDefaultAsset: 0,

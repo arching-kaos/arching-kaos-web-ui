@@ -6,6 +6,7 @@ var holders = [];
 var participants = [];
 var stellarNetworkConfiguredAddresses = 0;
 var stellarParticipants = 0;
+var stellarParticipantsScanned = 0;
 var zchain = [];
 var zchains = new Array;
 var zblocks = new Array;
