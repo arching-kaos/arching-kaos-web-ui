@@ -371,15 +371,8 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,zbloc
                     akModuleFiles(zblockIPFSHash, blockObject, json);
                 }
                 else if (action == "news/add") {
-                    var divs = document.querySelector('#news-section');
-                    var art = document.createElement("article");
-                    art.id = dataIPFSHash;
-                    if(json.title){
-                        var h3 = document.createElement("h3");
-                        h3.innerText = json.title;
-                        art.appendChild(h3);
-                    }
-                    if(json.datetime){
+                    akModuleNews(zblockIPFSHash, zblockObject, blockObject, json);
+                }
                         var small = document.createElement("p");
                         small.innerText="Published: " +json.datetime;
                         art.appendChild(small);
