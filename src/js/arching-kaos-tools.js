@@ -126,8 +126,12 @@ function blockRenderAndProceed(json, params){
             if ( x === getArrayLength(zchain) ){
                 archingKaosLog("Everything is completed!");
                 sortedMixtapes = mixtapes.sort(function(a,b){return a.timestamp - b.timestamp});
-
             }
+        }
+        for( entry in references ){
+            var comment = document.querySelector('#comment-'+references[entry].dataExpansion.reference);
+            var article = document.querySelector('#news-'+references[entry].dataExpansion.refer_to);
+            article.appendChild(comment);
         }
     } else {
         seekzblock(json.previous, zchainIPNSLink);
@@ -373,19 +377,49 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,zbloc
                 else if (action == "news/add") {
                     akModuleNews(zblockIPFSHash, zblockObject, blockObject, json);
                 }
+                else if (action == "comments/add") {
+                    if (!document.querySelector('#comment-'+zblockIPFSHash)){
+                        var divs = document.querySelector('#comments-section');
+                        var art = document.createElement("article");
+                        art.id = 'comment-'+zblockIPFSHash;
+                        /*
+                        if(json.title){
+                            var h3 = document.createElement("h3");
+                            h3.innerText = json.title;
+                            art.appendChild(h3);
+                        }
+                        */
+                        if(json.datetime){
+                            var small = document.createElement("p");
+                            small.innerText="Published: " + new Date(json.datetime*1000);
+                            art.appendChild(small);
+                        }
                         var small = document.createElement("p");
-                        small.innerText="Published: " +json.datetime;
+                        small.innerText="Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg);
                         art.appendChild(small);
+                        if(json.ipfs){
+                            getipfstext(json.ipfs,art.id);
+                        }
+                        if (document.querySelector("#comments-sec-not-found")) document.querySelector("#comments-sec-not-found").hidden=true;
+                        divs.appendChild(art);
+                        divs.appendChild(document.createElement("hr"));
                     }
-                    var small = document.createElement("p");
-                    small.innerText="Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg);
-                    art.appendChild(small);
-                    if(json.ipfs){
-                        getipfstext(json.ipfs,art.id);
+                }
+                else if (action == "references/add"){
+                    if ( references[zblockIPFSHash] === undefined ){
+                        references[zblockIPFSHash]={
+                            zblock:zblockIPFSHash,
+                            block:zblockObject.block,
+                            block_signature:zblockObject.block_signature,
+                            action:action,
+                            previous:blockObject.previous,
+                            data:blockObject.data,
+                            dataExpansion:json,
+                            detach:blockObject.detach,
+                            gpg:blockObject.gpg,
+                            timestamp:blockObject.timestamp
+                        };
                     }
-                    if (document.querySelector("#news-sec-not-found")) document.querySelector("#news-sec-not-found").hidden=true;
-                    divs.appendChild(art);
-                    divs.appendChild(document.createElement("hr"));
                 }
                 else if (action == "mixtape/add") {
                     var divs = document.querySelector('#mixtapes-section');
