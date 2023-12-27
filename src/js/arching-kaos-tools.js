@@ -368,33 +368,7 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,zbloc
                  *  - block_signature
                  */
                 if (action == "files/add") {
-                    var divs = document.querySelector('#files-section');
-                    var art = document.createElement("article");
-                    art.id = dataIPFSHash;
-                    if(json.title){
-                        var h3 = document.createElement("h3");
-                        h3.innerText = json.filename;
-                        art.appendChild(h3);
-                    }
-                    if(json.datetime){
-                        var small = document.createElement("p");
-                        small.innerText="Published: " +json.datetime;
-                        art.appendChild(small);
-                    }
-                    getNicknameAssossiatedWithGPG(blockObject.gpg);
-                    var small = document.createElement("p");
-                    small.innerText="Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg);
-                    art.appendChild(small);
-                    if(json.ipfs){
-                        //    getipfstext(json.ipfs,art.id);
-                        var small = document.createElement("a");
-                        small.innerText=json.filename;
-                        small.href="https://ipfs.arching-kaos.com/ipfs/"+json.ipfs+"?filename="+json.filename;
-                        art.appendChild(small);
-                    }
-                    divs.appendChild(art);
-                    if(document.querySelector("#files-sec-not-found")) document.querySelector("#files-sec-not-found").hidden = true;
-                    divs.appendChild(document.createElement("hr"));
+                    akModuleFiles(zblockIPFSHash, blockObject, json);
                 }
                 else if (action == "news/add") {
                     var divs = document.querySelector('#news-section');
