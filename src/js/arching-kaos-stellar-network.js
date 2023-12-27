@@ -8,10 +8,11 @@ function getNumberOfTrustlinesAndRenderThem(json){
         small.id = 'stellar-participants-sum';
         stats.appendChild(small);
     }
-    small.innerText = ' (' + number + ')';
+    document.querySelector("#stellar-participants-sum").innerText = ' (' + number + ')';
     archingKaosLog("Loading trustlines... Found "+number+"!");
     progressPlaceholder.value++;
     stellarParticipants=number;
+    stellarParticipantsScanned=number;
 }
 
 function renderStellarAddress(stellarAddress){
@@ -35,12 +36,7 @@ function renderStellarAddressesAndProceed(json){
 }
 
 function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
-    var cnf = document.createElement("p");
-    if(document.querySelector("#stellar-data-config-not-found")){
-        document.querySelector("#stellar-data-config-not-found").hidden = true;
-    }
-    cnf.innerText = atob(json.value)
-    document.querySelector('#'+stellarAddress).appendChild(cnf)
+    renderStellarAddress(stellarAddress);
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
     stellarNetworkConfiguredAddresses += 1;
     getConfiguration(atob(json.value),stellarAddress);
@@ -93,7 +89,13 @@ var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSetting
 function letme(a){
     server.accounts()
     .accountId(a)
-    .call().then(function(r){ const L = r; putit(L); });
+    .call()
+    .then(
+        function(r){
+            const L = r;
+            putit(L);
+        }
+    );
 }
 
 function putit(i){
@@ -138,7 +140,7 @@ async function fetchAKIDFromClientWallet(stellarAddress){
 function putKeyToField(k){
     let base = document.querySelector("#stellar-freigher-connect-address-button");
     stellar_connection_status = 1;
-    fetchAKIDFromClientWallet(k);
+    checkAddressForConfigurationVariable(k);
     base.innerText=k;
     base.onclick='';
 }

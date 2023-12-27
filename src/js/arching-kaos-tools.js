@@ -38,6 +38,9 @@ function akidRender(json, stellarAddress){
 function akidRenderAndProceed(json, stellarAddress){
     akidRender(json, stellarAddress);
     participants[stellarAddress]=json;
+    if ( stellarParticipantsScanned === 0 ) {
+        archingKaosLog('END');
+    }
     progressPlaceholder.value++;
     zseek(json.zchain,stellarAddress,json);
 }
@@ -504,7 +507,7 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,zchainIPNSLink,zbloc
 }
 
 function getipfstext(ipfsHash, articleid){
-    fetch( getIPFSURL(ipfsHash), {
+    fetch(getIPFSURL(ipfsHash), {
         method:'GET',
         headers:{
             Accept: 'text/plain'
