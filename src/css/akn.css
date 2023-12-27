@@ -16,9 +16,9 @@
 body {
     word-break: break-all;
     padding: 1%;
-    background-color: #1a1a1a;
     font-family: 'Hack Nerd Font';
     font-size: medium;
+    background-color: #1a1a1a;
     color: #7ef07e;
     display: block;
     margin: auto;
@@ -39,8 +39,9 @@ div {
 }
 
 p {
+    word-break: break-word;
     text-align: justify;
-    margin: 0px;
+    /* margin: 0px; */
 }
 
 a {
@@ -79,6 +80,8 @@ a:hover{
 
 
 #menu a {display:inline-block;}
+
+.footer p { margin: 0px; }
 
 .footer {
     text-align: center;
