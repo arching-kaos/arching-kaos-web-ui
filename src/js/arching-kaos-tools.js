@@ -6,20 +6,28 @@ function getArrayLength(array){
     return len;
 }
 
-function akidRender(json, stellarAddress){
+function renderStellarAddressPlaceholder(stellarAddress){
     var divs = document.querySelector('#'+stellarAddress);
     if ( divs === null ){
-        divs = document.createElement('div');
-        divs.id = '#'+stellarAddress;
-        document.querySelector('.stellar-network').querySelector('summary').appendChild(divs);
-        divs = document.querySelector('#'+stellarAddress);
+        var d = document.createElement('div');
+        d.id = '#'+stellarAddress;
+        d.innerText = stellarAddress;
+        document.querySelector('.stellar-network').appendChild(d);
     }
+    divs = document.querySelector('#'+stellarAddress);
+    return divs;
+}
 
+function akidRender(json, stellarAddress){
+    var divs = renderStellarAddressPlaceholder(stellarAddress);
     for( key in Object.keys(json) ){
         if ( typeof(json[Object.keys(json)[key]]) === "string" ) {
-            var p = document.createElement("p")
-            p.innerText = Object.keys(json)[key] + ": " +json[Object.keys(json)[key]];
-            divs.appendChild(p);
+            if(!document.querySelector('#'+Object.keys(json)[key]+'-'+stellarAddress)){
+                var p = document.createElement("p");
+                p.id = Object.keys(json)[key]+'-'+stellarAddress;
+                p.innerText = Object.keys(json)[key] + ": " +json[Object.keys(json)[key]];
+                divs.appendChild(p);
+            }
         }
         else if ( typeof(json[Object.keys(json)[key]]) === "Object"||"Array" ) {
             akidRender(json[Object.keys(json)[key]], stellarAddress);
