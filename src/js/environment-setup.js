@@ -50,6 +50,7 @@ var menuids = [
  *
  */
 var progressPlaceholder = document.querySelector('#total-progress');
+var httpProgressPlaceholder = document.querySelector('#http-progress');
 var currentLogMessageElement = document.querySelector('#current-log-message');
 var logsAreaElement = document.querySelector("#logs-area-element");
 var radio = document.querySelector("#radio-player");

@@ -522,14 +522,12 @@ function getipfstext(ipfsHash, articleid){
                     var pre = document.createElement("div");
                     var lines = text.split('\n');
                     // remove one line, starting at the first position
-                    lines.splice(0,1);
+                    // lines.splice(0,1);
                     // join the array back into a single string
                     var newtext = lines.join('\n');
                     pre.innerHTML = DOMPurify.sanitize(marked.parse(newtext));
                     divs.appendChild(pre);
                 }
-                progressPlaceholder.max++;
-                progressPlaceholder.value++;
             })
         }
     })
