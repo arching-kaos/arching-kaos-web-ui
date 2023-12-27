@@ -13,9 +13,10 @@ function archingKaosFetchJSON( url, callback, params ){
     });
     request.addEventListener("progress", (event)=>{
         if (event.lengthComputable && progressPlaceholder){
-            progressPlaceholder.value = (event.loaded / event.total) * 100;
+            httpProgressPlaceholder.value = (event.loaded / event.total) * 100;
         } else {
-            progressPlaceholder.value = 0;
+            httpProgressPlaceholder.value = 0;
+            console.log("Supposingly zeroed progressPlaceholder");
         }
     });
     request.addEventListener("abort", ()=>{
