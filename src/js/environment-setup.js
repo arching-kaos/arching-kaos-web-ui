@@ -9,6 +9,7 @@ var stellarParticipants = 0;
 var stellarParticipantsScanned = 0;
 var zchain = [];
 var zchains = new Array;
+var references = [];
 var zblocks = new Array;
 var blocks = new Array;
 var data = new Array;
@@ -29,6 +30,7 @@ var menuids = [
     '#about-section',
     '#zchain-data-section',
     '#news-section',
+    '#comments-section',
     '#stats-section',
     '#mixtapes-section',
     '#chat-section',
