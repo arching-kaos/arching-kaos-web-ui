@@ -13,18 +13,23 @@ function getNumberOfTrustlinesAndRenderThem(json){
     progressPlaceholder.value++;
     stellarParticipants=number;
 }
-function renderStellarAddressesAndProceed(json){
+
+function renderStellarAddress(stellarAddress){
     var stats = document.querySelector('.stellar-network');
-    json._embedded.records.forEach(r=>{
-        var p = document.createElement("div");
-        p.className = "stellar-address";
-        p.innerText = r.account_id;
-        console.log(r);
-        p.id = r.account_id;
-        holders.push(r.account_id);
+    var p = document.createElement("div");
+    p.className = "stellar-address";
+    p.innerText = stellarAddress;
+    p.id = stellarAddress;
+    stats.appendChild(p);
+}
+
+function renderStellarAddressesAndProceed(json){
+    json._embedded.records.forEach(row=>{
+        console.log(row);
+        holders.push(row.account_id);
         progressPlaceholder.max++;
-        checkAddressForConfigurationVariable(r.account_id);
-        stats.appendChild(p);
+        renderStellarAddress(row.account_id);
+        checkAddressForConfigurationVariable(row.account_id);
     })
     if (json._links.next) getHolders(json._links.next.href);
 }
@@ -38,7 +43,7 @@ function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     document.querySelector('#'+stellarAddress).appendChild(cnf)
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
     stellarNetworkConfiguredAddresses += 1;
-    getConfiguration(atob(json.value),stellarAddress)
+    getConfiguration(atob(json.value),stellarAddress);
 }
 
 function getTrustlines(){
