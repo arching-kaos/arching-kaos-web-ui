@@ -2,9 +2,13 @@
 function getNumberOfTrustlinesAndRenderThem(json){
     var number = json._embedded.records[0].accounts.authorized;
     var stats = document.querySelector('.stellar-network').querySelector('summary');
-    var small = document.createElement("span");
+
+    if(!document.querySelector("#stellar-participants-sum")){
+        var small = document.createElement("span");
+        small.id = 'stellar-participants-sum';
+        stats.appendChild(small);
+    }
     small.innerText = ' (' + number + ')';
-    stats.appendChild(small);
     archingKaosLog("Loading trustlines... Found "+number+"!");
     progressPlaceholder.value++;
     stellarParticipants=number;
