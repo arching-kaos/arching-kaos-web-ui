@@ -67,5 +67,3 @@ var lastPage = '';
 
 var stellar_connection_status = 0;
 
-// var localnode = "https://aka.arching-kaos.net:8610/v0/akid";
-var localnode = "http://api.aknet.z.kaotisk-hund.com/v0/akid";

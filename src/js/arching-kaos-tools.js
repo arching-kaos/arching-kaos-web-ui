@@ -544,7 +544,7 @@ function checkIfChainAndProceed(json){
 
 async function ringlocalbell(){
     archingKaosLog("Ringing local bell...");
-    var url=localnode;
+    var url=activeSettings.localAPI+'/v0/akid';
     archingKaosFetchJSON(url, checkIfChainAndProceed);
     archingKaosLog("Ringing local bell... Done!");
 }

@@ -48,6 +48,7 @@ var default_settings = {
     stellarDefaultConfig: 0,
     zchainBasedDepthSeek: 10,
     zblockBasedDepthSeek: 10,
+    localAPI: 'http://localhost:8610'
 }
 
 // TODO: Make up a settings configuration page to set this up initially rather
@@ -75,6 +76,7 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://gw.ipfs.z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
     activeSettings.ipfsSelectedGatewayAddress = 1;
+    activeSettings.horizonSelectedAddress = 1;
 } else if ( location.origin === "http://localhost:3000" ) {
     activeSettings.ipfsSelectedGatewayAddress = 2;
 } else {
