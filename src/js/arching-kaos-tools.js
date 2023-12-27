@@ -248,11 +248,14 @@ function seekblock(blockIPFSHash,zblockIPFSHash,zchainIPNSLink,zblockObject){
 function getNicknameAssossiatedWithGPG(gpgIPFSHash){
     for (let i in participants){
         if ( participants[i].gpg === gpgIPFSHash ){
-            if (participants[i].profile.nickname){
+            if (participants[i].profile.nickname !== 'undefined'){
                 return participants[i].profile.nickname;
+            } else {
+                return gpgIPFSHash;
             }
         }
     }
+    return gpgIPFSHash;
 }
 
 function getConfiguration(akidIPNSLink,stellarAddress){
