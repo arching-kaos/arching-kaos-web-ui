@@ -40,7 +40,7 @@ div {
 
 p {
     word-break: break-word;
-    text-align: justify;
+    text-align: left;
     /* margin: 0px; */
 }
 
@@ -191,8 +191,9 @@ select {
 }
 
 article {
-    border: 2px solid #672178;
+    border: 2px dashed #672178;
     padding: 24px;
+    margin: 1vh 10vw;
 }
 
 .topbar audio {
@@ -326,33 +327,24 @@ button:hover {
     flex-direction: row;
 }
 
-@media (max-width: 770px) {
-    #double-floor {
-        flex-direction: column;
-    }
+.news-text * {
+    word-break: break-word;
+}
 
-    .upper-floor {
-        flex-direction: column;
-    }
+article hr {
+    border-width: 1px;
+    border-color: #672178;
+    border-style: dotted;
+    margin-left: 0vw;
+    margin-right: 0vw;
+}
 
-    .lower-floor {
-        flex-direction: column;
-    }
-    .dropdown {
-        flex-direction: column;
-    }
-    #double-floor {
-        position: fixed;
-        top: 0px;
-        z-index: 0;
-        align-items: center;
-        background-color: #1a1a1a8a;
-        height: 100%;
-        width: 100%;
-    }
-    #mobile-menu {
-        display: flex;
-    }
+hr {
+    border-width: 1px;
+    border-color: #7ef07e;
+    border-style: dashed;
+    margin-left: 10vw;
+    margin-right: 10vw;
 }
 
 .hsm {
@@ -425,6 +417,42 @@ footer {
     width: -moz-available;
     width: -webkit-fill-available;
 }
+@media (max-width: 770px) {
+    #double-floor {
+        flex-direction: column;
+    }
+
+    .upper-floor {
+        flex-direction: column;
+    }
+
+    .lower-floor {
+        flex-direction: column;
+    }
+    .dropdown {
+        flex-direction: column;
+    }
+    #double-floor {
+        position: fixed;
+        top: 0px;
+        z-index: 0;
+        align-items: center;
+        background-color: #1a1a1a8a;
+        height: 100%;
+        width: 100%;
+    }
+    #mobile-menu {
+        display: flex;
+    }
+    article {
+        margin: 1vw 1vh;
+    }
+    hr {
+        margin-left: 1vw;
+        margin-right: 1vw;
+    }
+}
+
 @media (max-width: 880px) {
     .footer {
         font-size: smaller;
