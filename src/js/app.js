@@ -11,14 +11,15 @@ pageLayout.height = window.innerHeight;
 mainContainer.style.display = 'block';
 window.innerWidth <= 770 ? isMobile = true : isMobile = false;
 isMobile ? doubleFloorMenu.style.display = 'none':doubleFloorMenu.style.display = 'flex';
-window.addEventListener('resize', () => {
+function onWindowResize(){
     body.width = window.innerWidth;
     body.height = window.innerHeight;
     pageLayout.width = window.innerWidth;
     pageLayout.height = window.innerHeight;
     window.innerWidth <= 770 ? isMobile = true : isMobile = false;
     isMobile ? doubleFloorMenu.style.display = 'none':doubleFloorMenu.style.display = 'flex';
-})
+}
+window.addEventListener('resize', onWindowResize, false);
 
 // And call
 menuinit();
