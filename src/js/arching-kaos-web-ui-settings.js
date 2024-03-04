@@ -8,7 +8,7 @@
  *   - ipfs gateway to use for retrieving ipfs parts (can change targeted swarm)
  *   - ring to local node (must running API locally see ../arching-kaos-tools
  *     repo)
- *   - have a follow akid/zchain list and load these
+ *   - have a follow nodeInfo/zchain list and load these
  *   - depth of retrieving at once (per zchain) (ak-enter -l X -n <zchain>)
  *
  * TODO: Make up a configuration item as well but there we could store locally

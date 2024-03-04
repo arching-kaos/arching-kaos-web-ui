@@ -13,7 +13,7 @@ var references = [];
 var zblocks = new Array;
 var blocks = new Array;
 var data = new Array;
-var akid = new Array;
+var nodeInfo = new Array;
 var body = document.querySelector('body');
 var pageLayout = document.querySelector('.page-layout');
 var mainContainer = document.querySelector('.main');
@@ -37,7 +37,7 @@ var menuids = [
     '#mypage-section',
     '#stellar-balances',
     '#stellar-data-config',
-    '#arching-kaos-id',
+    '#arching-kaos-node-info',
     '#files-section',
     '#settings-section',
     '#stellar-section',

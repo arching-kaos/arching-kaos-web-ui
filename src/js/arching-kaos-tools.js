@@ -18,7 +18,7 @@ function renderStellarAddressPlaceholder(stellarAddress){
     return divs;
 }
 
-function akidRender(json, stellarAddress){
+function nodeInfoRender(json, stellarAddress){
     var divs = renderStellarAddressPlaceholder(stellarAddress);
     for( key in Object.keys(json) ){
         if ( typeof(json[Object.keys(json)[key]]) === "string" ) {
@@ -30,13 +30,13 @@ function akidRender(json, stellarAddress){
             }
         }
         else if ( typeof(json[Object.keys(json)[key]]) === "Object"||"Array" ) {
-            akidRender(json[Object.keys(json)[key]], stellarAddress);
+            nodeInfoRender(json[Object.keys(json)[key]], stellarAddress);
         }
     }
 }
 
-function akidRenderAndProceed(json, stellarAddress){
-    akidRender(json, stellarAddress);
+function nodeInfoRenderAndProceed(json, stellarAddress){
+    nodeInfoRender(json, stellarAddress);
     participants[stellarAddress]=json;
     if ( stellarParticipantsScanned === 0 ) {
         archingKaosLog('END');
@@ -147,10 +147,10 @@ function getNicknameAssossiatedWithGPG(gpgIPFSHash){
     }
 }
 
-function getConfiguration(akidIPNSLink,stellarAddress){
+function getConfiguration(nodeInfoIPNSLink,stellarAddress){
     progressPlaceholder.max++;
     archingKaosLog("Parsing the configuration...")
-    archingKaosFetchJSON(getIPNSURL(akidIPNSLink), akidRenderAndProceed, stellarAddress)
+    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress)
 }
 
 function zseek(zchainIPNSLink,stellarAddress,j){
@@ -255,10 +255,10 @@ function getNicknameAssossiatedWithGPG(gpgIPFSHash){
     return gpgIPFSHash;
 }
 
-function getConfiguration(akidIPNSLink,stellarAddress){
+function getConfiguration(nodeInfoIPNSLink,stellarAddress){
     progressPlaceholder.max++;
     archingKaosLog("Parsing the configuration...")
-    archingKaosFetchJSON(getIPNSURL(akidIPNSLink), akidRenderAndProceed, stellarAddress)
+    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress)
 }
 
 function zseek(zchainIPNSLink,stellarAddress,j){
@@ -496,7 +496,7 @@ function checkIfChainAndProceed(json){
 
 async function ringlocalbell(){
     archingKaosLog("Ringing local bell...");
-    var url=activeSettings.localAPI+'/v0/akid';
+    var url=activeSettings.localAPI+'/v0/node_info';
     archingKaosFetchJSON(url, checkIfChainAndProceed);
     archingKaosLog("Ringing local bell... Done!");
 }

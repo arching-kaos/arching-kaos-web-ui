@@ -116,7 +116,7 @@ function putit(i){
     }
 }
 
-async function fetchAKIDFromClientWallet(stellarAddress){
+async function fetchNodeInfoFromClientWallet(stellarAddress){
     archingKaosLog("Loading your profile...");
     fetch(getStellarConfigurationVariableURL(stellarAddress), {
         method:'GET',
@@ -150,7 +150,7 @@ function putKeyToField(k){
 //    if (stellar_connection_status === 1 ){
 //        document.querySelector("#stellar-balances-link").hidden=false;
 //        document.querySelector("#stellar-data-config-link").hidden=false;
-//        document.querySelector("#arching-kaos-id-link").hidden=false;
+//        document.querySelector("#arching-kaos-node-info-link").hidden=false;
 //        document.querySelector("#mypage-section-link").hidden=false;
 //    }
 //}
@@ -163,7 +163,7 @@ function putKeyToField(k){
 //function hideStellar(){
 //    document.querySelector("#stellar-balances-link").hidden=true;
 //    document.querySelector("#stellar-data-config-link").hidden=true;
-//    document.querySelector("#arching-kaos-id-link").hidden=true;
+//    document.querySelector("#arching-kaos-node-info-link").hidden=true;
 //    document.querySelector("#mypage-section-link").hidden=true;
 //}
 //
