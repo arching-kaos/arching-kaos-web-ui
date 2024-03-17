@@ -16,22 +16,26 @@ function getNumberOfTrustlinesAndRenderThem(json){
 }
 
 function renderStellarAddress(stellarAddress){
-    var stats = document.querySelector('.stellar-network');
-    var p = document.createElement("div");
-    p.className = "stellar-address";
-    p.innerText = stellarAddress;
-    p.id = stellarAddress;
-    stats.appendChild(p);
+    if (!document.querySelector('.stellar-network').querySelector('#'+stellarAddress)){
+        var stats = document.querySelector('.stellar-network');
+        var d = document.createElement("details");
+        d.className = "stellar-address";
+        var s = document.createElement("summary");
+        s.innerText = stellarAddress;
+        d.id = stellarAddress;
+        d.appendChild(s);
+        stats.appendChild(d);
+    }
 }
 
 function renderStellarAddressesAndProceed(json){
-    json._embedded.records.forEach(row=>{
-        console.log(row);
-        holders.push(row.account_id);
+    var records = json._embedded.records;
+    for ( index in records ){
+        holders.push(records[index].account_id);
         progressPlaceholder.max++;
-        renderStellarAddress(row.account_id);
-        checkAddressForConfigurationVariable(row.account_id);
-    })
+        renderStellarAddress(records[index].account_id);
+        checkAddressForConfigurationVariable(records[index].account_id);
+    }
     if (json._links.next) getHolders(json._links.next.href);
 }
 
@@ -39,6 +43,8 @@ function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     renderStellarAddress(stellarAddress);
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
     stellarNetworkConfiguredAddresses += 1;
+    console.log(atob(json.value));
+    console.log(stellarAddress);
     getConfiguration(atob(json.value),stellarAddress);
 }
 
@@ -85,16 +91,17 @@ function checkAddressForConfigurationVariable(stellarAddress) {
     progressPlaceholder.value++;
 }
 
-var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]);
+var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress], {allowHttp:true});
+function steptwo(r){
+    const L = r;
+    putit(L);
+}
 function letme(a){
     server.accounts()
     .accountId(a)
     .call()
     .then(
-        function(r){
-            const L = r;
-            putit(L);
-        }
+        steptwo(r)
     );
 }
 
@@ -186,12 +193,12 @@ const retrievePublicKey = async () => {
 };
 
 function connect(){
-    if ( stellar_connection_status === 1 ){
-        showStellar();
-    } else {
+//    if ( stellar_connection_status === 1 ){
+//        showStellar();
+//    } else {
         const result = retrievePublicKey();
-        console.log(result);
-    }
+//        console.log(result);
+//    }
 }
 
 function scanStellarNetworkForPeers(){

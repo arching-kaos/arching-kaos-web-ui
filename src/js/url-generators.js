@@ -25,12 +25,12 @@ function getHoldersOfActiveAssetURL(){
         '&limit=200';
 }
 
-function getTrustlinesURL(){
+function getTrustlinesURL(code=null, issuer=null){
+    var code = (code === null)? activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code : code;
+    var issuer = (issuer === null) ? activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer : issuer;
     return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
-        'assets?asset_code='+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].code+
-        '&asset_issuer='+
-        activeSettings.stellarAssetsForScanning[activeSettings.stellarDefaultAsset].issuer;
+        'assets?asset_code='+code+
+        '&asset_issuer='+issuer;
 }
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
