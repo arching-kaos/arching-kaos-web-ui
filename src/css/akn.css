@@ -220,7 +220,8 @@ article {
 .main{
     position: fixed;
     top: 80px;
-    background-color: #2a2a2a;
+/*    background-color: #2a2a2a;*/
+    background-color: #000000;
     bottom: 62px;
     width: auto;
     right: 0vw;
@@ -276,24 +277,24 @@ h1 {
 }
 
 button {
-    color: rgb(51, 200, 234);
+/*    color: rgb(51, 200, 234);*/
+    color: rgb(0, 255, 231);
     text-decoration: none;
     font-family: 'Hack Nerd Font';
-    background: #1c241c;
     border: 1px solid #17392e;
     padding: 10px;
     margin: 1px;
     cursor: pointer;
     display: flex;
-    background: #1c241c;
+    background: #000000;
     border: 1px solid #17392e;
     padding: 10px;
     margin: 1px;
 }
 
 button:hover {
-    background: #008033;
-    background: #008033;
+    background: #535353;
+    border-color: #eef7ff;
 }
 
 #mobile-menu {
