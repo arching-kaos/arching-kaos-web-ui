@@ -9,10 +9,12 @@ function getArrayLength(array){
 function renderStellarAddressPlaceholder(stellarAddress){
     var divs = document.querySelector('#'+stellarAddress);
     if ( divs === null ){
-        var d = document.createElement('div');
-        d.id = '#'+stellarAddress;
-        d.innerText = stellarAddress;
-        document.querySelector('.stellar-network').appendChild(d);
+        var details = document.createElement('details');
+        details.id = '#'+stellarAddress;
+        var summary = document.createElement('summary');
+        summary.innerText = stellarAddress;
+        details.appendChild(summary);
+        document.querySelector('.stellar-network').appendChild(details);
     }
     divs = document.querySelector('#'+stellarAddress);
     return divs;
