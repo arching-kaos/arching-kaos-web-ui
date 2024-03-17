@@ -22,12 +22,15 @@ function locationHashGetter(){
 
 function locationHashOnChange(){
     var route = new Object;
-    route.id = locationHashGetter();
+    route.full = locationHashGetter();
+    route.args = route.full.split('/');
+    route.menuid = '#'+route.args[1];
+    route.subcommand = route.args[2];
     menuinit();
     if ( (locationHashGetter() !== 'undefined') && (locationHashGetter() === '') ){
         document.querySelector('#welcome-section').hidden=false;
-    } else if ( (locationHashGetter() !== 'undefined') && ( menuids.includes(route.id.replace('/',''))) ){
-        document.querySelector(route.id.replace('/','')).hidden=false;
+    } else if ( (locationHashGetter() !== 'undefined') && ( menuids.includes(route.menuid))){
+        document.querySelector(route.menuid).hidden=false;
     } else {
         document.querySelector('#not-found-section').hidden=false;
     }
