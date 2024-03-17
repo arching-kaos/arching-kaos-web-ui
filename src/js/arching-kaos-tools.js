@@ -1,9 +1,9 @@
 function getArrayLength(array){
-    var len = 0;
+    var length = 0;
     for ( e in array ) {
-        len++;
+        length++;
     }
-    return len;
+    return length;
 }
 
 function renderStellarAddressPlaceholder(stellarAddress){
