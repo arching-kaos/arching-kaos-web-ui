@@ -78,6 +78,11 @@ a:hover{
     border: 1px;
 }
 
+fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
 
 #menu a {display:inline-block;}
 
@@ -117,9 +122,13 @@ label {
 }
 
 input {
-    width: 100%;
+    width: auto;
     border: 0px;
-    border-radius: 5px;
+    border-radius: 0px;
+    padding: 1vh 1vw;
+    color: yellow;
+    background: black;
+    border: lightyellow 1px dashed;
 }
 
 .sub-input{
@@ -236,8 +245,13 @@ article {
     overflow-y: auto;
     z-index: 1;
 }
+
 .main div {
     height: 100%;
+}
+
+.main div div {
+    height: auto;
 }
 
 .page-layout {
@@ -288,7 +302,7 @@ button {
     display: flex;
     background: #000000;
     border: 1px solid #17392e;
-    padding: 10px;
+    padding: 1vh 1vw;
     margin: 1px;
 }
 
@@ -428,7 +442,7 @@ footer {
     width: -moz-available;
     width: -webkit-fill-available;
 }
-@media (max-width: 770px) {
+@media (max-width: 850px) {
     #double-floor {
         flex-direction: column;
     }

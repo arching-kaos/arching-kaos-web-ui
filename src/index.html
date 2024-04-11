@@ -22,18 +22,20 @@
         <div class="page-layout">
             <div class="topbar">
                 <div class="header">
-                    <img src="./img/header-logo.png">
+                    <a href="#/welcome-section" id="#/welcome-section" onclick="menusel(this)"><img src="./img/header-logo.png"></a>
                     <h1 style="text-align: center;">Arching Kaos</h1>
                 </div>
                 <button class="menu-clickable" id="mobile-menu" onclick="toggleMenu(this)">Show menu</button>
                 <nav id="double-floor" class="">
                     <div id="menu" class="upper-floor">
-                        <button class="menu-clickable" id="#/welcome-section" onclick="menusel(this)">Home</button>
-                        <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">Modules</button>
-                        <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">Explore</button>
-                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">Chat</button>
-                        <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">Settings</button>
-                        <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">Stellar</button>
+                        <button class="menu-clickable" id="#/welcome-section" onclick="menusel(this)">🏡 Home</button>
+                        <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">🔌 Modules</button>
+                        <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">🥽 Explore</button>
+                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">✍️ Chat</button>
+                        <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">🔧 Settings</button>
+                        <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">
+                            <img src="./img/stellar.svg"/>&nbsp;
+                            Stellar</button>
                         <button class="menu-clickable" id="#/about-section" onclick="menusel(this)">About</button>
                     </div>
                     <div id="menu" class="lower-floor">
@@ -66,22 +68,44 @@
             </div>
             <div class="main">
                 <div id="welcome-section">
-                    <h2>Welcome</h2>
+                    <h2>🏡 Home</h2>
                     <p>Welcome to Arching Kaos project.</p>
-                    <aside>
-                        <label>Render explicit zblock</label>
+                    <div style="
+                             padding: 1vh 1vw;
+                             display: flex;
+                             flex-direction: column;
+                             align-items: center;
+                             gap: 10px;"
+                        >
+                        <div>Render since zblock</div>
                         <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
                         <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
-                    </aside>
-                    <button onclick="scanStellarNetworkForPeers()">Check Stellar Network</button>
-                    <button onclick="checkLocalNodeInfo()">Check local Node</button>
-                    <button onclick="checkLocalPeers()">Check local Peers</button>
-                    <button onclick="checkLocalSchain()">Check Local Schain</button>
+                    </div>
+                    <div style="
+                             display: flex;
+                             flex-direction: row;
+                             justify-content: center;
+                             gap: 5px;"
+                        >
+                        <button onclick="scanStellarNetworkForPeers()">Check Stellar Network</button>
+                    </div>
+                    <div style="
+                             display: flex;
+                             flex-direction: row;
+                             justify-content: center;
+                             gap: 5px;"
+                        >
+                        <button onclick="checkLocalNodeInfo()">Check local Node</button>
+                        <button onclick="checkLocalPeers()">Check local Peers</button>
+                        <button onclick="checkLocalSchain()">Check Local Schain</button>
+                    </div>
                     <div class="dialog">
                         <h3>Progress</h3>
                         <progress id="total-progress"></progress>
                         <progress id="http-progress"></progress>
                         <pre id="current-log-message"></pre>
+                    </div>
+                    <div>
                         <details id="logs-area">
                             <summary>Logs (click to expand)</summary>
                             <div id="logs-area-element">
@@ -90,7 +114,7 @@
                     </div>
                 </div>
                 <div id="about-section">
-                    <h2>About</h2>
+                    <h2>ℹ️ About</h2>
                     <p>Arching Kaos is a project about radio, music, communications and decentralization.</p>
                     <p>On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).</p>
                     <p>You can see the zchains appearing in "zchain" and logs of the process on "Logs"</p>
@@ -124,6 +148,7 @@
                 </div>
                 <div id="mypage-section">
                     <h2>My page</h2>
+                    <button id="stellar-freigher-connect-address-button" onclick="connect()">Connect with Freighter wallet</button>
                     <div id="my-news">
                         <h3>My news</h3>
                         <em id="my-news-sec-not-found">No data found (yet?)!</em>
@@ -158,18 +183,7 @@
                     <em id="files-sec-not-found">No data found (yet?)!</em>
                 </div>
                 <div id="settings-section">
-                    <h2>Settings</h2>
-                    <div class="options-menu">
-                        <select>
-                            <option value="ARCHINGKAOS">ARCHINGKAOS</option>
-                            <option value="KAOTISKHUND" disabled>KAOTISKHUND</option>
-                        </select>
-                        <select>
-                            <option value="archingkaos">ipfs.arching-kaos.com</option>
-                            <option value="ipfsio" disabled>ipfs.io</option>
-                            <option value="localhost" disabled>localhost</option>
-                        </select>
-                    </div>
+                    <h2>🔧 Settings</h2>
                 </div>
                 <div id="chat-section" style="height: 100%;">
                     <iframe src="https://irc.arching-kaos.net" style="width: 100%; height: 100%;"></iframe>
