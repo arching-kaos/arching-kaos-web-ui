@@ -68,7 +68,8 @@ function renderZblockAndProceed(json, params){
     }
     progressPlaceholder.max++;
     progressPlaceholder.value++;
-    if (recursive) seekBlock(json.block,zblockIPFSHash,group,json);
+    //if (recursive) seekBlock(json.block,zblockIPFSHash,group,json);
+    seekBlock(json.block,zblockIPFSHash,group,json,recursive);
 }
 
 function mixtapeSorting(a,b){
@@ -76,7 +77,7 @@ function mixtapeSorting(a,b){
 }
 
 function blockRenderAndProceed(json, params){
-    const [group, zblockIPFSHash, blockIPFSHash, zblockObject] = params;
+    const [group, zblockIPFSHash, blockIPFSHash, zblockObject, recursive] = params;
     /* Could be json object with
      *  - action
      *  - data
@@ -141,7 +142,7 @@ function blockRenderAndProceed(json, params){
         resolveReferences(references);
     } else {
         console.log("deep in :" +group);
-        seekZblock(json.previous, [group]);
+        if (recursive) seekZblock(json.previous, [group]);
     }
 }
 
@@ -190,15 +191,20 @@ function checkIfGenesis(zblockIPFSHash){
     }
 }
 
-function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject){
+function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive){
     console.log(blockIPFSHash);
     console.log(zblockIPFSHash);
     console.log(group);
     console.log(zblockObject);
+    console.log(recursive);
     archingKaosLog("Seeking block "+blockIPFSHash+"...");
     detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     progressPlaceholder.max++;
-    archingKaosFetchJSON(getIPFSURL(blockIPFSHash), blockRenderAndProceed, [group, zblockIPFSHash, blockIPFSHash, zblockObject]);
+    archingKaosFetchJSON(
+        getIPFSURL(blockIPFSHash),
+        blockRenderAndProceed,
+        [group, zblockIPFSHash, blockIPFSHash, zblockObject, recursive]
+    );
 }
 
 function getNicknameAssossiatedWithGPG(gpgIPFSHash){
@@ -254,9 +260,9 @@ function seekZblock(zblockIPFSHash, params){
     renderGroupOnDataSection(group);
     renderZblockUnderGroup(zblockIPFSHash, group);
     archingKaosLog("Seeking ZBLOCK " + zblockIPFSHash + "...");
-    if (recursive !== true || recursive !== false){
-        recursive = true;
-    }
+//    if (recursive !== true || recursive !== false){
+//        recursive = true;
+//    }
     archingKaosFetchJSON(getIPFSURL(zblockIPFSHash), renderZblockAndProceed, [zblockIPFSHash, group, recursive]);
 }
 
