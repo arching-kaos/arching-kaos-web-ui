@@ -6,6 +6,23 @@ function getArrayLength(array){
     return length;
 }
 
+function showResult(id){
+    const found = document.querySelector(`#${id}`);
+    const overlay = document.createElement('div');
+    overlay.id = 'unique-overlay';
+    const title = document.createElement('h3');
+    title.innerText = "Result";
+    overlay.appendChild(title);
+    const closeButton = document.createElement('button');
+    closeButton.onclick = ()=>{
+        document.querySelector('#unique-overlay').remove();
+    };
+    closeButton.innerHTML = 'x';
+    overlay.appendChild(closeButton);
+    overlay.appendChild(found);
+    resultsArea.appendChild(overlay);
+}
+
 function renderStellarAddressPlaceholder(stellarAddress){
     var divs = document.querySelector('#'+stellarAddress);
     if ( divs === null ){
@@ -53,7 +70,7 @@ function nodeInfoRenderAndProceed(json, stellarAddress){
 function renderZblockAndProceed(json, params){
     console.log(typeof(params))
     const [zblockIPFSHash, group, recursive] = params;
-    console.log(group)
+    console.log(group);
     var zblockElement = document.querySelector('#zb-'+zblockIPFSHash);
     if(json.block){
         var p = document.createElement("p");
@@ -122,7 +139,7 @@ function blockRenderAndProceed(json, params){
         if(detailsPlace!== null) detailsPlace.appendChild(p);
     }
     progressPlaceholder.value++;
-    exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject);
+    exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject,recursive);
     if ( checkIfGenesis(json.previous) ){
         archingKaosLog("Done loading " + group + " zchain!")
         progressPlaceholder.value++;
@@ -273,7 +290,7 @@ function getConfiguration(nodeInfoIPNSLink,stellarAddress){
 }
 
 function renderZblockAsModule(json, params){
-    const [action, zblockIPFSHash, zblockObject, blockObject, references] = params;
+    const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
     if (action == "files/add") {
         akModuleFiles(zblockIPFSHash, blockObject, json);
     }
@@ -292,40 +309,79 @@ function renderZblockAsModule(json, params){
     else {
         archingKaosLog(action + " module not found");
     }
-
 }
 
-function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject){
-    archingKaosLog("Render ZBLOCK "+zblockIPFSHash+" as " + action + " ...");
-    archingKaosFetchJSON(getIPFSURL(dataIPFSHash), renderZblockAsModule, [action, zblockIPFSHash, zblockObject, blockObject, references]);
-    fetch(getIPFSURL(dataIPFSHash), {
-        method:'GET',
-        headers:{
-            Accept: 'application/json'
-        }
-    }).then(response=>{
-        if(response.ok){
-            response.json().then(json=>{
-                fullZblocks[zblockIPFSHash]={
-                    zblock:zblockIPFSHash,
-                    block:zblockObject.block,
-                    block_signature:zblockObject.block_signature,
-                    action:blockObject.action,
-                    previous:blockObject.previous,
-                    data:blockObject.data,
-                    dataExpansion:json,
-                    detach:blockObject.detach,
-                    gpg:blockObject.gpg,
-                    timestamp:blockObject.timestamp
-                };
-                zblocks[group] = new Array;
-                zblocks[group].push(zblockIPFSHash);
-                data[dataIPFSHash]=json;
-                progressPlaceholder.max++;
-                progressPlaceholder.value++;
-            })
-        }
-    })
+function saveDataAndFullZblocks(json,params){
+    const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
+    fullZblocks[zblockIPFSHash]={
+        zblock:zblockIPFSHash,
+        block:zblockObject.block,
+        block_signature:zblockObject.block_signature,
+        action:blockObject.action,
+        previous:blockObject.previous,
+        data:blockObject.data,
+        dataExpansion:json,
+        detach:blockObject.detach,
+        gpg:blockObject.gpg,
+        timestamp:blockObject.timestamp
+    };
+    zblocks[group] = new Array;
+    zblocks[group].push(zblockIPFSHash);
+    data[blockObject.data]=json;
+    progressPlaceholder.max++;
+    progressPlaceholder.value++;
+}
+
+function doStuffWithFetchedDataBlock(json, params){
+    saveDataAndFullZblocks(json,params);
+    renderZblockAsModule(json, params);
+}
+
+function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject,recursive){
+    if (!recursive) {
+        var button = document.createElement('button');
+        button.innerText =`${action.split('/')[0]}-${zblockIPFSHash} 📖`;
+        var params = `${action.split('/')[0]}-${zblockIPFSHash}`
+        button.onclick = ()=>{
+            showResult(params);
+        };
+        resultsArea.appendChild(button);
+    }
+    archingKaosLog(`Render ZBLOCK ${zblockIPFSHash} as ${action}  ...`);
+    archingKaosFetchJSON(
+        getIPFSURL(dataIPFSHash),
+        doStuffWithFetchedDataBlock,
+        [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive]
+    );
+//    archingKaosFetchJSON(getIPFSURL(dataIPFSHash), saveDataAndFullZblocks, [group, zblockIPFSHash,zblockObject,blockObject]);
+//    fetch(getIPFSURL(dataIPFSHash), {
+//        method:'GET',
+//        headers:{
+//            Accept: 'application/json'
+//        }
+//    }).then(response=>{
+//        if(response.ok){
+//            response.json().then(json=>{
+//                fullZblocks[zblockIPFSHash]={
+//                    zblock:zblockIPFSHash,
+//                    block:zblockObject.block,
+//                    block_signature:zblockObject.block_signature,
+//                    action:blockObject.action,
+//                    previous:blockObject.previous,
+//                    data:blockObject.data,
+//                    dataExpansion:json,
+//                    detach:blockObject.detach,
+//                    gpg:blockObject.gpg,
+//                    timestamp:blockObject.timestamp
+//                };
+//                zblocks[group] = new Array;
+//                zblocks[group].push(zblockIPFSHash);
+//                data[dataIPFSHash]=json;
+//                progressPlaceholder.max++;
+//                progressPlaceholder.value++;
+//            })
+//        }
+//    })
 }
 
 function getipfstext(ipfsHash, articleid){

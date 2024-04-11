@@ -488,3 +488,23 @@ footer {
         display: none;
     }
 }
+
+#unique-overlay {
+    position: fixed;
+    z-index: 1;
+    background: black;
+    width: auto;
+    height: auto;
+    overflow: scroll;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: 0px;
+    padding: 1vh 4vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+}

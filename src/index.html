@@ -77,9 +77,12 @@
                              align-items: center;
                              gap: 10px;"
                         >
-                        <div>Render since zblock</div>
+                        <h3>Render since zblock</h3>
                         <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
                         <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
+                    </div>
+                    <div class="results-area">
+                        <h3>Results</h3>
                     </div>
                     <div style="
                              display: flex;

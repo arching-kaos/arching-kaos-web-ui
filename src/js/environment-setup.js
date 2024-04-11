@@ -22,6 +22,7 @@ var mainContainer = document.querySelector('.main');
 var doubleFloorMenu = document.querySelector('#double-floor'); 
 var isMobile = false;
 var aknet = document.querySelector('.aknet-network')
+var resultsArea = document.querySelector('.results-area')
 
 
 /*
