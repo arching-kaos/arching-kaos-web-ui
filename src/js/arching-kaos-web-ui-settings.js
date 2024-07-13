@@ -16,6 +16,61 @@
  *
  */
 var default_settings = {
+    ipfs: {
+        gateway: {
+            list: [
+                'https://ipfs.arching-kaos.com/',
+                'http://gw.ipfs.z.kaotisk-hund.com/',
+                'http://localhost:8080/'
+            ],
+            active: 1
+        }
+    },
+    stellar: {
+        asset: {
+            list: [
+                {
+                    code: 'ARCHINGKAOS',
+                    issuer: 'GB4QVKD6NW3CSNO5TNPARAWNPPXOPSSTKB35XCWB7PUNBIQTK3DVELB2'
+                },
+                {
+                    code: 'KAOTISKHUND',
+                    issuer: 'GDLJKMETTIXAVTZ2XXR2LHUITT7GZBNWEKQDN7V7SP4MURVY6266BIMO'
+                }
+            ],
+            active: 0
+        },
+        variableNames: {
+            list: [
+                'config',
+                'ak-config',
+                'kh-config'
+            ],
+            active: 0
+        },
+        horizon: {
+            list: [
+                'https://horizon.stellar.org/',
+                'http://horizon.stellar.z.kaotisk-hund.com/'
+            ],
+            active: 0
+        },
+        scan: true
+    },
+    ak: {
+        settings : {
+            seekDepth: 10,
+        },
+        connect: {
+            list: [
+                'http://127.0.0.1:8610',
+                'http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]:8610',
+                'http://api.aknet.z.kaotisk-hund.com/'
+            ],
+            active: 0
+        },
+        scan: false
+    },
     ipfsGatewayAddress: [
         'https://ipfs.arching-kaos.com/',
         'http://gw.ipfs.z.kaotisk-hund.com/',
@@ -144,7 +199,47 @@ function settingPlaceToDOM(key, value){
                 ul.appendChild(li);
             }
         });
-        paragraph.appendChild(ul);
+        container.appendChild(ul);
+    } else if (value.constructor.name === "Object" ) {
+        console.log("KEY: "+key);
+        switch (key){
+            case 'ipfs':
+                var label = document.createElement('label');
+                label.innerText = "Gateway";
+                container.appendChild(label);
+                renderList(container, value.gateway);
+
+                break;
+            case 'stellar':
+                var label = document.createElement('label');
+                label.innerText = "Asset";
+                container.appendChild(label);
+                renderAssets(container, value.asset);
+
+                var label = document.createElement('label');
+                label.innerText = "Variable Names";
+                container.appendChild(label);
+                renderList(container, value.variableNames);
+
+                var label = document.createElement('label');
+                label.innerText = "Horizon";
+                container.appendChild(label);
+                renderList(container, value.horizon);
+
+                var label = document.createElement('label');
+                label.innerText = "Scan";
+                container.appendChild(label);
+                renderCheck(container, value.scan);
+                break;
+            case 'ak':
+                var label = document.createElement('label');
+                label.innerText = "Connect";
+                container.appendChild(label);
+                renderList(container, value.connect);
+                break;
+            default:
+                container.innerText += " unknonwn lol";
+        }
     } else {
         container.innerText = value;
     }
