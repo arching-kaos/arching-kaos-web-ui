@@ -29,6 +29,14 @@ function locationHashOnChange(){
     menuinit();
     if ( (locationHashGetter() !== 'undefined') && (locationHashGetter() === '') ){
         document.querySelector('#welcome-section').hidden=false;
+    }
+    else if ( route.args[1] == "route" ) {
+        document.querySelector('#welcome-section').hidden=false;
+        if ( route.args.length === 4 ) {
+            if ( route.args[2] === "zblock" ) {
+                seekZblock(route.args[3], ['search', false]);
+            }
+        }
     } else if ( (locationHashGetter() !== 'undefined') && ( menuids.includes(route.menuid))){
         document.querySelector(route.menuid).hidden=false;
     } else {
