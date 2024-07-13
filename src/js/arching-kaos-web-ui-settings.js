@@ -87,31 +87,66 @@ var settingsPage = document.querySelector('#settings-section');
 
 var settingsKeys = Object.keys(activeSettings);
 
+function renderCheck(container, value){
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    if (value === true){
+        checkbox.checked = true;
+    }
+    container.appendChild(checkbox);
+}
+
+function renderList(container, value){
+    var selectOptions = document.createElement('select');
+    for ( i = 0 ; i < value.list.length; i++ ){
+        var option = document.createElement("option");
+        if ( i === value.active ) {
+            option.selected = true;
+        };
+        option.innerText = value.list[i];
+        option.value = i;
+        selectOptions.appendChild(option);
+    }
+    container.appendChild(selectOptions);
+}
+
+function renderAssets(container, value){
+    var selectOptions = document.createElement('select');
+    for ( i = 0 ; i < value.list.length; i++ ){
+        var option = document.createElement("option");
+        if ( i === value.active ) {
+            option.selected = true;
+        };
+        option.innerText = value.list[i].code + "-" + value.list[i].issuer;
+        option.value = i;
+        selectOptions.appendChild(option);
+    }
+    container.appendChild(selectOptions);
+}
+
 function settingPlaceToDOM(key, value){
-    var container = document.createElement("div");
-    var label = document.createElement("label");
-    label.innerText=key;
-    container.appendChild(label);
-    var paragraph = document.createElement("p");
-    container.appendChild(paragraph);
+    var container = document.createElement("fieldset");
+    container.innerText=key;
     if ( Array.isArray(value) ){
-        var ul = document.createElement("ul");
+        var ul = document.createElement("select");
         value.map((v)=>{
             if (v.constructor.name === "Object"){
                 Object.keys(v).forEach((value)=>{
-                    var li = document.createElement("li");
+                    var li = document.createElement("option");
                     li.innerText = value + ': ' + v[value];
+                    li.value = value;
                     ul.appendChild(li);
                 });
             } else {
-                var li = document.createElement("li");
+                var li = document.createElement("option");
                 li.innerText = v;
+                li.value = v;
                 ul.appendChild(li);
             }
         });
         paragraph.appendChild(ul);
     } else {
-        paragraph.innerText = value;
+        container.innerText = value;
     }
     settingsPage.appendChild(container);
 }
@@ -121,6 +156,12 @@ settingsKeys.forEach(
         settingPlaceToDOM(value, activeSettings[value]);
     }
 );
+
+/* Small dump as pre text */
+var predump = document.createElement('pre');
+predump.innerText = JSON.stringify(activeSettings, null, 2);
+settingsPage.appendChild(predump);
+/* END of: Small dump as pre text */
 
 // console.log(activeSettings.ipfsGatewayAddress[activeSettings.ipfsSelectedGatewayAddress]);
 

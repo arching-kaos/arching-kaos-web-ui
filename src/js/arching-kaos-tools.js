@@ -7,7 +7,7 @@ function getArrayLength(array){
 }
 
 function showResult(id){
-    const found = document.querySelector(`#${id}`);
+    const found = document.querySelector(`#${id}`).cloneNode(true);
     const overlay = document.createElement('div');
     overlay.id = 'unique-overlay';
     const title = document.createElement('h3');

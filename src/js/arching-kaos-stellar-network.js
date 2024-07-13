@@ -92,6 +92,7 @@ function checkAddressForConfigurationVariable(stellarAddress) {
 }
 
 var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress], {allowHttp:true});
+
 function steptwo(r){
     const L = r;
     putit(L);
