@@ -11,7 +11,8 @@ pageLayout.height = window.innerHeight;
 mainContainer.style.display = 'block';
 window.innerWidth <= 770 ? isMobile = true : isMobile = false;
 isMobile ? doubleFloorMenu.style.display = 'none':doubleFloorMenu.style.display = 'flex';
-function onWindowResize(){
+function onWindowResize()
+{
     body.width = window.innerWidth;
     body.height = window.innerHeight;
     pageLayout.width = window.innerWidth;
@@ -29,10 +30,18 @@ progressPlaceholder.value = '0';
 
 progressPlaceholder.max++;
 
-if ( activeSettings.scanStellar ) {
+if ( activeSettings.scanStellar )
+{
     scanStellarNetworkForPeers();
 }
 
-if ( activeSettings.ringLocalBell )  ringlocalbell();
+if ( activeSettings.ringLocalBell )
+{
+    ringlocalbell();
+    setInterval(ringlocalbell, 10*60*1000);
+}
+
+//scanStellarNetworkForPeers();
+// setInterval(scanStellarNetworkForPeers, 60000);
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
