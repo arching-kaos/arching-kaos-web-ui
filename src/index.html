@@ -70,20 +70,21 @@
                 <div id="welcome-section">
                     <h2>🏡 Home</h2>
                     <p>Welcome to Arching Kaos project.</p>
+                    <h3>Render explicit zblock</h3>
                     <div style="
                              padding: 1vh 1vw;
                              display: flex;
-                             flex-direction: column;
+                             flex-direction: row;
                              align-items: center;
                              gap: 10px;"
                         >
-                        <h3>Render explicit zblock</h3>
                         <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
                         <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
                     </div>
                     <div class="results-area">
                         <h3>Results</h3>
                     </div>
+                    <h3>Other options for loading</h3>
                     <div style="
                              display: flex;
                              flex-direction: row;

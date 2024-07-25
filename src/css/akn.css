@@ -122,7 +122,7 @@ label {
 }
 
 input {
-    width: auto;
+    width: 100%;
     border: 0px;
     border-radius: 0px;
     padding: 1vh 1vw;
@@ -307,6 +307,12 @@ button {
     border: 1px solid #17392e;
     padding: 1vh 1vw;
     margin: 1px;
+    width: auto;
+    flex-shrink: 6;
+    flex-grow: 0;
+    text-align: center;
+    flex-flow: column;
+    word-break: normal;
 }
 
 button:hover {
