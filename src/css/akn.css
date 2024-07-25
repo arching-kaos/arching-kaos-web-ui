@@ -200,7 +200,10 @@ select {
 }
 
 article {
-    border: 2px dashed #672178;
+    border: none;
+    border-radius: 40px;
+    border-left: 2px dashed #672178;
+    border-right: 1px dashed rgba(255,255,255,0.2);
     padding: 24px;
     margin: 1vh 10vw;
 }
@@ -347,17 +350,19 @@ button:hover {
 }
 
 article hr {
-    border-width: 1px;
-    border-color: #672178;
-    border-style: dotted;
+    border: none;
+    border-top-width: 1px;
+    border-top-color: #672178;
+    border-top-style: dotted;
     margin-left: 0vw;
     margin-right: 0vw;
 }
 
 hr {
-    border-width: 1px;
-    border-color: #7ef07e;
-    border-style: dashed;
+    border: none;
+    border-top-width: 1px;
+    border-top-color: #7ef07e;
+    border-top-style: dashed;
     margin-left: 10vw;
     margin-right: 10vw;
 }

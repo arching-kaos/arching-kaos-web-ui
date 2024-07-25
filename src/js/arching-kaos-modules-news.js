@@ -5,8 +5,12 @@ function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
         var articleContainerElement = document.createElement("article");
         articleContainerElement.id = 'news-'+zblockIPFSHash;
         if(json.title){
+            var ubs = document.createElement("a");
+            ubs.innerText = json.title;
+            ubs.href = '#news-'+zblockIPFSHash;
+            articleContainerElement.appendChild(ubs);
             var ahref = document.createElement("a");
-            ahref.innerText = json.title +' [permalink]';
+            ahref.innerText = '[permalink]';
             ahref.target = '_blank';
             ahref.href = 'https://news.arching-kaos.net/?from_zblock='+zblockIPFSHash;
             articleContainerElement.appendChild(ahref);
