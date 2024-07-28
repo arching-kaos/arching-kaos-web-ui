@@ -157,6 +157,7 @@ function blockRenderAndProceed(json, params){
             }
         }
         resolveReferences(references);
+        radioLoad();
     } else {
         console.log("deep in :" +group);
         if (recursive) seekZblock(json.previous, [group]);

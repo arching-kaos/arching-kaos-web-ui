@@ -28,7 +28,7 @@ function akModuleMixtapes(zblockIPFSHash, zblockObject, blockObject, json){
             source.src = getIPFSURL(json.ipfs);
             var rs = source.cloneNode(true);
             audio.appendChild(source);
-            radio.appendChild(rs);
+            //radio.appendChild(rs);
             art.appendChild(audio);
             audio.addEventListener( "loadedmetadata", ()=>{
                 if ( mixtapes[zblockIPFSHash] === undefined ){
