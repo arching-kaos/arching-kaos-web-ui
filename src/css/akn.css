@@ -311,7 +311,7 @@ button {
     flex-shrink: 6;
     flex-grow: 0;
     text-align: center;
-    flex-flow: column;
+    flex-flow: row;
     word-break: normal;
 }
 
