@@ -104,6 +104,7 @@ function blockRenderAndProceed(json, params){
      *  - detach
      */
     // var divs = document.querySelector('#zchain-data-section');
+    var detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     if(json.action){
         var p = document.createElement("p");
         p.innerText="Action: " +json.action;
