@@ -17,17 +17,23 @@ function showResult(id){
     const found = document.querySelector(`#${id}`).cloneNode(true);
     const overlay = document.createElement('div');
     overlay.id = 'unique-overlay';
-    const title = document.createElement('h3');
-    title.innerText = "Result";
-    overlay.appendChild(title);
-    const closeButton = document.createElement('button');
-    closeButton.onclick = ()=>{
-        document.querySelector('#unique-overlay').remove();
+    const title = {
+        element:'h3',
+        innerText : "Result"
     };
-    closeButton.innerHTML = 'x';
-    overlay.appendChild(closeButton);
-    overlay.appendChild(found);
-    resultsArea.appendChild(overlay);
+    makeElement(title, overlay);
+    var closeButton = {
+        element:'button',
+        innerHTML: 'x',
+        id:"buttonCloseResult"
+    };
+    makeElement(closeButton, overlay);
+    makeElement(found, overlay);
+    makeElement(overlay, resultsArea);
+    closeButton = document.querySelector('#buttonCloseResult');
+    closeButton.addEventListener("click", ()=>{
+        document.querySelector('#unique-overlay').remove();
+    });
 }
 
 function renderStellarAddressPlaceholder(stellarAddress){
@@ -80,15 +86,19 @@ function renderZblockAndProceed(json, params){
     console.log(group);
     var zblockElement = document.querySelector('#zb-'+zblockIPFSHash);
     if(json.block){
-        var p = document.createElement("p");
-        p.innerText="Block: " +json.block;
-        p.id=zblockIPFSHash;
-        zblockElement.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Block: " +json.block,
+            id:zblockIPFSHash
+        };
+        makeElement(p, zblockElement);
     }
     if(json.block_signature){
-        var p = document.createElement("p");
-        p.innerText="Signature: " +json.block_signature;
-        zblockElement.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Signature: " +json.block_signature
+        };
+        makeElement(p, zblockElement);
     }
     progressPlaceholder.max++;
     progressPlaceholder.value++;
@@ -113,38 +123,49 @@ function blockRenderAndProceed(json, params){
     // var divs = document.querySelector('#zchain-data-section');
     var detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     if(json.action){
-        var p = document.createElement("p");
-        p.innerText="Action: " +json.action;
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Action: " +json.action
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     if(json.detach){
-        var p = document.createElement("p");
-        p.innerText="Detach: " +json.detach;
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Detach: " +json.detach
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     if(json.gpg){
-        var p = document.createElement("p");
-        p.innerText="GPG: " +json.gpg;
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"GPG: " +json.gpg
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     if(json.data){
-        var p = document.createElement("p");
-        var a = document.createElement("a");
-        a.href = getIPFSURL(json.data);
-        a.innerText = json.data;
-        p.innerText="Data: ";
-        p.appendChild(a);
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Data: ",
+            innerHTML:[
+                { element:"a", href: getIPFSURL(json.data), innerText: json.data }
+            ]
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     if(json.timestamp){
-        var p = document.createElement("p");
-        p.innerText="Timestamp: " +json.timestamp + " [" + new Date(json.timestamp*1000) + "]";
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Timestamp: " +json.timestamp + " [" + new Date(json.timestamp*1000) + "]"
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     if(json.previous){
-        var p = document.createElement("p");
-        p.innerText="Previous: " +json.previous;
-        if(detailsPlace!== null) detailsPlace.appendChild(p);
+        var p = {
+            element:"p",
+            innerText:"Previous: " +json.previous
+        };
+        if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
     progressPlaceholder.value++;
     exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject,recursive);
@@ -192,17 +213,21 @@ function seekZchain(zchainIPNSLink,stellarAddress,json){
     var divs = document.querySelector('#zchain-data-section');
     var details = 0;
     if ( document.querySelector('#zd-' + zchainIPNSLink) === null ){
-        details = document.createElement("details");
-        details.id = 'zd-' + zchainIPNSLink;
-        details.className = 'zchain-details';
-        divs.appendChild(details);
+        details = {
+            element:"details",
+            id : 'zd-' + zchainIPNSLink,
+            className : 'zchain-details'
+        };
+        makeElement(details, divs);
     }
     details = document.querySelector('#zd-' + zchainIPNSLink);
 
     if(zchainIPNSLink){
-        var p = document.createElement("summary");
-        p.innerText="zchain: " + zchainIPNSLink;
-        details.appendChild(p);
+        var p = {
+            element:"summary",
+            innerText:"zchain: " + zchainIPNSLink
+        };
+        makeElement(p, details);
     }
     archingKaosLog("Seeking zchain " + zchainIPNSLink + "...");
     console.log(json)
@@ -224,7 +249,7 @@ function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive
     console.log(zblockObject);
     console.log(recursive);
     archingKaosLog("Seeking block "+blockIPFSHash+"...");
-    detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
+    // detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     progressPlaceholder.max++;
     archingKaosFetchJSON(
         getIPFSURL(blockIPFSHash),
@@ -252,13 +277,15 @@ function renderGroupOnDataSection(group){
         divs.querySelector("#zchain-data-sec-not-found").remove();
     }
     if ( divs.querySelector('#zd-' + group) === null ){
-        details = document.createElement("details");
-        details.id = 'zd-' + group;
-        details.className = 'zchain-details';
-        var summary = document.createElement('summary');
-        summary.innerText = group;
-        details.appendChild(summary);
-        divs.appendChild(details);
+        var details = {
+            element:"details",
+            id : 'zd-' + group,
+            className : 'zchain-details',
+            innerHTML:[
+                { element:'summary', innerText: group }
+            ]
+        };
+        makeElement(details, divs);
     } else {
         //console.log('Else got hit in seekZchain');
         return 0;
@@ -267,14 +294,14 @@ function renderGroupOnDataSection(group){
 
 function renderZblockUnderGroup(zblock, group){
     const divs = document.querySelector('#zd-' + group);
-    var zblockElement = document.createElement("article");
-    zblockElement.id = 'zb-' + zblock;
-    if(zblock){
-        var p = document.createElement("p");
-        p.innerText="zblock: " + zblock;
-        zblockElement.appendChild(p);
-    }
-    divs.appendChild(zblockElement);
+    var zblockElement = {
+        element:"article",
+        id: "zb-"+zblock,
+        innerHTML:[
+            { element:"p", innerText:"zblock: "+zblock }
+        ]
+    };
+    makeElement(zblockElement, divs);
 }
 
 function seekZblock(zblockIPFSHash, params){
@@ -375,15 +402,16 @@ function getipfstext(ipfsHash, articleid){
             response.text().then(text=>{
                 var divs = document.querySelector('#'+articleid);
                 if(text){
-                    var pre = document.createElement("div");
-                    pre.className="news-text";
                     var lines = text.split('\n');
                     // remove one line, starting at the first position
                     // lines.splice(0,1);
-                    // join the array back into a single string
                     var newtext = lines.join('\n');
-                    pre.innerHTML = DOMPurify.sanitize(marked.parse(newtext));
-                    divs.appendChild(pre);
+                    var pre = {
+                        element:"div",
+                        className:"news-text",
+                        innerHTML:DOMPurify.sanitize(marked.parse(newtext))
+                    };
+                    makeElement(pre, divs);
                 }
             })
         }
@@ -394,10 +422,12 @@ function checkIfZchainAndProceed(json, params){
     const [group] = params;
     if (json.zlatest) {
         if (!aknet.querySelector('#ak-zchain-'+json.zchain)){
-            var a = document.createElement("pre");
-            a.innerText=json.zchain;
-            a.id='ak-zchain-'+json.zchain;
-            aknet.appendChild(a);
+            var pre = {
+                element:"pre",
+                innerText:json.zchain,
+                id:'ak-zchain-'+json.zchain
+            };
+            makeElement(pre, aknet);
         }
     }
     seekZblock(json.zlatest, [group, true]);

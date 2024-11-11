@@ -25,13 +25,14 @@ function getNumberOfTrustlinesAndRenderThem(json){
 function renderStellarAddress(stellarAddress){
     if (!document.querySelector('.stellar-network').querySelector('#'+stellarAddress)){
         var stats = document.querySelector('.stellar-network');
-        var d = document.createElement("details");
-        d.className = "stellar-address";
-        var s = document.createElement("summary");
-        s.innerText = stellarAddress;
-        d.id = stellarAddress;
-        d.appendChild(s);
-        stats.appendChild(d);
+        var d = {
+            element:"details",
+            className:"stellar-address",
+            innerHTML:[
+                {element:"summary", innerText:stellarAddress, id:stellarAddress}
+            ]
+        };
+        makeElement(d, stats);
     }
 }
 
