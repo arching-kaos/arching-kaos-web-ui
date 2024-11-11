@@ -1,3 +1,10 @@
+/* Arching Kaos Module References
+ *
+ * Kaotisk Hund - 2024
+ *
+ * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+ *
+ */
 function resolveReferences(references){
     for( entry in references ){
         var comment = document.querySelector('#comment-'+references[entry].dataExpansion.reference);
@@ -22,3 +29,4 @@ function storeReference(zblockIPFSHash, zblockObject, blockObject, json, referen
         };
     }
 }
+// @license-end

@@ -1,3 +1,10 @@
+/* Arching Kaos Tools
+ *
+ * Kaotisk Hund - 2024
+ *
+ * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+ *
+ */
 function getArrayLength(array){
     var length = 0;
     for ( e in array ) {
@@ -474,3 +481,4 @@ async function ringlocalbell(){
 }
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
+// @license-end

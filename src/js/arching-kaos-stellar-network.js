@@ -1,3 +1,10 @@
+/* Arching Kaos Stellar Network
+ *
+ * Kaotisk Hund - 2024
+ *
+ * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+ *
+ */
 
 function getNumberOfTrustlinesAndRenderThem(json){
     var number = json._embedded.records[0].accounts.authorized;
@@ -78,11 +85,11 @@ function getHolders(a=0){
 }
 
 function getStellarConfigurationVariableURL(stellarAddress){
-    return activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress]+
+    return activeSettings.stellar.horizon.list[activeSettings.stellar.horizon.active]+
         'accounts/'+
         stellarAddress+
         '/data/'+
-        activeSettings.stellarConfigVars[activeSettings.stellarDefaultConfig];
+        activeSettings.stellar.variableNames.list[activeSettings.stellar.variableNames.active];
 }
 
 function checkAddressForConfigurationVariable(stellarAddress) {
@@ -91,7 +98,7 @@ function checkAddressForConfigurationVariable(stellarAddress) {
     progressPlaceholder.value++;
 }
 
-var server = new StellarSdk.Server(activeSettings.horizonAddresses[activeSettings.horizonSelectedAddress], {allowHttp:true});
+var server = new StellarSdk.Server(activeSettings.stellar.horizon.list[activeSettings.stellar.horizon.active], {allowHttp:true});
 
 function steptwo(r){
     const L = r;
@@ -208,3 +215,4 @@ function scanStellarNetworkForPeers(){
 }
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
+// @license-end

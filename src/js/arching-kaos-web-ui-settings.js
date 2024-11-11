@@ -1,3 +1,10 @@
+/* Arching Kaos Settings
+ *
+ * Kaotisk Hund - 2024
+ *
+ * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+ *
+ */
 /*
  * We will be using browser's localStorage for the clients to configure their
  * desired way to visit the web-ui.
@@ -23,7 +30,7 @@ var default_settings = {
                 'http://gw.ipfs.z.kaotisk-hund.com/',
                 'http://localhost:8080/'
             ],
-            active: 1
+            active: 0
         }
     },
     stellar: {
@@ -70,40 +77,7 @@ var default_settings = {
             active: 0
         },
         scan: false
-    },
-    ipfsGatewayAddress: [
-        'https://ipfs.arching-kaos.com/',
-        'http://gw.ipfs.z.kaotisk-hund.com/',
-        'http://localhost:8080/'
-    ],
-    ipfsSelectedGatewayAddress: 1,
-    ringLocalBell: false,
-    scanStellar: false,
-    stellarAssetsForScanning: [
-        {
-            code: 'ARCHINGKAOS',
-            issuer: 'GB4QVKD6NW3CSNO5TNPARAWNPPXOPSSTKB35XCWB7PUNBIQTK3DVELB2'
-        },
-        {
-            code: 'KAOTISKHUND',
-            issuer: 'GDLJKMETTIXAVTZ2XXR2LHUITT7GZBNWEKQDN7V7SP4MURVY6266BIMO'
-        }
-    ],
-    stellarConfigVars: [
-        'config',
-        'ak-config',
-        'kh-config'
-    ],
-    horizonAddresses: [
-        'https://horizon.stellar.org/',
-        'http://horizon.stellar.z.kaotisk-hund.com/'
-    ],
-    horizonSelectedAddress: 0,
-    stellarDefaultAsset: 0,
-    stellarDefaultConfig: 0,
-    zchainBasedDepthSeek: 10,
-    zblockBasedDepthSeek: 10,
-    localAPI: 'http://localhost:8610'
+    }
 }
 
 // TODO: Make up a settings configuration page to set this up initially rather
@@ -180,7 +154,7 @@ function renderAssets(container, value){
 }
 
 function settingPlaceToDOM(key, value){
-    var container = document.createElement("fieldset");
+    var container = document.createElement("details");
     container.innerText=key;
     if ( Array.isArray(value) ){
         var ul = document.createElement("select");
@@ -204,35 +178,35 @@ function settingPlaceToDOM(key, value){
         console.log("KEY: "+key);
         switch (key){
             case 'ipfs':
-                var label = document.createElement('label');
+                var label = document.createElement('summary');
                 label.innerText = "Gateway";
                 container.appendChild(label);
                 renderList(container, value.gateway);
 
                 break;
             case 'stellar':
-                var label = document.createElement('label');
-                label.innerText = "Asset";
+                var label = document.createElement('summary');
+                label.innerText = "Stellar";
                 container.appendChild(label);
                 renderAssets(container, value.asset);
 
-                var label = document.createElement('label');
+                var label = document.createElement('summary');
                 label.innerText = "Variable Names";
                 container.appendChild(label);
                 renderList(container, value.variableNames);
 
-                var label = document.createElement('label');
+                var label = document.createElement('summary');
                 label.innerText = "Horizon";
                 container.appendChild(label);
                 renderList(container, value.horizon);
 
-                var label = document.createElement('label');
+                var label = document.createElement('summary');
                 label.innerText = "Scan";
                 container.appendChild(label);
                 renderCheck(container, value.scan);
                 break;
             case 'ak':
-                var label = document.createElement('label');
+                var label = document.createElement('summary');
                 label.innerText = "Connect";
                 container.appendChild(label);
                 renderList(container, value.connect);
@@ -241,7 +215,8 @@ function settingPlaceToDOM(key, value){
                 container.innerText += " unknonwn lol";
         }
     } else {
-        container.innerText = value;
+        console.log(`Settings value: ${value}, type: ${typeof(value)}`);
+//        container.innerText = value;
     }
     settingsPage.appendChild(container);
 }
@@ -261,3 +236,4 @@ settingsPage.appendChild(predump);
 // console.log(activeSettings.ipfsGatewayAddress[activeSettings.ipfsSelectedGatewayAddress]);
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
+// @license-end

@@ -519,3 +519,19 @@ footer {
     justify-content: space-between;
     align-content: flex-start;
 }
+
+#home-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#home-grid button {
+    width: 128px;
+    height: 128px;
+    margin: 0px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}

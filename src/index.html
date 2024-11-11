@@ -32,6 +32,7 @@
                         <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">🔌 Modules</button>
                         <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">🥽 Explore</button>
                         <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">✍️ Chat</button>
+                        <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)">Radio</button>
                         <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">🔧 Settings</button>
                         <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">
                             <img style="width: 13px; height: 13px;" src="./img/stellar.svg"/>&nbsp;
@@ -60,8 +61,8 @@
                         </div>
                     </div>
                 </nav>
-                <audio id="radio-player" controls autoplay hidden></audio>
-                <div>
+                <!-- <audio id="radio-player" controls autoplay hidden></audio> -->
+                <div hidden>
                     <span>Radio</span>
                     <button id="radio-button-controller" class="menu-clickable" onclick="radioToggle();">Loading...</button>
                 </div>
@@ -70,6 +71,13 @@
                 <div id="welcome-section">
                     <h2>🏡 Home</h2>
                     <p>Welcome to Arching Kaos project.</p>
+                    <div id="home-grid">
+                        <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)" style="background-image: url(img/mixtapes-logo.png); background-repeat: round;"></button>
+                        <button class="menu-clickable" id="#/news-section" onclick="menusel(this)" style="background-image: url(img/news-logo.png); background-repeat: round;"></button>
+                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)" style="background-image: url(img/chat-logo.png); background-repeat: round;"></button>
+                        <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)" style="background-image: url(img/radio-logo.png); background-repeat: round; background-size: cover;"></button>
+                        <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
+                    </div>
                     <h3>Render explicit zblock</h3>
                     <div style="
                              padding: 1vh 1vw;
@@ -84,21 +92,16 @@
                     <div class="results-area">
                         <h3>Results</h3>
                     </div>
-                    <h3>Other options for loading</h3>
+                    <h3>Manual scan</h3>
                     <div style="
                              display: flex;
                              flex-direction: row;
-                             justify-content: center;
+                             justify-content: start;
+                             align-items: center;
+                             flex-wrap: wrap;
                              gap: 5px;"
                         >
                         <button onclick="scanStellarNetworkForPeers()">Check Stellar Network</button>
-                    </div>
-                    <div style="
-                             display: flex;
-                             flex-direction: row;
-                             justify-content: center;
-                             gap: 5px;"
-                        >
                         <button onclick="checkLocalNodeInfo()">Check local Node</button>
                         <button onclick="checkLocalPeers()">Check local Peers</button>
                         <button onclick="checkLocalSchain()">Check Local Schain</button>
@@ -192,6 +195,10 @@
                 <div id="chat-section" style="height: 100%;">
                     <button style="position: fixed;" onclick="refreshChat()">Refresh</button>
                     <iframe id="chat-iframe" src="https://irc.arching-kaos.net" style="width: 100%; height: 100%;"></iframe>
+                </div>
+                <div id="radio-section" style="height: 100%;">
+                    <button style="position: fixed;" onclick="refreshRadio()">Refresh</button>
+                    <iframe id="radio-iframe" src="https://radio.arching-kaos.com" style="width: 100%; height: 100%;"></iframe>
                 </div>
                 <div id="stats-section">
                     <h2>Stats</h2>
