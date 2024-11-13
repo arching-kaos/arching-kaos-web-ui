@@ -86,11 +86,11 @@ function getHolders(a=0){
 }
 
 function getStellarConfigurationVariableURL(stellarAddress){
-    return activeSettings.stellar.horizon.list[activeSettings.stellar.horizon.active]+
+    return settings.stellar.horizon.list[settings.stellar.horizon.active]+
         'accounts/'+
         stellarAddress+
         '/data/'+
-        activeSettings.stellar.variableNames.list[activeSettings.stellar.variableNames.active];
+        settings.stellar.variableNames.list[settings.stellar.variableNames.active];
 }
 
 function checkAddressForConfigurationVariable(stellarAddress) {
@@ -99,37 +99,34 @@ function checkAddressForConfigurationVariable(stellarAddress) {
     progressPlaceholder.value++;
 }
 
-var server = new StellarSdk.Server(activeSettings.stellar.horizon.list[activeSettings.stellar.horizon.active], {allowHttp:true});
+var server = new StellarSdk.Server(settings.stellar.horizon.list[settings.stellar.horizon.active], {allowHttp:true});
 
-function steptwo(r){
-    const L = r;
-    putit(L);
+function steptwo(i){
+    var ta=document.querySelector("#stellar-balances-table");
+    for (b in i.balances) {
+        x = i.balances[b];
+        var amount = {
+            element:"tr",
+            innerHTML:[
+                { element:"td", innerText: x.balance },
+                { element:"td", innerText: ( x.asset_code && x.asset_code != "undefined" ? x.asset_code : 'XLM')}
+            ]
+        }
+        makeElement(amount, ta);
+        progressPlaceholder.max++;
+        progressPlaceholder.value++;
+        if(document.querySelector("#stellar-balances-not-found")) document.querySelector("#stellar-balances-not-found").hidden = true;
+    }
 }
+
 function letme(a){
+    console.log("HERE WE GO");
     server.accounts()
     .accountId(a)
     .call()
     .then(
         steptwo(r)
     );
-}
-
-function putit(i){
-    var ta=document.querySelector("#stellar-balances-table");
-    for (b in i.balances) {
-        var row = document.createElement("tr");
-        x = i.balances[b];
-        var amount = document.createElement("td");
-        var assetCode = document.createElement("td");
-        amount.innerText = x.balance;
-        assetCode.innerText = ( x.asset_code && x.asset_code != "undefined" ? x.asset_code : 'XLM');
-        row.appendChild(assetCode);
-        row.appendChild(amount);
-        ta.appendChild(row);
-        progressPlaceholder.max++;
-        progressPlaceholder.value++;
-        if(document.querySelector("#stellar-balances-not-found")) document.querySelector("#stellar-balances-not-found").hidden = true;
-    }
 }
 
 async function fetchNodeInfoFromClientWallet(stellarAddress){
@@ -142,48 +139,27 @@ async function fetchNodeInfoFromClientWallet(stellarAddress){
     }).then(response=>{
         if(response.ok){
             response.json().then(json=>{
-                var cnf = document.createElement("p");
-                cnf.innerText = atob(json.value);
-                document.querySelector('#stellar-data-config').appendChild(cnf);
+                var cnf = {
+                    element:"p",
+                    innerText:atob(json.value)
+                };
+                makeElement(cnf, document.querySelector('#stellar-data-config'));
                 progressPlaceholder.max++;
                 progressPlaceholder.value++;
                 getConfiguration(atob(json.value),stellarAddress);
-            })
+            });
         }
-    })
+    });
 }
 
 function putKeyToField(k){
-    let base = document.querySelector("#stellar-freigher-connect-address-button");
+    const address = k;
+    var base = document.querySelector("#stellar-freigher-connect-address-button");
+    base.innerText=address;
+    base.onclick='';
     stellar_connection_status = 1;
     checkAddressForConfigurationVariable(k);
-    base.innerText=k;
-    base.onclick='';
 }
-
-// TODO: Clarify which parts of here will be needed
-//function showStellar(){
-//    if (stellar_connection_status === 1 ){
-//        document.querySelector("#stellar-balances-link").hidden=false;
-//        document.querySelector("#stellar-data-config-link").hidden=false;
-//        document.querySelector("#arching-kaos-node-info-link").hidden=false;
-//        document.querySelector("#mypage-section-link").hidden=false;
-//    }
-//}
-// TODO: (follow up) eg below
-// Hide stellar stuff if no freighter
-//if (!window.freighterApi.isConnected()) {
-//    document.querySelector("#stellar-freigher-connect-address-button").hidden=true;
-//}
-//
-//function hideStellar(){
-//    document.querySelector("#stellar-balances-link").hidden=true;
-//    document.querySelector("#stellar-data-config-link").hidden=true;
-//    document.querySelector("#arching-kaos-node-info-link").hidden=true;
-//    document.querySelector("#mypage-section-link").hidden=true;
-//}
-//
-//hideStellar();
 
 // That's how we get the publicKey
 const retrievePublicKey = async () => {
@@ -191,7 +167,7 @@ const retrievePublicKey = async () => {
     let error = "";
     try {
         publicKey = await window.freighterApi.getPublicKey()
-        .then(publicKey => {putKeyToField(publicKey);letme(publicKey)});
+        .then((publicKey) => {putKeyToField(publicKey);letme(publicKey)});
     } catch (e) {
         error = e;
     }

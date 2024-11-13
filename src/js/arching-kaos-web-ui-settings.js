@@ -62,7 +62,7 @@ var default_settings = {
             ],
             active: 0
         },
-        scan: true
+        scan: false
     },
     ak: {
         settings : {
@@ -74,7 +74,7 @@ var default_settings = {
                 'http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]:8610',
                 'http://api.aknet.z.kaotisk-hund.com/'
             ],
-            active: 0
+            active: 1
         },
         scan: false
     }
@@ -89,11 +89,11 @@ var default_settings = {
 // if ( window.localStorage.getItem("ak-settings") === null ) {
 //    window.localStorage.setItem("ak-settings", JSON.stringify(default_settings));
 // }
-// var activeSettings = JSON.parse(window.localStorage.getItem("ak-settings"));
+// var settings = JSON.parse(window.localStorage.getItem("ak-settings"));
 //
 // All comments above are replaced by temporary initializing without saving
 // anything in the localStorage
-var activeSettings = default_settings;
+var settings = default_settings;
 
 // Also, remove any settings stored from previous runs
 window.localStorage.removeItem("ak-settings");
@@ -104,17 +104,17 @@ window.localStorage.removeItem("ak-settings");
 if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://gw.ipfs.z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
-    activeSettings.ipfsSelectedGatewayAddress = 1;
-    activeSettings.horizonSelectedAddress = 1;
+    settings.ipfs.gateway.active = 1;
+    settings.stellar.horizon.active = 1;
 } else if ( location.origin === "http://localhost:3000" ) {
-    activeSettings.ipfsSelectedGatewayAddress = 2;
+    settings.ipfs.gateway.active = 2;
 } else {
-    activeSettings.ipfsSelectedGatewayAddress = 0;
+    settings.ipfs.gateway.active = 0;
 }
 
 var settingsPage = document.querySelector('#settings-section');
 
-var settingsKeys = Object.keys(activeSettings);
+var settingsKeys = Object.keys(settings);
 
 function renderCheck(container, value){
     var checkbox = document.createElement('input');
@@ -161,16 +161,10 @@ function settingPlaceToDOM(key, value){
         value.map((v)=>{
             if (v.constructor.name === "Object"){
                 Object.keys(v).forEach((value)=>{
-                    var li = document.createElement("option");
-                    li.innerText = value + ': ' + v[value];
-                    li.value = value;
-                    ul.appendChild(li);
+                    makeElement({element:"option", innerText:value + ': ' + v[value], value: value}, ul);
                 });
             } else {
-                var li = document.createElement("option");
-                li.innerText = v;
-                li.value = v;
-                ul.appendChild(li);
+                makeElement({element:"option", innerText:v, value: v}, ul);
             }
         });
         container.appendChild(ul);
@@ -178,37 +172,25 @@ function settingPlaceToDOM(key, value){
         console.log("KEY: "+key);
         switch (key){
             case 'ipfs':
-                var label = document.createElement('summary');
-                label.innerText = "Gateway";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"IPFS" }, container);
                 renderList(container, value.gateway);
 
                 break;
             case 'stellar':
-                var label = document.createElement('summary');
-                label.innerText = "Stellar";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"Asset" }, container);
                 renderAssets(container, value.asset);
 
-                var label = document.createElement('summary');
-                label.innerText = "Variable Names";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"Variable Names" }, container);
                 renderList(container, value.variableNames);
 
-                var label = document.createElement('summary');
-                label.innerText = "Horizon";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"Horizon" }, container);
                 renderList(container, value.horizon);
 
-                var label = document.createElement('summary');
-                label.innerText = "Scan";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"Scan" }, container);
                 renderCheck(container, value.scan);
                 break;
             case 'ak':
-                var label = document.createElement('summary');
-                label.innerText = "Connect";
-                container.appendChild(label);
+                makeElement({ element:"summary",innerText:"Connect" }, container);
                 renderList(container, value.connect);
                 break;
             default:
@@ -223,17 +205,17 @@ function settingPlaceToDOM(key, value){
 
 settingsKeys.forEach(
     (value) => {
-        settingPlaceToDOM(value, activeSettings[value]);
+        settingPlaceToDOM(value, settings[value]);
     }
 );
 
 /* Small dump as pre text */
 var predump = document.createElement('pre');
-predump.innerText = JSON.stringify(activeSettings, null, 2);
+predump.innerText = JSON.stringify(settings, null, 2);
 settingsPage.appendChild(predump);
 /* END of: Small dump as pre text */
 
-// console.log(activeSettings.ipfsGatewayAddress[activeSettings.ipfsSelectedGatewayAddress]);
+// console.log(settings.ipfsGatewayAddress[settings.ipfsSelectedGatewayAddress]);
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end

@@ -460,7 +460,7 @@ function crawlSchain(sblockHash){
         zchainLoadingStatus[sblockHash] = {loading : "started"};
         zchainsFound++;
         zchains[sblockHash] = [];
-        var url=activeSettings.localAPI+'/v0/sblock/'+sblockHash;
+        var url=settings.localAPI+'/v0/sblock/'+sblockHash;
         archingKaosLog("Fetching "+sblockHash+" sblock...");
         archingKaosFetchJSON(url, sblockExpanding, [sblockHash]);
         archingKaosLog("Fetching "+sblockHash+" sblock... Done!");
@@ -485,21 +485,21 @@ function checkPeers(json){
 
 function checkLocalPeers(){
     archingKaosLog("🔎 Querying for peers...");
-    var url=activeSettings.localAPI+'/v0/peers';
+    var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/peers';
     archingKaosFetchJSON(url, checkPeers);
     archingKaosLog("Querying for peers... Done!");
 }
 
 function checkLocalNodeInfo(){
     archingKaosLog("Ringing local bell...");
-    var url=activeSettings.localAPI+'/v0/node_info';
+    var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/node_info';
     archingKaosFetchJSON(url, checkIfZchainAndProceed, ["localnode"]);
     archingKaosLog("Ringing local bell... Done!");
 }
 
 function checkLocalSchain(){
     archingKaosLog("Querying for schain...");
-    var url=activeSettings.localAPI+'/v0/slatest';
+    var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/slatest';
     archingKaosFetchJSON(url, initCrawlSchain);
     archingKaosLog("Querying for schain... Done!");
 }

@@ -8,15 +8,15 @@
 }
 
 @font-face {
-    font-family: 'Hack Nerd Font';
-    src: url('../fonts/Hack.woff2') format('woff');
-    font-weight: normal;
+    font-family: 'Doto';
+    src: url('../fonts/Doto.woff2') format('woff');
+    font-weight: 700;
 }
 
 body {
-    word-break: break-all;
+    word-break: normal;
     padding: 1%;
-    font-family: 'Hack Nerd Font';
+    font-family: 'Doto';
     font-size: medium;
     background-color: #1a1a1a;
     color: #7ef07e;
@@ -86,17 +86,18 @@ fieldset {
 
 #menu a {display:inline-block;}
 
-.footer p { margin: 0px; }
+#footer p { margin: 0px; }
 
-.footer {
+#footer div { display: flex; gap: 5px; flex-direction: row; }
+#footer {
     text-align: center;
 }
 
 .inv {display:block;text-align:center;}
 
-pre {overflow:auto;}
-
-.whole{
+pre {
+    font-family: 'Doto';
+    overflow:auto;
 }
 
 #gotop-link{
@@ -234,7 +235,7 @@ article {
     top: 48px;
 /*    background-color: #2a2a2a;*/
     background-color: #000000;
-    bottom: 62px;
+    bottom: 32px;
     width: auto;
     right: 0vw;
     left: 0vw;
@@ -242,7 +243,7 @@ article {
     padding-right: 2vw;
     padding-top: 1vh;
     padding-bottom: 1vh;
-    max-height: 80vh;
+    max-height: 90vh;
     height: auto;
     min-height: 45vh;
     overflow-y: auto;
@@ -300,7 +301,7 @@ button {
 /*    color: rgb(51, 200, 234);*/
     color: rgb(0, 255, 231);
     text-decoration: none;
-    font-family: 'Hack Nerd Font';
+    font-family: 'Doto';
     border: 1px solid #17392e;
     padding: 10px;
     margin: 1px;
@@ -396,6 +397,7 @@ audio {
 summary {
     background-color: #080808;
     padding: 4px;
+    word-break: break-all;
 }
 
 details {
@@ -434,18 +436,11 @@ details {
 }
 #settings-section button {}
 
-footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 2px;
-    text-align: right;
-}
-.footer {
+#footer {
     margin: 0px;
     font-size: medium;
     position: fixed;
-    height: 62px;
+    height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -492,13 +487,13 @@ footer {
     }
 }
 
-@media (max-width: 880px) {
-    .footer {
-        font-size: smaller;
+@media (max-width: 960px) {
+    #footer {
+        font-size: 8px;
         gap: 0px;
         flex-direction: column;
     }
-    .footer span {
+    #footer span {
         display: none;
     }
 }

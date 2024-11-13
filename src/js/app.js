@@ -36,12 +36,12 @@ progressPlaceholder.value = '0';
 
 progressPlaceholder.max++;
 
-if ( activeSettings.stellar.scan )
+if ( settings.stellar.scan )
 {
     scanStellarNetworkForPeers();
 }
 
-if ( activeSettings.ak.scan )
+if ( settings.ak.scan )
 {
     ringlocalbell();
     setInterval(ringlocalbell, 10*60*1000);
@@ -50,5 +50,34 @@ if ( activeSettings.ak.scan )
 //scanStellarNetworkForPeers();
 // setInterval(scanStellarNetworkForPeers, 60000);
 
+var root = {
+    head: document.querySelector('head'),
+    body: document.querySelector('body'),
+    html: document.querySelector('html')
+};
+
+var scripts = [
+    {
+        element:"script",
+        src:"./js/ui/mainLayout.js"
+    },
+    {
+        element:"script",
+        src:"./js/page-navigation.js"
+    },
+    {
+        element:"script",
+        src:"./js/page-projects.js"
+    },
+    {
+        element:"script",
+        src:"./js/menu.js"
+    }
+];
+
+for ( var i = 0; i < scripts.length; i++ )
+{
+    makeElement(scripts[i], root.body);
+}
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end
