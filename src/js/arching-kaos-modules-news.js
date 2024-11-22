@@ -11,35 +11,19 @@ function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
         var newsSectionDivElement = document.querySelector('#news-section');
         var articleContainerElement = {
             element:"article",
-            id:'news-'+zblockIPFSHash
+            id:`news-${zblockIPFSHash}`,
+            innerHTML: [
+                { element:"a", innerText : json.title, href : '#news-'+zblockIPFSHash },
+                { element:"a", innerText:'[permalink]', target: '_blank', href:'https://news.arching-kaos.net/?from_zblock='+zblockIPFSHash },
+                { element:"p", innerText:"Published: " + new Date(blockObject.timestamp*1000) },
+                { element:"p", innerText:"Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg) },
+                { element:"hr" }
+            ]
         };
         makeElement(articleContainerElement, newsSectionDivElement);
-        articleContainerElement = document.querySelector(`#news-${zblockIPFSHash}`);
-        if(json.title){
-            var ubs = {
-                element:"a",
-                innerText : json.title,
-                href : '#news-'+zblockIPFSHash
-            };
-            makeElement(ubs, articleContainerElement);
-            var ahref = {
-                element:"a",
-                innerText:'[permalink]',
-                target: '_blank',
-                href:'https://news.arching-kaos.net/?from_zblock='+zblockIPFSHash
-            };
-            makeElement(ahref, articleContainerElement);
+        if(json.ipfs){
+            archingKaosFetchText(getIPFSURL(json.ipfs), getFullText,[`#news-${zblockIPFSHash}`]);
         }
-        if(json.datetime){
-            var small = {
-                element:"p",
-                innerText:"Published: " + new Date(blockObject.timestamp*1000)
-            };
-            makeElement(small, articleContainerElement);
-        }
-        var small = {
-            element:"p",
-            innerText:"Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg)
         };
         makeElement(small, articleContainerElement);
         var hr = { element:"hr" };
