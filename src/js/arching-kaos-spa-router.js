@@ -50,4 +50,5 @@ function locationHashOnChange(){
         document.querySelector('#not-found-section').hidden=false;
     }
 }
+
 // @license-end

@@ -20,52 +20,9 @@
     </head>
     <body>
         <div class="page-layout">
-            <div class="topbar">
-                <div class="header">
-                    <a href="#/welcome-section" id="#/welcome-section" onclick="menusel(this)"><img src="./img/header-logo.png"></a>
-                    <h1 style="text-align: center;">Arching Kaos</h1>
-                </div>
-                <button class="menu-clickable" id="mobile-menu" onclick="toggleMenu(this)">Show menu</button>
-                <nav id="double-floor" class="">
-                    <div id="menu" class="upper-floor">
-                        <button class="menu-clickable" id="#/welcome-section" onclick="menusel(this)">🏡 Home</button>
-                        <button class="has-dropdown menu-clickable" id="modules-submenu-link" onclick="modulesSubToggle(this)">🔌 Modules</button>
-                        <button class="has-dropdown menu-clickable" id="explore-submenu-link" onclick="exploreSubToggle(this)">🥽 Explore</button>
-                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)">✍️ Chat</button>
-                        <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)">Radio</button>
-                        <button class="menu-clickable" id="#/settings-section" onclick="menusel(this)">🔧 Settings</button>
-                        <button class="has-dropdown menu-clickable" id="#/stellar-section" onclick="stellarSubToggle(this)">
-                            <img style="width: 13px; height: 13px;" src="./img/stellar.svg"/>&nbsp;
-                            Stellar</button>
-                        <button class="menu-clickable" id="#/about-section" onclick="menusel(this)">About</button>
-                    </div>
-                    <div id="menu" class="lower-floor">
-                        <div class="dropdown" id="modules-submenu">
-                            <button class="menu-clickable" onclick="modulesSubToggle(this)">..</button>
-                            <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)">Mixtapes</button>
-                            <button class="menu-clickable" id="#/news-section" onclick="menusel(this)">News</button>
-                            <button class="menu-clickable" id="#/comments-section" onclick="menusel(this)">Comments</button>
-                            <button class="menu-clickable" id="#/files-section" onclick="menusel(this)">Files</button>
-                        </div>
-                        <div class="dropdown" id="explore-submenu">
-                            <button class="menu-clickable" onclick="exploreSubToggle(this)">..</button>
-                            <button class="menu-clickable" id="#/zchain-data-section" onclick="menusel(this)">zchain</button>
-                            <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
-                        </div>
-                        <div class="dropdown" id="stellar-submenu">
-                            <button class="menu-clickable" onclick="stellarSubToggle(this)">..</button>
-                            <button class="menu-clickable" id="#/mypage-section" onclick="menusel(this)">My page</button>
-                            <button class="menu-clickable" id="#/stellar-balances" onclick="menusel(this)">Balances</button>
-                            <button class="menu-clickable" id="#/stellar-data-config" onclick="menusel(this)">Data</button>
-                            <button class="menu-clickable" id="#/arching-kaos-node-info" onclick="menusel(this)">Node Info</button>
-                        </div>
-                    </div>
-                </nav>
-                <!-- <audio id="radio-player" controls autoplay hidden></audio> -->
-                <div hidden>
-                    <span>Radio</span>
-                    <button id="radio-button-controller" class="menu-clickable" onclick="radioToggle();">Loading...</button>
-                </div>
+            <div id="topbar" class="topbar">
+                <div id="logo-title-placeholder"></div>
+                <div id="menu-placeholder"></div>
             </div>
             <div class="main">
                 <div id="welcome-section">
@@ -232,7 +189,6 @@
         <script src="./js/url-generators.js"></script>
         <script src="./js/arching-kaos-fetch.js"></script>
         <script src="./js/arching-kaos-log.js"></script>
-        <script src="./js/menu-magic.js"></script>
         <script src="./js/arching-kaos-spa-router.js"></script>
         <script src="./js/arching-kaos-modules-files.js"></script>
         <script src="./js/arching-kaos-modules-news.js"></script>

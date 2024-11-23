@@ -26,7 +26,6 @@ var nodeInfo = new Array;
 var body = document.querySelector('body');
 var pageLayout = document.querySelector('.page-layout');
 var mainContainer = document.querySelector('.main');
-var doubleFloorMenu = document.querySelector('#double-floor'); 
 var isMobile = false;
 var aknet = document.querySelector('.aknet-network')
 var resultsArea = document.querySelector('.results-area')

@@ -285,7 +285,7 @@ h1 {
     padding: 2px;
     overflow-y: auto;
     display: flex;
-    align-items: end;
+    /* align-items: end; */
     background: #cacaca;
     width: 100%;
     color:rgb(51, 200, 234);
@@ -342,7 +342,7 @@ button:hover {
 
 #double-floor {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .upper-floor {

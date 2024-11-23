@@ -15,22 +15,19 @@ body.height = window.innerHeight;
 pageLayout.width = window.innerWidth;
 pageLayout.height = window.innerHeight;
 mainContainer.style.display = 'block';
-window.innerWidth <= 770 ? isMobile = true : isMobile = false;
-isMobile ? doubleFloorMenu.style.display = 'none':doubleFloorMenu.style.display = 'flex';
+window.innerWidth <= 850 ? isMobile = true : isMobile = false;
+
 function onWindowResize()
 {
     body.width = window.innerWidth;
     body.height = window.innerHeight;
     pageLayout.width = window.innerWidth;
     pageLayout.height = window.innerHeight;
-    window.innerWidth <= 770 ? isMobile = true : isMobile = false;
+    window.innerWidth <= 850 ? isMobile = true : isMobile = false;
     isMobile ? doubleFloorMenu.style.display = 'none':doubleFloorMenu.style.display = 'flex';
 }
 window.addEventListener('resize', onWindowResize, false);
 
-// And call
-menuinit();
-locationHashOnChange();
 
 progressPlaceholder.value = '0';
 
@@ -60,20 +57,22 @@ var scripts = [
     {
         element:"script",
         src:"./js/ui/mainLayout.js"
-    },
-    {
-        element:"script",
-        src:"./js/page-navigation.js"
-    },
-    {
-        element:"script",
-        src:"./js/page-projects.js"
-    },
-    {
-        element:"script",
-        src:"./js/menu.js"
     }
 ];
+//,
+//    {
+//        element:"script",
+//        src:"./js/page-navigation.js"
+//    },
+//    {
+//        element:"script",
+//        src:"./js/page-projects.js"
+//    },
+//    {
+//        element:"script",
+//        src:"./js/menu.js"
+//    }
+//];
 
 for ( var i = 0; i < scripts.length; i++ )
 {

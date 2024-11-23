@@ -30,6 +30,7 @@ function makeElement(obj, attachTo)
     if ( obj.src !== undefined ) temp.src = obj.src;
     if ( obj.as !== undefined ) temp.as = obj.as;
     if ( obj.target !== undefined ) temp.target = obj.target;
+    if ( obj.onclick !== undefined ) temp.setAttribute("onclick", obj.onclick);
     if ( obj.alt !== undefined ) temp.alt = obj.alt;
     if ( obj.charset !== undefined ) temp.charset = obj.charset;
     if ( obj.value !== undefined ) temp.value = obj.value;

@@ -5,6 +5,14 @@ var scripts = [
     },
     {
         element:"script",
+        src:"./js/ui/menu.js"
+    },
+    {
+        element:"script",
+        src:"./js/ui/main.js"
+    },
+    {
+        element:"script",
         src:"./js/ui/footer.js"
     }
 ]
