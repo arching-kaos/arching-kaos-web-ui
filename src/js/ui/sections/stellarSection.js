@@ -1,6 +1,7 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
 var stellarSection = {
+    element: 'div',
     id: "stellar-section",
     innerHTML: [
         {
