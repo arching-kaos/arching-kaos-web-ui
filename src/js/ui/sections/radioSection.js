@@ -1,7 +1,8 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
 var radioSection = {
-    element: 'radio-section',
+    element: "div",
+    id: 'radio-section',
     hidden: true,
     style: 'height: 100%;',
     innerHTML: [

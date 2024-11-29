@@ -25,167 +25,14 @@
                 <div id="menu-placeholder"></div>
             </div>
             <div class="main">
-                <div id="welcome-section">
-                    <h2>🏡 Home</h2>
-                    <p>Welcome to Arching Kaos project.</p>
-                    <div id="home-grid">
-                        <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)" style="background-image: url(img/mixtapes-logo.png); background-repeat: round;"></button>
-                        <button class="menu-clickable" id="#/news-section" onclick="menusel(this)" style="background-image: url(img/news-logo.png); background-repeat: round;"></button>
-                        <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)" style="background-image: url(img/chat-logo.png); background-repeat: round;"></button>
-                        <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)" style="background-image: url(img/radio-logo.png); background-repeat: round; background-size: cover;"></button>
-                        <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
-                    </div>
-                    <h3>Render explicit zblock</h3>
-                    <div style="
-                             padding: 1vh 1vw;
-                             display: flex;
-                             flex-direction: row;
-                             align-items: center;
-                             gap: 10px;"
-                        >
-                        <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
-                        <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
-                    </div>
-                    <div class="results-area">
-                        <h3>Results</h3>
-                    </div>
-                    <h3>Manual scan</h3>
-                    <div style="
-                             display: flex;
-                             flex-direction: row;
-                             justify-content: start;
-                             align-items: center;
-                             flex-wrap: wrap;
-                             gap: 5px;"
-                        >
-                        <button onclick="scanStellarNetworkForPeers()">Check Stellar Network</button>
-                        <button onclick="checkLocalNodeInfo()">Check local Node</button>
-                        <button onclick="checkLocalPeers()">Check local Peers</button>
-                        <button onclick="checkLocalSchain()">Check Local Schain</button>
-                    </div>
-                    <div class="dialog">
-                        <h3>Progress</h3>
-                        <progress id="total-progress"></progress>
-                        <progress id="http-progress"></progress>
-                        <pre id="current-log-message"></pre>
-                    </div>
-                    <div>
-                        <details id="logs-area">
-                            <summary>Logs (click to expand)</summary>
-                            <div id="logs-area-element">
-                            </div>
-                        </details>
-                    </div>
-                </div>
-                <div id="about-section">
-                    <h2>ℹ️ About</h2>
-                    <p>Arching Kaos is a project about radio, music, communications and decentralization.</p>
-                    <p>On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).</p>
-                    <p>You can see the zchains appearing in "zchain" and logs of the process on "Logs"</p>
-                    <p>Note that to participate you will need to set up your Arching Kaos set, which is not so convinient yet but possible.</p>
-                    <p>Furthermore, if you are using Freighter extension you can additionally see:</p>
-                    <ol>
-                        <li>Your balances on your wallet</li>
-                        <li>Your configuration IPNS address (if any)</li>
-                        <li>Your Arching Kaos configuration (if any)</li>
-                        <li>Your zchain (...)</li>
-                        <li>Your posted newsfeed (...)</li>
-                    </ol>
-                    <p>Finally, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin.</p>
-                </div>
-                <div id="stellar-balances">
-                    <h2>Balances</h2>
-                    <em id="stellar-balances-not-found">No data found (yet?)!</em>
-                    <table id="stellar-balances-table"></table>
-                </div>
-                <div id="stellar-data-config">
-                    <h2>Data</h2>
-                    <em id="stellar-data-config-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="arching-kaos-node-info">
-                    <h2>Node Info</h2>
-                    <em id="node-info-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="stellar-section">
-                    <h2>Stellar dashboard</h2>
-                    <button class="sub-input" id="stellar-freigher-connect-address-button" onclick="connect()" >Connect with Stellar address</button>
-                </div>
-                <div id="mypage-section">
-                    <h2>My page</h2>
-                    <button id="stellar-freigher-connect-address-button" onclick="connect()">Connect with Freighter wallet</button>
-                    <div id="my-news">
-                        <h3>My news</h3>
-                        <em id="my-news-sec-not-found">No data found (yet?)!</em>
-                    </div>
-                    <div id="my-mixtapes">
-                        <h3>My mixtapes</h3>
-                        <em id="my-mixtapes-sec-not-found">No data found (yet?)!</em>
-                    </div>
-                    <div id="my-zchain">
-                        <h3>My zchain</h3>
-                        <em id="my-zchain-sec-not-found">No data found (yet?)!</em>
-                    </div>
-                </div>
-                <div id="zchain-data-section">
-                    <h2>zchains</h2>
-                    <em id="zchain-data-sec-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="news-section">
-                    <h2>News</h2>
-                    <em id="news-sec-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="comments-section">
-                    <h2>Comments</h2>
-                    <em id="comments-sec-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="mixtapes-section">
-                    <h2>Mixtapes</h2>
-                    <em id="mixtapes-sec-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="files-section">
-                    <h2>Files</h2>
-                    <em id="files-sec-not-found">No data found (yet?)!</em>
-                </div>
-                <div id="settings-section">
-                    <h2>🔧 Settings</h2>
-                </div>
-                <div id="chat-section" style="height: 100%;">
-                    <button style="position: fixed;" onclick="refreshChat()">Refresh</button>
-                    <iframe id="chat-iframe" src="https://irc.arching-kaos.net" style="width: 100%; height: 100%;"></iframe>
-                </div>
-                <div id="radio-section" style="height: 100%;">
-                    <button style="position: fixed;" onclick="refreshRadio()">Refresh</button>
-                    <iframe id="radio-iframe" src="https://radio.arching-kaos.com" style="width: 100%; height: 100%;"></iframe>
-                </div>
-                <div id="stats-section">
-                    <h2>Stats</h2>
-                    <div class="available-networks">
-                        <h3>Networks</h3>
-                        <details class="stellar-network">
-                            <summary>Stellar</summary>
-                        </details>
-                        <details class="aknet-network">
-                            <summary>Arching Kaos Experimental Instance</summary>
-                        </details>
-                        <details class="aknet-sblocks">
-                            <summary>Arching Kaos SBlocks</summary>
-                        </details>
-                    </div>
-                </div>
-                <div id="not-found-section">
-                    <h2>Not found</h2>
-                    <p>"Soft" 404</p>
-                    <p>Please select an entry from the menu</p>
-                </div>
             </div>
             <div class="footer">
             </div>
         </div>
-        <script src="./js/arching-kaos-generator.js"></script>
         <script src="./external/stellarSdk.js"></script>
         <script src="./external/purify.min.js"></script>
+<!--        <script src="./js/arching-kaos-generator.js"></script>
         <script src="./js/environment-setup.js"></script>
-        <script src="./js/arching-kaos-web-ui-settings.js"></script>
         <script src="./js/url-generators.js"></script>
         <script src="./js/arching-kaos-fetch.js"></script>
         <script src="./js/arching-kaos-log.js"></script>
@@ -196,11 +43,10 @@
         <script src="./js/arching-kaos-modules-references.js"></script>
         <script src="./js/arching-kaos-modules-comments.js"></script>
         <script src="./js/arching-kaos-tools.js"></script>
-        <script src="./js/arching-kaos-stellar-network.js"></script>
         <script src="./js/arching-kaos-decentralized-radio.js"></script>
-        <script src="./js/utils.js"></script>
-        <script src="./js/footer.js"></script>
-        <script src="./js/app.js"></script>
+        <script src="./js/arching-kaos-stellar-network.js"></script>
+        <script src="./js/utils.js"></script> -->
+        <script type="module" src="./js/app.js"></script>
     </body>
     <!--
         <script>
@@ -216,5 +62,4 @@
         </script>
         -->
 </html>
-
 <!-- vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4

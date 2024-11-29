@@ -5,21 +5,39 @@
  * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
  *
  */
+import { archingKaosLog } from "./arching-kaos-log.js";
+import { archingKaosFetchJSON } from "./arching-kaos-fetch.js";
+import {
+    getStellarConfigurationVariableURL,
+    getTrustlinesURL,
+    getHoldersOfActiveAssetURL
+} from "./url-generators.js";
+
+import { progressPlaceholder } from "./app.js";
+
+import {
+    increaseStellarNetworkConfiguredAddresses,
+    addToFoundHolders,
+    setStellarParticipants,
+    setStellarParticipantsScanned
+} from "./environment-setup.js";
+
+import { makeElement } from "./arching-kaos-generator.js";
+import { getConfiguration } from "./arching-kaos-tools.js";
+
+var lastPage = '';
 
 function getNumberOfTrustlinesAndRenderThem(json){
     var number = json._embedded.records[0].accounts.authorized;
     var stats = document.querySelector('.stellar-network').querySelector('summary');
 
     if(!document.querySelector("#stellar-participants-sum")){
-        var small = document.createElement("span");
-        small.id = 'stellar-participants-sum';
-        stats.appendChild(small);
+        makeElement({element: "span", id: 'stellar-participants-sum', innerText: `( ${number} )`}, stats);
     }
-    document.querySelector("#stellar-participants-sum").innerText = ' (' + number + ')';
     archingKaosLog("Loading trustlines... Found "+number+"!");
-    progressPlaceholder.value++;
-    stellarParticipants=number;
-    stellarParticipantsScanned=number;
+    progressPlaceholder().value++;
+    setStellarParticipants(number);
+    setStellarParticipantsScanned(number);
 }
 
 function renderStellarAddress(stellarAddress){
@@ -38,11 +56,11 @@ function renderStellarAddress(stellarAddress){
 
 function renderStellarAddressesAndProceed(json){
     var records = json._embedded.records;
-    for ( index in records ){
-        holders.push(records[index].account_id);
-        progressPlaceholder.max++;
-        renderStellarAddress(records[index].account_id);
-        checkAddressForConfigurationVariable(records[index].account_id);
+    for ( var i = 0; i < records.length; i++ ){
+        addToFoundHolders(records[i].account_id);
+        progressPlaceholder().max++;
+        renderStellarAddress(records[i].account_id);
+        checkAddressForConfigurationVariable(records[i].account_id);
     }
     if (json._links.next) getHolders(json._links.next.href);
 }
@@ -50,7 +68,7 @@ function renderStellarAddressesAndProceed(json){
 function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     renderStellarAddress(stellarAddress);
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
-    stellarNetworkConfiguredAddresses += 1;
+    increaseStellarNetworkConfiguredAddresses();
     console.log(atob(json.value));
     console.log(stellarAddress);
     getConfiguration(atob(json.value),stellarAddress);
@@ -80,26 +98,16 @@ function getHolders(a=0){
     }
     lastPage=url;
     if (doIt) {
-        archingKaosFetchJSON(url, renderStellarAddressesAndProceed);
+        archingKaosFetchJSON(url, renderStellarAddressesAndProceed, null);
     }
     archingKaosLog("Searching holders... Done!");
-}
-
-function getStellarConfigurationVariableURL(stellarAddress){
-    return settings.stellar.horizon.list[settings.stellar.horizon.active]+
-        'accounts/'+
-        stellarAddress+
-        '/data/'+
-        settings.stellar.variableNames.list[settings.stellar.variableNames.active];
 }
 
 function checkAddressForConfigurationVariable(stellarAddress) {
     archingKaosLog("Checking configuration for "+ stellarAddress+ "...");
     archingKaosFetchJSON(getStellarConfigurationVariableURL(stellarAddress), renderConfigurationIPNSLinkAndProceed, stellarAddress);
-    progressPlaceholder.value++;
+    progressPlaceholder().value++;
 }
-
-var server = new StellarSdk.Server(settings.stellar.horizon.list[settings.stellar.horizon.active], {allowHttp:true});
 
 function steptwo(i){
     var ta=document.querySelector("#stellar-balances-table");
@@ -113,8 +121,8 @@ function steptwo(i){
             ]
         }
         makeElement(amount, ta);
-        progressPlaceholder.max++;
-        progressPlaceholder.value++;
+        progressPlaceholder().max++;
+        progressPlaceholder().value++;
         if(document.querySelector("#stellar-balances-not-found")) document.querySelector("#stellar-balances-not-found").hidden = true;
     }
 }
@@ -144,8 +152,8 @@ async function fetchNodeInfoFromClientWallet(stellarAddress){
                     innerText:atob(json.value)
                 };
                 makeElement(cnf, document.querySelector('#stellar-data-config'));
-                progressPlaceholder.max++;
-                progressPlaceholder.value++;
+                progressPlaceholder().max++;
+                progressPlaceholder().value++;
                 getConfiguration(atob(json.value),stellarAddress);
             });
         }
@@ -186,7 +194,7 @@ function connect(){
 //    }
 }
 
-function scanStellarNetworkForPeers(){
+export function scanStellarNetworkForPeers(){
     getTrustlines();
     getHolders();
 }

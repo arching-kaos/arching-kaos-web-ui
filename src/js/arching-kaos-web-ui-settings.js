@@ -22,6 +22,9 @@
  * kays or other more personal stuff. Need to encrypt these with a password too!
  *
  */
+import { makeElement } from "./arching-kaos-generator.js";
+import { settingsPage } from "./ui/sections/settingsSection.js";
+
 var default_settings = {
     ipfs: {
         gateway: {
@@ -78,7 +81,7 @@ var default_settings = {
         },
         scan: false
     }
-}
+};
 
 // TODO: Make up a settings configuration page to set this up initially rather
 // than forcing visitors to just save them into their local storage.
@@ -93,7 +96,12 @@ var default_settings = {
 //
 // All comments above are replaced by temporary initializing without saving
 // anything in the localStorage
-var settings = default_settings;
+export function getSettings()
+{
+    return default_settings;
+}
+
+export var settings = default_settings;
 
 // Also, remove any settings stored from previous runs
 window.localStorage.removeItem("ak-settings");
@@ -112,8 +120,6 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     settings.ipfs.gateway.active = 0;
 }
 
-var settingsPage = document.querySelector('#settings-section');
-
 var settingsKeys = Object.keys(settings);
 
 function renderCheck(container, value){
@@ -127,7 +133,7 @@ function renderCheck(container, value){
 
 function renderList(container, value){
     var selectOptions = document.createElement('select');
-    for ( i = 0 ; i < value.list.length; i++ ){
+    for ( var i = 0 ; i < value.list.length; i++ ){
         var option = document.createElement("option");
         if ( i === value.active ) {
             option.selected = true;
@@ -141,7 +147,7 @@ function renderList(container, value){
 
 function renderAssets(container, value){
     var selectOptions = document.createElement('select');
-    for ( i = 0 ; i < value.list.length; i++ ){
+    for ( var i = 0 ; i < value.list.length; i++ ){
         var option = document.createElement("option");
         if ( i === value.active ) {
             option.selected = true;
@@ -200,7 +206,7 @@ function settingPlaceToDOM(key, value){
         console.log(`Settings value: ${value}, type: ${typeof(value)}`);
 //        container.innerText = value;
     }
-    settingsPage.appendChild(container);
+    settingsPage().appendChild(container);
 }
 
 settingsKeys.forEach(
@@ -212,7 +218,7 @@ settingsKeys.forEach(
 /* Small dump as pre text */
 var predump = document.createElement('pre');
 predump.innerText = JSON.stringify(settings, null, 2);
-settingsPage.appendChild(predump);
+settingsPage().appendChild(predump);
 /* END of: Small dump as pre text */
 
 // console.log(settings.ipfsGatewayAddress[settings.ipfsSelectedGatewayAddress]);

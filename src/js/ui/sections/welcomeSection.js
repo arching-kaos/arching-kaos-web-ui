@@ -1,46 +1,56 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var welcomeSection = {
-    element: "div",
-    id: "welcome-section",
-    innerHTML: [
-        {
-            element : "div",
-            className:"where-am-i",
-            innerHTML: `
+var whereAmI = {
+    element : "div",
+    className:"where-am-i",
+    innerHTML: `
 
             <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
             <span>&gt;</span>
             <h2>Home</h2>
         `
-        },
-        {
-            element: "p",
-            innerText: "Welcome to Arching Kaos project."
-        },
-        {
-            element: "div",
-            id: "home-grid",
-            innerHTML: `
+};
+
+var greeting = {
+    element: "p",
+    innerText: "Welcome to Arching Kaos project."
+};
+
+var homeGrid = {
+    element: "div",
+        id: "home-grid",
+        innerHTML: `
                 <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)" style="background-image: url(img/mixtapes-logo.png); background-repeat: round;"></button>
                 <button class="menu-clickable" id="#/news-section" onclick="menusel(this)" style="background-image: url(img/news-logo.png); background-repeat: round;"></button>
                 <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)" style="background-image: url(img/chat-logo.png); background-repeat: round;"></button>
                 <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)" style="background-image: url(img/radio-logo.png); background-repeat: round; background-size: cover;"></button>
                 <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
             `
-        },
-        {
-            element : "h3",
-            innerText: "Render explicit zblock"
-        },
-        {
-            element: "div",
-            style:"padding: 1vh 1vw; display: flex; flex-direction: row; align-items: center; gap: 10px;",
-            innerHTML: `
-            <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
-            <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
-            `
-        },
+};
+
+var renderTitle = {
+    element : "h3",
+    innerText: "Render explicit zblock"
+};
+
+var renderForm = {
+    element: "div",
+    style:"padding: 1vh 1vw; display: flex; flex-direction: row; align-items: center; gap: 10px;",
+    innerHTML: `
+        <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
+        <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
+    `
+};
+
+var welcomeSection = {
+    element: "div",
+    id: "welcome-section",
+    innerHTML: [
+        whereAmI,
+        greeting,
+        homeGrid,
+        renderTitle,
+        renderForm,
         {
             element: "div",
             className: "results-area",

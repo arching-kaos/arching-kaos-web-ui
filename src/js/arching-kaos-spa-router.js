@@ -17,17 +17,31 @@
  * the "route" we got from `location.search`.
  *
  */
+import { menuinit, menuids } from "./ui/menu.js";
 
-function locationHashSetter(value){
+export function locationHashSetter(value)
+{
     window.location.hash = value;
     locationHashOnChange();
 }
 
-function locationHashGetter(){
+export function locationHashGetter()
+{
     return window.location.hash;
 }
 
-function locationHashOnChange(){
+export function getWelcomeSection()
+{
+    return document.querySelector('#welcome-section');
+}
+
+export function getSoftError()
+{
+    return document.querySelector('#not-found-section');
+}
+
+export function locationHashOnChange()
+{
     var route = new Object;
     route.full = locationHashGetter();
     route.args = route.full.split('/');
@@ -35,19 +49,19 @@ function locationHashOnChange(){
     route.subcommand = route.args[2];
     menuinit();
     if ( (locationHashGetter() !== 'undefined') && (locationHashGetter() === '') ){
-        document.querySelector('#welcome-section').hidden=false;
+        getWelcomeSection.hidden=false;
     }
     else if ( route.args[1] == "route" ) {
-        document.querySelector('#welcome-section').hidden=false;
+        getWelcomeSection.hidden=false;
         if ( route.args.length === 4 ) {
             if ( route.args[2] === "zblock" ) {
                 seekZblock(route.args[3], ['search', false]);
             }
         }
-    } else if ( (locationHashGetter() !== 'undefined') && ( menuids.includes(route.menuid))){
+    } else if ( (locationHashGetter() !== 'undefined') && ( menuids().includes(route.menuid))){
         document.querySelector(route.menuid).hidden=false;
     } else {
-        document.querySelector('#not-found-section').hidden=false;
+        getSoftError().hidden=false;
     }
 }
 

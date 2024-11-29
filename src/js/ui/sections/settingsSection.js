@@ -1,21 +1,30 @@
 import { makeElement } from "../../arching-kaos-generator.js";
-import { settings } from "../../arching-kaos-web-ui-settings.js";
+import { getSettings, settings } from "../../arching-kaos-web-ui-settings.js";
+
+// var settings = getSettings();
+console.log(settings);
 
 var settingsSection = {
     element: 'div',
     id: "settings-section",
-    innerHTML: `
-        <div class="where-am-i">
-            <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-            <span>&gt;</span>
-            <h2>🔧 Settings</h2>
-        </div>
-                `
-}
+    innerHTML: [
+        {element: "div",
+            className:"where-am-i",
+            innerHTML:[
+                {element: "img", src:"./img/logo.png", onclick: "menusel({id:'#/welcome-section'})"},
+                {element: "span", innerText:">"},
+                {element: "h2", innerText:"🔧 Settings"}
+            ]
+        }
+    ]
+};
 
 makeElement(settingsSection, document.querySelector('.main'));
 
-var settingsPage = document.querySelector('#settings-section');
+export function settingsPage()
+{
+    return document.querySelector('#settings-section');
+}
 
 // var scripts = [
 //     {
@@ -24,21 +33,21 @@ var settingsPage = document.querySelector('#settings-section');
 //         src:"./js/arching-kaos-web-ui-settings.js"
 //     }
 // ];
-// 
+//
 // for ( var i = 0; i < scripts.length; i++ )
 // {
 //     makeElement(scripts[i], document.querySelector('body'));
 // }
 
-var server = new StellarSdk.Server(settings.stellar.horizon.list[settings.stellar.horizon.active], {allowHttp:true});
+// var server = new StellarSdk.Server(settings.stellar.horizon.list[settings.stellar.horizon.active], {allowHttp:true});
 
-if ( settings.stellar.scan )
-{
-    scanStellarNetworkForPeers();
-}
-
-if ( settings.ak.scan )
-{
-    ringlocalbell();
-    setInterval(ringlocalbell, 10*60*1000);
-}
+// if ( getSettings().stellar.scan )
+// {
+//     scanStellarNetworkForPeers();
+// }
+//
+// if ( getSettings().ak.scan )
+// {
+//     ringlocalbell();
+//     setInterval(ringlocalbell, 10*60*1000);
+// }

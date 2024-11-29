@@ -5,6 +5,28 @@
  * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
  *
  */
+import { archingKaosLog } from "./arching-kaos-log.js";
+import { makeElement } from "./arching-kaos-generator.js";
+import { progressPlaceholder } from "./app.js";
+import { archingKaosFetchJSON } from "./arching-kaos-fetch.js";
+import { getIPFSURL, getIPNSURL } from "./url-generators.js";
+import {
+    stellarParticipantInfo,
+    getStellarParticipantsScanned,
+    getStellarNetworkConfiguredAddresses,
+    setFullZblock,
+    setZblock,
+    setData,
+    getParticipants,
+    setZchainLoadingStatus,
+    getZchainLoadingStatuses
+} from "./environment-setup.js";
+import { akModuleComments } from "./arching-kaos-modules-comments.js";
+import { akModuleFiles } from "./arching-kaos-modules-files.js";
+import { akModuleMixtapes } from "./arching-kaos-modules-mixtapes.js";
+import { akModuleNews } from "./arching-kaos-modules-news.js";
+import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
+
 function getArrayLength(array){
     var length = 0;
     for ( e in array ) {
@@ -52,28 +74,33 @@ function renderStellarAddressPlaceholder(stellarAddress){
 
 function nodeInfoRender(json, stellarAddress){
     var divs = renderStellarAddressPlaceholder(stellarAddress);
-    for( key in Object.keys(json) ){
-        if ( typeof(json[Object.keys(json)[key]]) === "string" ) {
-            if(!document.querySelector('#'+Object.keys(json)[key]+'-'+stellarAddress)){
-                var p = document.createElement("p");
-                p.id = Object.keys(json)[key]+'-'+stellarAddress;
-                p.innerText = Object.keys(json)[key] + ": " +json[Object.keys(json)[key]];
-                divs.appendChild(p);
+    console.log(json);
+    const keys = Object.keys(json);
+    for( var i = 0; i < keys.length; i++ )
+    {
+        if ( typeof(json[keys[i]]) === "string" ) {
+            if(!document.querySelector('#'+keys[i]+'-'+stellarAddress)){
+                var p = {
+                    element:"p",
+                    id: `${keys[i]}-${stellarAddress}`,
+                    innerText: `${keys[i]}: ${json[keys[i]]}`
+                };
+                makeElement(p, divs);
             }
         }
-        else if ( typeof(json[Object.keys(json)[key]]) === "Object"||"Array" ) {
-            nodeInfoRender(json[Object.keys(json)[key]], stellarAddress);
+        else if ( typeof(json[keys[i]]) === "Object"||"Array" ) {
+            nodeInfoRender(json[keys[i]], stellarAddress);
         }
     }
 }
 
 function nodeInfoRenderAndProceed(json, stellarAddress){
     nodeInfoRender(json, stellarAddress);
-    participants[stellarAddress]=json;
-    if ( stellarParticipantsScanned === 0 ) {
+    stellarParticipantInfo(stellarAddress, json);
+    if ( getStellarParticipantsScanned() === 0 ) {
         archingKaosLog('Scanned all Stellar participants');
     }
-    progressPlaceholder.value++;
+    progressPlaceholder().value++;
     if (json.zlatest) {
         seekZblock(json.zlatest, [json.gpg, json]);
     }
@@ -100,8 +127,8 @@ function renderZblockAndProceed(json, params){
         };
         makeElement(p, zblockElement);
     }
-    progressPlaceholder.max++;
-    progressPlaceholder.value++;
+    progressPlaceholder().max++;
+    progressPlaceholder().value++;
     //if (recursive) seekBlock(json.block,zblockIPFSHash,group,json);
     seekBlock(json.block,zblockIPFSHash,group,json,recursive);
 }
@@ -167,44 +194,34 @@ function blockRenderAndProceed(json, params){
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    progressPlaceholder.value++;
+    progressPlaceholder().value++;
     exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject,recursive);
     if ( checkIfGenesis(json.previous) ){
         archingKaosLog("Done loading " + group + " zchain!")
-        progressPlaceholder.value++;
-        zchainLoadingStatus[group] = {loading: "completed"};
-        if ( getArrayLength(zchainLoadingStatus) === stellarNetworkConfiguredAddresses){
+        progressPlaceholder().value++;
+        setZchainLoadingStatus(group, {loading: "completed"});
+        if ( getZchainLoadingStatuses().length === getStellarNetworkConfiguredAddresses()){
             var x=0;
-            for ( element in zchainLoadingStatus ) {
-                if ( zchainLoadingStatus[element].loading === "completed" ){
+            for ( element in getZchainLoadingStatuses() ) {
+                if ( getZchainLoadingStatuses()[element].loading === "completed" ){
                     x++;
                 }
             }
-            if ( x === getArrayLength(zchainLoadingStatus) ){
+            if ( x === getZchainLoadingStatuses().length ){
                 archingKaosLog("Everything is completed!");
                 sortedMixtapes = mixtapes.sort(mixtapeSorting);
             }
         }
-        resolveReferences(references);
-        radioLoad();
+        resolveReferences();
+        //radioLoad();
     } else {
         console.log("deep in :" +group);
         if (recursive) seekZblock(json.previous, [group]);
     }
 }
 
-function getNicknameAssossiatedWithGPG(gpgIPFSHash){
-    for (let i in participants){
-        if ( participants[i].gpg === gpgIPFSHash ){
-            if (participants[i].profile.nickname){
-                return participants[i].profile.nickname;
-            }
-        }
-    }
-}
-
-function getConfiguration(nodeInfoIPNSLink,stellarAddress){
-    progressPlaceholder.max++;
+export function getConfiguration(nodeInfoIPNSLink,stellarAddress){
+    progressPlaceholder().max++;
     archingKaosLog("Parsing the configuration...")
     archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress)
 }
@@ -250,7 +267,7 @@ function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive
     console.log(recursive);
     archingKaosLog("Seeking block "+blockIPFSHash+"...");
     // detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
-    progressPlaceholder.max++;
+    progressPlaceholder().max++;
     archingKaosFetchJSON(
         getIPFSURL(blockIPFSHash),
         blockRenderAndProceed,
@@ -258,12 +275,18 @@ function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive
     );
 }
 
-function getNicknameAssossiatedWithGPG(gpgIPFSHash){
-    for (let i in participants){
-        if ( participants[i].gpg === gpgIPFSHash ){
-            if (participants[i].profile.nickname !== 'undefined'){
+export function getNicknameAssossiatedWithGPG(gpgIPFSHash){
+    const participants = getParticipants();
+    for (var i = 0; i < participants.length; i++)
+    {
+        if ( participants[i].gpg === gpgIPFSHash )
+        {
+            if (participants[i].profile.nickname !== 'undefined')
+            {
                 return participants[i].profile.nickname;
-            } else {
+            }
+            else
+            {
                 return gpgIPFSHash;
             }
         }
@@ -319,12 +342,6 @@ function seekZblock(zblockIPFSHash, params){
     archingKaosFetchJSON(getIPFSURL(zblockIPFSHash), renderZblockAndProceed, [zblockIPFSHash, group, recursive]);
 }
 
-function getConfiguration(nodeInfoIPNSLink,stellarAddress){
-    progressPlaceholder.max++;
-    archingKaosLog("Parsing the configuration...")
-    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress)
-}
-
 function renderZblockAsModule(json, params){
     const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
     if (action == "files/add") {
@@ -358,7 +375,7 @@ function renderZblockAsModule(json, params){
 
 function saveDataAndFullZblocks(json,params){
     const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
-    fullZblocks[zblockIPFSHash]={
+    setFullZblock(zblockIPFSHash, {
         zblock:zblockIPFSHash,
         block:zblockObject.block,
         block_signature:zblockObject.block_signature,
@@ -369,16 +386,15 @@ function saveDataAndFullZblocks(json,params){
         detach:blockObject.detach,
         gpg:blockObject.gpg,
         timestamp:blockObject.timestamp
-    };
-    zblocks[group] = new Array;
-    zblocks[group].push(zblockIPFSHash);
-    data[blockObject.data]=json;
-    progressPlaceholder.max++;
-    progressPlaceholder.value++;
+    });
+    setZblock(group, zblockIPFSHash);
+    setData(blockObject.data, json);
+    progressPlaceholder().max++;
+    progressPlaceholder().value++;
 }
 
 function doStuffWithFetchedDataBlock(json, params){
-    saveDataAndFullZblocks(json,params);
+    saveDataAndFullZblocks(json, params);
     renderZblockAsModule(json, params);
 }
 
@@ -387,35 +403,37 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject,r
     archingKaosFetchJSON(
         getIPFSURL(dataIPFSHash),
         doStuffWithFetchedDataBlock,
-        [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive]
+        [action, group, zblockIPFSHash, zblockObject, blockObject, null, recursive]
     );
 }
 
-function getipfstext(ipfsHash, articleid){
-    fetch(getIPFSURL(ipfsHash), {
-        method:'GET',
-        headers:{
-            Accept: 'text/plain'
-        }
-    }).then(response=>{
-        if(response.ok){
-            response.text().then(text=>{
-                var divs = document.querySelector('#'+articleid);
-                if(text){
-                    var lines = text.split('\n');
-                    // remove one line, starting at the first position
-                    // lines.splice(0,1);
-                    var newtext = lines.join('\n');
-                    var pre = {
-                        element:"div",
-                        className:"news-text",
-                        innerHTML:DOMPurify.sanitize(marked.parse(newtext))
-                    };
-                    makeElement(pre, divs);
-                }
-            })
-        }
-    })
+export function getPreviewText(text, params)
+{
+    var [ articleid ] = params;
+    var divs = document.querySelector(articleid);
+    if(text){
+        var newtext = text.substring(0, 500);
+        var pre = {
+            element:"div",
+            className:"news-text",
+            innerHTML:DOMPurify.sanitize(marked.parse(newtext))
+        };
+        makeElement(pre, divs);
+    }
+}
+
+export function getFullText(text, params)
+{
+    var [ articleid ] = params;
+    var divs = document.querySelector(articleid);
+    if(text){
+        var pre = {
+            element:"div",
+            className:"news-text",
+            innerHTML:DOMPurify.sanitize(marked.parse(text))
+        };
+        makeElement(pre, divs);
+    }
 }
 
 function checkIfZchainAndProceed(json, params){

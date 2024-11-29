@@ -14,16 +14,27 @@
  * Apparently, we need `arching-kaos-web-ui-settings` to be loaded first
  *
  */
+import { getSettings } from "./arching-kaos-web-ui-settings.js";
 
-function getIPNSURL(ipnsKey){
+const settings = getSettings();
+
+export function getStellarConfigurationVariableURL(stellarAddress){
+    return settings.stellar.horizon.list[settings.stellar.horizon.active]+
+        'accounts/'+
+        stellarAddress+
+        '/data/'+
+        settings.stellar.variableNames.list[settings.stellar.variableNames.active];
+}
+
+export function getIPNSURL(ipnsKey){
     return settings.ipfs.gateway.list[settings.ipfs.gateway.active]+'ipns/'+ipnsKey;
 }
 
-function getIPFSURL(ipfsHash){
+export function getIPFSURL(ipfsHash){
     return settings.ipfs.gateway.list[settings.ipfs.gateway.active]+'ipfs/'+ipfsHash;
 }
 
-function getHoldersOfActiveAssetURL(){
+export function getHoldersOfActiveAssetURL(){
     return settings.stellar.horizon.list[settings.stellar.horizon.active]+
         'accounts?asset='+
         settings.stellar.asset.list[settings.stellar.asset.active].code+
@@ -32,7 +43,7 @@ function getHoldersOfActiveAssetURL(){
         '&limit=200';
 }
 
-function getTrustlinesURL(code=null, issuer=null){
+export function getTrustlinesURL(code=null, issuer=null){
     var code = (code === null)? settings.stellar.asset.list[settings.stellar.asset.active].code : code;
     var issuer = (issuer === null) ? settings.stellar.asset.list[settings.stellar.asset.active].issuer : issuer;
     return settings.stellar.horizon.list[settings.stellar.horizon.active]+

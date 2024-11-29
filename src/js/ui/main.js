@@ -1,34 +1,97 @@
 import { makeElement } from "../arching-kaos-generator.js";
 
-var scripts = [
-    {
-        element:"script",
-        type:"module",
-        src:"./js/ui/sections/welcomeSection.js"
-    },
-    {
-        element:"script",
-        type:"module",
-        src:"./js/ui/sections/chatSection.js"
-    },
-    {
-        element:"script",
-        type:"module",
-        src:"./js/ui/sections/notFoundSection.js"
-    },
-    {
-        element:"script",
-        type:"module",
-        src:"./js/ui/sections/settingsSection.js"
-    },
-    {
-        element:"script",
-        type:"module",
-        src:"./js/ui/sections/radioSection.js"
-    }
-];
-
-for ( var i = 0; i < scripts.length; i++ )
+export function mainSpawn()
 {
-    makeElement(scripts[i], document.querySelector('body'));
+    var scripts = [
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/aboutSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/akNodeInfoSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/chatSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/commentsSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/filesSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/mixtapesSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/myPageSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/newsSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/notFoundSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/radioSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/settingsSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/statsSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/stellarBalancesSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/stellarDataConfigSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/stellarSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/welcomeSection.js"
+        },
+        {
+            element:"script",
+            type:"module",
+            src:"./js/ui/sections/zchainDataSection.js"
+        }
+    ];
+
+    for ( var i = 0; i < scripts.length; i++ )
+    {
+        makeElement(scripts[i], document.querySelector('body'));
+    }
 }

@@ -1,28 +1,13 @@
 import { makeElement } from "../arching-kaos-generator.js";
+import { headerSpawn } from "./header.js";
+import { menuSpawn } from "./menu.js";
+import { mainSpawn } from "./main.js";
+import { footerSpawn } from "./footer.js";
 
-var scripts = [
-    {
-        element:"script",
-        type: "module",
-        src:"./js/ui/header.js"
-    },
-    {
-        element:"script",
-        type: "module",
-        src:"./js/ui/menu.js"
-    },
-    {
-        element:"script",
-        type: "module",
-        src:"./js/ui/main.js"
-    },
-    {
-        element:"script",
-        type: "module",
-        src:"./js/ui/footer.js"
-    }
-]
-for ( var i = 0; i < scripts.length; i++ )
+export function mainLayoutSpawn()
 {
-    makeElement(scripts[i], document.querySelector('body'));
+    headerSpawn();
+    menuSpawn();
+    mainSpawn();
+    footerSpawn();
 }

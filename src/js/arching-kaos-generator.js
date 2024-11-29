@@ -5,7 +5,7 @@
  * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
  *
  */
-function makeElement(obj, attachTo)
+export function makeElement(obj, attachTo)
 {
     if (obj.element !== 'head' && obj.element !== 'body' )
     {
@@ -50,7 +50,7 @@ function makeElement(obj, attachTo)
     attachTo.appendChild(temp);
 }
 
-function makeUpSite(tree, root){
+export function makeUpSite(tree, root){
     if ( tree !== undefined && Array.isArray(tree) )
     {
         for (var i = 0; i < tree.length; i++)

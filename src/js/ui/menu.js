@@ -6,77 +6,118 @@
  *
  */
 import { makeElement } from "../arching-kaos-generator.js";
+import { locationHashSetter } from "../arching-kaos-spa-router.js";
+import { mainContainer } from "../app.js";
 
-var menuButton = {
-    element: "button",
-    id:"mobile-menu",
-    innerText:"Show menu"
-};
+export function doubleFloorMenu()
+{
+    return document.querySelector('#double-floor');
+}
+export function upperFloor()
+{
+    return document.querySelector('.upper-floor');
+}
 
-makeElement(menuButton, document.querySelector('#menu-placeholder'));
+export function lowerFloor()
+{
+    return document.querySelector('.lower-floor');
+}
 
-document.querySelector('#mobile-menu').addEventListener("click", toggleMenu);
+export function modulesSubmenu()
+{
+    return document.querySelector('#modules-submenu');
+}
 
-var menuLayout = {
-    element: 'nav', id:"double-floor", innerHTML:[
-        { element: "div", id:"menu", className:"upper-floor", innerHTML: [
-            { element: "button", onclick:'menusel({id:"#/welcome-section"})', innerText:"Home"},
-            { element: "button", onclick:'modulesSubToggle()', innerText:"Modules"},
-            { element: "button", onclick:'exploreSubToggle()', innerText:"Explore"},
-            { element: "button", onclick:'menusel({id:"#/chat-section"})', innerText:"Chat"},
-            { element: "button", onclick:'menusel({id:"#/radio-section"})', innerText:"Radio"},
-            { element: "button", onclick:'menusel({id:"#/settings-section"})', innerText:"Settings"},
-            { element: "button", onclick:'stellarSubToggle()', innerText:"Stellar"},
-            { element: "button", onclick:'menusel({id:"#/about-section"})', innerText:"About"}
+export function exploreSubmenu()
+{
+    return document.querySelector('#explore-submenu');
+}
+
+export function stellarSubmenu()
+{
+    return document.querySelector('#stellar-submenu');
+}
+
+
+export function menuSpawn()
+{
+    var menuButton = {
+        element: "button",
+        id:"mobile-menu",
+        innerText:"Show menu"
+    };
+
+    makeElement(menuButton, document.querySelector('#menu-placeholder'));
+
+    document.querySelector('#mobile-menu').addEventListener("click", toggleMenu);
+
+    var menuLayout = {
+        element: 'nav', id:"double-floor", innerHTML:[
+            { element: "div", id:"menu", className:"upper-floor", innerHTML: [
+                { element: "button", onclick:'menusel({id:"#/welcome-section"})', innerText:"Home"},
+                { element: "button", onclick:'modulesSubToggle()', innerText:"Modules"},
+                { element: "button", onclick:'exploreSubToggle()', innerText:"Explore"},
+                { element: "button", onclick:'menusel({id:"#/chat-section"})', innerText:"Chat"},
+                { element: "button", onclick:'menusel({id:"#/radio-section"})', innerText:"Radio"},
+                { element: "button", onclick:'menusel({id:"#/settings-section"})', innerText:"Settings"},
+                { element: "button", onclick:'stellarSubToggle()', innerText:"Stellar"},
+                { element: "button", onclick:'menusel({id:"#/about-section"})', innerText:"About"}
+            ]
+            },
+            { element: "div", id:"menu", className:"lower-floor"}
         ]
-        },
-        { element: "div", id:"menu", className:"lower-floor"}
-    ]
-};
+    };
 
-makeElement(menuLayout, document.querySelector('#menu-placeholder'));
+    makeElement(menuLayout, document.querySelector('#menu-placeholder'));
 
-var modulesSubmenuTemplate = {
-    element: 'div',
-    className:"dropdown",
-    id:"modules-submenu",
-    innerHTML: [
-        { element:'button', onclick:"modulesSubToggle()", innerText:".."},
-        { element:'button', onclick:'menusel({id:"#/mixtapes-section"})', innerText:"Mixtapes"},
-        { element:'button', onclick:'menusel({id:"#/news-section"})', innerText:"News"},
-        { element:'button', onclick:'menusel({id:"#/comments-section"})', innerText:"Comments"},
-        { element:'button', onclick:'menusel({id:"#/files-section"})', innerText:"Files"}
-    ]
-};
+    var modulesSubmenuTemplate = {
+        element: 'div',
+        className:"dropdown",
+        id:"modules-submenu",
+        innerHTML: [
+            { element:'button', onclick:"modulesSubToggle()", innerText:".."},
+            { element:'button', onclick:'menusel({id:"#/mixtapes-section"})', innerText:"Mixtapes"},
+            { element:'button', onclick:'menusel({id:"#/news-section"})', innerText:"News"},
+            { element:'button', onclick:'menusel({id:"#/comments-section"})', innerText:"Comments"},
+            { element:'button', onclick:'menusel({id:"#/files-section"})', innerText:"Files"}
+        ]
+    };
 
-makeElement(modulesSubmenuTemplate, document.querySelector('.lower-floor'));
+    makeElement(modulesSubmenuTemplate, lowerFloor());
 
-var exploreSubmenuTemplate = {
-    element: 'div',
-    className:"dropdown",
-    id:"explore-submenu",
-    innerHTML: [
-        { element:'button', onclick:"exploreSubToggle()", innerText:".."},
-        { element:'button', onclick:'menusel({id:"#/zchain-data-section"})', innerText:"zchain"},
-        { element:'button', onclick:'menusel({id:"#/stats-section"})', innerText:"Stats"}
-    ]
-};
-makeElement(exploreSubmenuTemplate, document.querySelector('.lower-floor'));
+    var exploreSubmenuTemplate = {
+        element: 'div',
+        className:"dropdown",
+        id:"explore-submenu",
+        innerHTML: [
+            { element:'button', onclick:"exploreSubToggle()", innerText:".."},
+            { element:'button', onclick:'menusel({id:"#/zchain-data-section"})', innerText:"zchain"},
+            { element:'button', onclick:'menusel({id:"#/stats-section"})', innerText:"Stats"}
+        ]
+    };
+    makeElement(exploreSubmenuTemplate, lowerFloor());
 
-var stellarSubmenuTemplate = {
-    element: 'div',
-    className:"dropdown",
-    id:"stellar-submenu",
-    innerHTML: [
-        { element:'button', onclick:"stellarSubToggle()", innerText:".."},
-        { element:'button', onclick:'menusel({id:"#/mypage-section"})', innerText:"My page"},
-        { element:'button', onclick:'menusel({id:"#/stellar-balances"})', innerText:"Balances"},
-        { element:'button', onclick:'menusel({id:"#/stellar-data-config"})', innerText:"Data"},
-        { element:'button', onclick:'menusel({id:"#/arching-kaos-node-info"})', innerText:"Node Info"}
-    ]
-};
+    var stellarSubmenuTemplate = {
+        element: 'div',
+        className:"dropdown",
+        id:"stellar-submenu",
+        innerHTML: [
+            { element:'button', onclick:"stellarSubToggle()", innerText:".."},
+            { element:'button', onclick:'menusel({id:"#/mypage-section"})', innerText:"My page"},
+            { element:'button', onclick:'menusel({id:"#/stellar-balances"})', innerText:"Balances"},
+            { element:'button', onclick:'menusel({id:"#/stellar-data-config"})', innerText:"Data"},
+            { element:'button', onclick:'menusel({id:"#/arching-kaos-node-info"})', innerText:"Node Info"}
+        ]
+    };
 
-makeElement(stellarSubmenuTemplate, document.querySelector('.lower-floor'));
+    makeElement(stellarSubmenuTemplate, lowerFloor());
+
+    upperFloor().style.display = 'flex';
+    lowerFloor().style.display = 'none';
+    modulesSubmenu().style.display = 'none';
+    exploreSubmenu().style.display = 'none';
+    stellarSubmenu().style.display = 'none';
+}
 
 /*
  * Menu bar management
@@ -84,70 +125,61 @@ makeElement(stellarSubmenuTemplate, document.querySelector('.lower-floor'));
  * We change the visible floor according to menu selection.
  *
  */
-var upperFloor = document.querySelector('.upper-floor');
-var lowerFloor = document.querySelector('.lower-floor');
-var doubleFloorMenu = document.querySelector('#double-floor'); 
 
-upperFloor.style.display = 'flex';
-lowerFloor.style.display = 'none';
-
-var modulesSubmenu = document.querySelector('#modules-submenu');
-modulesSubmenu.style.display = 'none';
 export function modulesSubToggle(){
-    modulesSubmenu.style.display = modulesSubmenu.style.display === 'none' ? 'flex' : 'none';
-    upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
-    lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
+    modulesSubmenu().style.display = modulesSubmenu().style.display === 'none' ? 'flex' : 'none';
+    upperFloor().style.display = upperFloor().style.display === 'none' ? 'flex' : 'none';
+    lowerFloor().style.display = lowerFloor().style.display === 'none' ? 'flex' : 'none';
 }
 
-var exploreSubmenu = document.querySelector('#explore-submenu');
-exploreSubmenu.style.display = 'none';
 export function exploreSubToggle(){
-    exploreSubmenu.style.display = exploreSubmenu.style.display === 'none' ? 'flex' : 'none';
-    upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
-    lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
+    exploreSubmenu().style.display = exploreSubmenu().style.display === 'none' ? 'flex' : 'none';
+    upperFloor().style.display = upperFloor().style.display === 'none' ? 'flex' : 'none';
+    lowerFloor().style.display = lowerFloor().style.display === 'none' ? 'flex' : 'none';
 }
 
-var stellarSubmenu = document.querySelector('#stellar-submenu');
-stellarSubmenu.style.display = 'none';
 export function stellarSubToggle(){
-    stellarSubmenu.style.display = stellarSubmenu.style.display === 'none' ? 'flex' : 'none';
-    upperFloor.style.display = upperFloor.style.display === 'none' ? 'flex' : 'none';
-    lowerFloor.style.display = lowerFloor.style.display === 'none' ? 'flex' : 'none';
+    stellarSubmenu().style.display = stellarSubmenu().style.display === 'none' ? 'flex' : 'none';
+    upperFloor().style.display = upperFloor().style.display === 'none' ? 'flex' : 'none';
+    lowerFloor().style.display = lowerFloor().style.display === 'none' ? 'flex' : 'none';
 }
 /*
  * Array of all the menu-panes IDs
  */
-var menuids = [
-    '#welcome-section',
-    '#about-section',
-    '#zchain-data-section',
-    '#news-section',
-    '#comments-section',
-    '#stats-section',
-    '#mixtapes-section',
-    '#chat-section',
-    '#radio-section',
-    '#mypage-section',
-    '#stellar-balances',
-    '#stellar-data-config',
-    '#arching-kaos-node-info',
-    '#files-section',
-    '#settings-section',
-    '#stellar-section',
-    '#not-found-section'
-];
+export function menuids()
+{
+    return [
+        '#welcome-section',
+        '#about-section',
+        '#zchain-data-section',
+        '#news-section',
+        '#comments-section',
+        '#stats-section',
+        '#mixtapes-section',
+        '#chat-section',
+        '#radio-section',
+        '#mypage-section',
+        '#stellar-balances',
+        '#stellar-data-config',
+        '#arching-kaos-node-info',
+        '#files-section',
+        '#settings-section',
+        '#stellar-section',
+        '#not-found-section'
+    ]
+};
 
 // Function to hide all the panes
 export function menuinit(){
-    for ( var i = 0; i < menuids.length; i++ ){
-        var sec = document.querySelector(menuids[i]);
+    for ( var i = 0; i < menuids().length; i++ ){
+        var sec = document.querySelector(menuids()[i]);
         if ( sec !== null )
         {
             sec.hidden = true;
         }
         else
         {
-            console.log(`menuinit: ${menuids[i]} was not found`);
+            console.log(`menuinit: ${menuids()[i]} was not found`);
         }
     }
 }
@@ -160,16 +192,16 @@ export function menusel(m){
     menuinit();
     // document.querySelector(m.id.replace('/','')).hidden=false;
     locationHashSetter(m.id);
-    
-    mainContainer.style.display = 'block';
-    if ( isMobile ) {
-        doubleFloorMenu.style.display = 'none';
+
+    mainContainer().style.display = 'block';
+    if ( window.isMobile ) {
+        doubleFloorMenu().style.display = 'none';
     }
 }
 
 export function toggleMenu(){
-    mainContainer.style.display = 'none';
-    doubleFloorMenu.style.display = 'flex';
+    mainContainer().style.display = 'none';
+    doubleFloorMenu().style.display = 'flex';
 }
 
 // @license-end

@@ -6,53 +6,164 @@
  *
  */
 var mixtapeIds = new Array;
+export function addMixtapeID(zblockIPFSHash)
+{
+    mixtapeIds.push('mixtape-player-'+zblockIPFSHash);
+}
+
 var mixtapes = new Array;
+export function setMixtape(zblockIPFSHash, json)
+{
+    mixtapes[zblockIPFSHash] = json;
+}
+export function getMixtapes()
+{
+    return mixtapes;
+}
+
 var sortedMixtapes = new Array;
 var zchainsFound = 0;
-var holders = new Array;
+var foundHolders = new Array;
 var gpglist = new Array;
-var participants = new Array;
 var stellarNetworkConfiguredAddresses = 0;
 var stellarParticipants = 0;
+
+var participants = new Array;
+export function getParticipants()
+{
+    return participants;
+}
+
+export function stellarParticipantInfo(participant, info)
+{
+    participants[participant] = info;
+}
+
+export function getStellarNetworkConfiguredAddresses()
+{
+    return stellarNetworkConfiguredAddresses;
+}
+
+export function increaseStellarNetworkConfiguredAddresses()
+{
+    stellarNetworkConfiguredAddresses += 1;
+}
+
+export function getFoundHolders()
+{
+    return foundHolders;
+}
+
+export function addToFoundHolders(holder)
+{
+    foundHolders.push(holder);
+}
+
+export function getStellarParticipants()
+{
+    return stellarParticipants;
+}
+
+export function setStellarParticipants(i)
+{
+    stellarParticipants = i;
+}
+
+export function increaseStellarParticipants()
+{
+    stellarParticipants++;
+}
+
 var stellarParticipantsScanned = 0;
+
+export function getStellarParticipantsScanned()
+{
+    return stellarParticipantsScanned;
+}
+export function setStellarParticipantsScanned(i)
+{
+    stellarParticipantsScanned = i;
+}
+
 var zchainLoadingStatus = new Array;
+export function setZchainLoadingStatus(zchain, status)
+{
+    zchainLoadingStatus[zchain] = status;
+}
+export function getZchainLoadingStatus(zchain)
+{
+    return zchainLoadingStatus[zchain];
+}
+export function getZchainLoadingStatuses()
+{
+    return zchainLoadingStatus;
+}
+
 var zchains = new Array;
 var references = new Array;
+export function getReferences()
+{
+    return references;
+}
+
+export function getReference(zblock)
+{
+    return references[zblock];
+}
+
+export function setReference(zblock, data)
+{
+    references[zblock] = data;
+}
+
 var fullZblocks = new Array;
+export function getFullZblock(zblockIPFSHash)
+{
+    return fullZblocks[zblockIPFSHash];
+}
+
+export function getFullZblocks()
+{
+    return fullZblocks;
+}
+
+export function setFullZblock(zblockIPFSHash, data)
+{
+    fullZblocks[zblockIPFSHash] = data;
+}
+
 var zblocks = new Array;
+export function getZblocks()
+{
+    return zblocks;
+}
+
+export function getZblock(group)
+{
+    return zblocks[group];
+}
+
+export function setZblock(group, zblockIPFSHash)
+{
+    if ( zblocks[group] === undefined )
+    {
+        zblocks[group] = new Array;
+    }
+    zblocks[group].push(zblockIPFSHash);
+}
+
 var blocks = new Array;
 var data = new Array;
+
+export function setData(hash, json)
+{
+    data[hash] = json;
+}
+
 var nodeInfo = new Array;
-var body = document.querySelector('body');
-var pageLayout = document.querySelector('.page-layout');
-var mainContainer = document.querySelector('.main');
-var isMobile = false;
-var aknet = document.querySelector('.aknet-network')
-var resultsArea = document.querySelector('.results-area')
 
 
-/*
- * Array of all the menu-panes IDs
- */
-var menuids = [
-    '#welcome-section',
-    '#about-section',
-    '#zchain-data-section',
-    '#news-section',
-    '#comments-section',
-    '#stats-section',
-    '#mixtapes-section',
-    '#chat-section',
-    '#radio-section',
-    '#mypage-section',
-    '#stellar-balances',
-    '#stellar-data-config',
-    '#arching-kaos-node-info',
-    '#files-section',
-    '#settings-section',
-    '#stellar-section',
-    '#not-found-section'
-];
+
 
 /*
  * We select our basic placeholders.
@@ -61,12 +172,6 @@ var menuids = [
  * to append data on specific places in the page.
  *
  */
-var progressPlaceholder = document.querySelector('#total-progress');
-var httpProgressPlaceholder = document.querySelector('#http-progress');
-var currentLogMessageElement = document.querySelector('#current-log-message');
-var logsAreaElement = document.querySelector("#logs-area-element");
-var radio = document.querySelector("#radio-player");
-var radioButton = document.querySelector("#radio-button-controller");
 
 /*
  * Get addresses that trust the asset
