@@ -1,9 +1,11 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var stellarDataConfigSection = {
-    element: "div",
-    id: "stellar-data-config",
-    innerHTML: `
+export function stellarDataConfigSection()
+{
+    var stellarDataConfigSection = {
+        element: "div",
+        id: "stellar-data-config",
+        innerHTML: `
         <div class="where-am-i">
             <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
             <span>&gt;</span>
@@ -13,6 +15,7 @@ var stellarDataConfigSection = {
         </div>
         <em id="stellar-data-config-not-found">No data found (yet?)!</em>
         `
-};
+    };
 
-makeElement(stellarDataConfigSection, document.querySelector('.main'));
+    makeElement(stellarDataConfigSection, document.querySelector('.main'));
+}

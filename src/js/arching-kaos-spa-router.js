@@ -48,19 +48,27 @@ export function locationHashOnChange()
     route.menuid = '#'+route.args[1];
     route.subcommand = route.args[2];
     menuinit();
-    if ( (locationHashGetter() !== 'undefined') && (locationHashGetter() === '') ){
-        getWelcomeSection.hidden=false;
+    if ( (locationHashGetter() !== 'undefined') && (locationHashGetter() === '') )
+    {
+        getWelcomeSection().hidden=false;
     }
-    else if ( route.args[1] == "route" ) {
-        getWelcomeSection.hidden=false;
-        if ( route.args.length === 4 ) {
-            if ( route.args[2] === "zblock" ) {
+    else if ( route.args[1] == "route" )
+    {
+        getWelcomeSection().hidden=false;
+        if ( route.args.length === 4 )
+        {
+            if ( route.args[2] === "zblock" )
+            {
                 seekZblock(route.args[3], ['search', false]);
             }
         }
-    } else if ( (locationHashGetter() !== 'undefined') && ( menuids().includes(route.menuid))){
+    }
+    else if ( (locationHashGetter() !== 'undefined') && ( menuids().includes(route.menuid)))
+    {
         document.querySelector(route.menuid).hidden=false;
-    } else {
+    }
+    else
+    {
         getSoftError().hidden=false;
     }
 }

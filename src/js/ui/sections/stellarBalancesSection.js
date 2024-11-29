@@ -1,9 +1,11 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var stellarBalancesSection = {
-    element: "div",
-    id: "stellar-balances",
-    innerHTML: `
+export function stellarBalancesSection()
+{
+    var stellarBalancesSection = {
+        element: "div",
+        id: "stellar-balances",
+        innerHTML: `
         <div class="where-am-i">
             <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
             <span>&gt;</span>
@@ -14,6 +16,7 @@ var stellarBalancesSection = {
         <em id="stellar-balances-not-found">No data found (yet?)!</em>
         <table id="stellar-balances-table"></table>
         `
-};
+    };
 
-makeElement(stellarBalancesSection, document.querySelector('.main'));
+    makeElement(stellarBalancesSection, document.querySelector('.main'));
+}

@@ -23,7 +23,7 @@
  *
  */
 import { makeElement } from "./arching-kaos-generator.js";
-import { settingsPage } from "./ui/sections/settingsSection.js";
+import { getSettingsPage } from "./ui/sections/settingsSection.js";
 
 var default_settings = {
     ipfs: {
@@ -96,12 +96,8 @@ var default_settings = {
 //
 // All comments above are replaced by temporary initializing without saving
 // anything in the localStorage
-export function getSettings()
-{
-    return default_settings;
-}
 
-export var settings = default_settings;
+var settings = default_settings;
 
 // Also, remove any settings stored from previous runs
 window.localStorage.removeItem("ak-settings");
@@ -206,20 +202,25 @@ function settingPlaceToDOM(key, value){
         console.log(`Settings value: ${value}, type: ${typeof(value)}`);
 //        container.innerText = value;
     }
-    settingsPage().appendChild(container);
+    getSettingsPage().appendChild(container);
 }
 
-settingsKeys.forEach(
-    (value) => {
-        settingPlaceToDOM(value, settings[value]);
-    }
-);
+// settingsKeys.forEach(
+//     (value) => {
+//         settingPlaceToDOM(value, settings[value]);
+//     }
+// );
 
 /* Small dump as pre text */
-var predump = document.createElement('pre');
-predump.innerText = JSON.stringify(settings, null, 2);
-settingsPage().appendChild(predump);
+// var predump = document.createElement('pre');
+// predump.innerText = JSON.stringify(settings, null, 2);
+// getSettingsPage().appendChild(predump);
 /* END of: Small dump as pre text */
+
+export function getSettings()
+{
+    return default_settings;
+}
 
 // console.log(settings.ipfsGatewayAddress[settings.ipfsSelectedGatewayAddress]);
 

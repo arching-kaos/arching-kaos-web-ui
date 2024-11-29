@@ -1,9 +1,11 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var myPageSection = {
-    element: "div",
-    id: "mypage-section",
-    innerHTML: `
+export function myPageSection()
+{
+    var myPageSection = {
+        element: "div",
+        id: "mypage-section",
+        innerHTML: `
         <h2>My page</h2>
         <button id="stellar-freigher-connect-address-button" onclick="connect()">Connect with Freighter wallet</button>
         <div id="my-news">
@@ -19,6 +21,7 @@ var myPageSection = {
             <em id="my-zchain-sec-not-found">No data found (yet?)!</em>
         </div>
     `
-};
+    };
 
-makeElement(myPageSection, document.querySelector('.main'));
+    makeElement(myPageSection, document.querySelector('.main'));
+}

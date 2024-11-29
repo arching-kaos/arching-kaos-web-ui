@@ -1,9 +1,11 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var mixtapesSection = {
-    element: "div",
-    id: "mixtapes-section",
-    innerHTML: `
+export function mixtapesSection()
+{
+    var mixtapesSection = {
+        element: "div",
+        id: "mixtapes-section",
+        innerHTML: `
         <div class="where-am-i">
             <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
             <span>&gt;</span>
@@ -13,6 +15,7 @@ var mixtapesSection = {
         </div>
         <em id="mixtapes-sec-not-found">No data found (yet?)!</em>
                 `
-};
+    };
 
-makeElement(mixtapesSection, document.querySelector('.main'));
+    makeElement(mixtapesSection, document.querySelector('.main'));
+}

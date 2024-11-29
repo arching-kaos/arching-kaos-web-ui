@@ -1,4 +1,3 @@
-import { makeElement } from "../arching-kaos-generator.js";
 import { headerSpawn } from "./header.js";
 import { menuSpawn } from "./menu.js";
 import { mainSpawn } from "./main.js";

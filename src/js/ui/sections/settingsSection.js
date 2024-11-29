@@ -1,27 +1,30 @@
 import { makeElement } from "../../arching-kaos-generator.js";
-import { getSettings, settings } from "../../arching-kaos-web-ui-settings.js";
+import { getSettings } from "../../arching-kaos-web-ui-settings.js";
 
-// var settings = getSettings();
+var settings = getSettings();
 console.log(settings);
 
-var settingsSection = {
-    element: 'div',
-    id: "settings-section",
-    innerHTML: [
-        {element: "div",
-            className:"where-am-i",
-            innerHTML:[
-                {element: "img", src:"./img/logo.png", onclick: "menusel({id:'#/welcome-section'})"},
-                {element: "span", innerText:">"},
-                {element: "h2", innerText:"🔧 Settings"}
-            ]
-        }
-    ]
-};
+export function settingsSection()
+{
+    var settingsSection = {
+        element: 'div',
+        id: "settings-section",
+        innerHTML: [
+            {element: "div",
+                className:"where-am-i",
+                innerHTML:[
+                    {element: "img", src:"./img/logo.png", onclick: "menusel({id:'#/welcome-section'})"},
+                    {element: "span", innerText:">"},
+                    {element: "h2", innerText:"🔧 Settings"}
+                ]
+            }
+        ]
+    };
 
-makeElement(settingsSection, document.querySelector('.main'));
+    makeElement(settingsSection, document.querySelector('.main'));
+}
 
-export function settingsPage()
+export function getSettingsPage()
 {
     return document.querySelector('#settings-section');
 }

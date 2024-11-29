@@ -1,97 +1,38 @@
-import { makeElement } from "../arching-kaos-generator.js";
+import { aboutSection } from "./sections/aboutSection.js";
+import { akNodeInfoSection } from "./sections/akNodeInfoSection.js";
+import { chatSection } from "./sections/chatSection.js";
+import { commentsSection } from "./sections/commentsSection.js";
+import { filesSection } from "./sections/filesSection.js";
+import { mixtapesSection } from "./sections/mixtapesSection.js";
+import { newsSection } from "./sections/newsSection.js";
+import { myPageSection } from "./sections/myPageSection.js";
+import { notFoundSection } from "./sections/notFoundSection.js";
+import { radioSection } from "./sections/radioSection.js";
+import { settingsSection } from "./sections/settingsSection.js";
+import { statsSection } from "./sections/statsSection.js";
+import { stellarBalancesSection } from "./sections/stellarBalancesSection.js";
+import { stellarDataConfigSection } from "./sections/stellarDataConfigSection.js";
+import { stellarSection } from "./sections/stellarSection.js";
+import { welcomeSection } from "./sections/welcomeSection.js";
+import { zchainDataSection } from "./sections/zchainDataSection.js";
 
 export function mainSpawn()
 {
-    var scripts = [
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/aboutSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/akNodeInfoSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/chatSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/commentsSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/filesSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/mixtapesSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/myPageSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/newsSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/notFoundSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/radioSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/settingsSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/statsSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/stellarBalancesSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/stellarDataConfigSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/stellarSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/welcomeSection.js"
-        },
-        {
-            element:"script",
-            type:"module",
-            src:"./js/ui/sections/zchainDataSection.js"
-        }
-    ];
-
-    for ( var i = 0; i < scripts.length; i++ )
-    {
-        makeElement(scripts[i], document.querySelector('body'));
-    }
+    aboutSection();
+    akNodeInfoSection();
+    chatSection();
+    commentsSection();
+    filesSection();
+    mixtapesSection();
+    newsSection();
+    myPageSection();
+    notFoundSection();
+    radioSection();
+    settingsSection();
+    statsSection();
+    stellarBalancesSection();
+    stellarDataConfigSection();
+    stellarSection();
+    welcomeSection();
+    zchainDataSection();
 }

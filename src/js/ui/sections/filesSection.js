@@ -1,9 +1,11 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
-var filesSection = {
-    element: 'div',
-    id: "files-section",
-    innerHTML: `
+export function filesSection()
+{
+    var filesSection = {
+        element: 'div',
+        id: "files-section",
+        innerHTML: `
         <div class="where-am-i">
             <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
             <span>&gt;</span>
@@ -13,6 +15,7 @@ var filesSection = {
         </div>
         <em id="files-sec-not-found">No data found (yet?)!</em>
                 `
-};
+    };
 
-makeElement(filesSection, document.querySelector('.main'));
+    makeElement(filesSection, document.querySelector('.main'));
+}
