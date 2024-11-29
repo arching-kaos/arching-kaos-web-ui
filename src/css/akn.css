@@ -52,6 +52,10 @@ a:hover{
     color: #c5f0ff;
 }
 
+#header {
+    cursor: pointer;
+}
+
 .header {
     text-align: center;
 }
@@ -525,4 +529,27 @@ details {
     text-align: center;
     align-items: center;
     justify-content: center;
+}
+
+.manual-scan {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.where-am-i {
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.where-am-i img {
+    height: 32px;
+    display: flex;
+    flex-direction: row;
 }

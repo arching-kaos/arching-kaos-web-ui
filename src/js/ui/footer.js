@@ -1,3 +1,5 @@
+import { makeElement } from "../arching-kaos-generator.js";
+
 var footer = {
     element:"div",
     id:"footer",

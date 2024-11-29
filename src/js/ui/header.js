@@ -1,3 +1,5 @@
+import { makeElement } from "../arching-kaos-generator.js";
+
 var header = {
     element: "div",
     id: 'header',
@@ -7,13 +9,8 @@ var header = {
             {element: "img", src:"./img/header-logo.png" }
         ]},
         { element: "h1", style:"text-align: center;", innerText: "Arching Kaos"}
-    ]
+    ],
+    onclick: 'menusel({id:"#/welcome-section"});'
 }
 
-function goHomeAction()
-{
-    menusel({id:"#/welcome-section"});
-}
 makeElement(header, document.querySelector('#logo-title-placeholder'));
-
-document.querySelector('#logo-button').addEventListener("click", goHomeAction);
