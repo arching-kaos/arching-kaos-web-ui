@@ -17,7 +17,7 @@ export function akNodeInfoSection()
             { element: "span", innerText:">"},
             { element: "h2", innerText:"Stellar"},
             { element: "span", innerText:">"},
-            { element: "h2", innerText: "Balances" }
+            { element: "h2", innerText:"Node Info" }
         ]
     };
     var akNodeInfoSection = {
@@ -25,7 +25,6 @@ export function akNodeInfoSection()
         id: "arching-kaos-node-info",
         innerHTML: [
             whereAmI,
-            { element: "h2", innerText:"Node Info" },
             { element: "em", id:"node-info-not-found", innerText:"No data found (yet?)!"}
         ]
     };
