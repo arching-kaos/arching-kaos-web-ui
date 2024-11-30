@@ -1,12 +1,13 @@
-/* Arching Kaos Fetch
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- */
+// Arching Kaos Fetch
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { archingKaosLog } from "./arching-kaos-log.js";
 import { httpProgressPlaceholder, progressPlaceholder } from "./app.js";
+import { debugLog } from "./utils.js";
 
 export function archingKaosFetchJSON( url, callback, params ){
     const request = new XMLHttpRequest();
@@ -19,18 +20,18 @@ export function archingKaosFetchJSON( url, callback, params ){
         }
     });
     request.addEventListener("error", ()=>{
-        // console.log("An error occured.");
+        debugLog("An error occured.");
     });
     request.addEventListener("progress", (event)=>{
         if (event.lengthComputable && progressPlaceholder()){
             httpProgressPlaceholder().value = (event.loaded / event.total) * 100;
         } else {
             httpProgressPlaceholder().value = 0;
-            // console.log("Supposingly zeroed progressPlaceholder");
+            debugLog("Supposingly zeroed progressPlaceholder");
         }
     });
     request.addEventListener("abort", ()=>{
-        // console.log("Request aborted.");
+        debugLog("Request aborted.");
     });
     request.open("GET", url);
     request.send();
@@ -48,18 +49,18 @@ export async function archingKaosFetchText( url, callback, params ){
         }
     });
     request.addEventListener("error", ()=>{
-        // console.log("An error occured.");
+        debugLog("An error occured.");
     });
     request.addEventListener("progress", (event)=>{
         if (event.lengthComputable && progressPlaceholder()){
             httpProgressPlaceholder().value = (event.loaded / event.total) * 100;
         } else {
             httpProgressPlaceholder.value = 0;
-            // console.log("Supposingly zeroed progressPlaceholder");
+            debugLog("Supposingly zeroed progressPlaceholder");
         }
     });
     request.addEventListener("abort", ()=>{
-        // console.log("Request aborted.");
+        debugLog("Request aborted.");
     });
     request.open("GET", url);
     request.send();

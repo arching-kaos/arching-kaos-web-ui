@@ -1,10 +1,10 @@
-/* Arching Kaos Tools
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- */
+// Arching Kaos Tools
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { archingKaosLog } from "./arching-kaos-log.js";
 import { makeElement } from "./arching-kaos-generator.js";
 import { progressPlaceholder, resultsArea, aknet } from "./app.js";
@@ -31,6 +31,7 @@ import { akModuleMixtapes } from "./arching-kaos-modules-mixtapes.js";
 import { akModuleNews } from "./arching-kaos-modules-news.js";
 import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
 import { getSettings } from "./arching-kaos-web-ui-settings.js";
+import { debugLog } from "./utils.js";
 
 var settings = getSettings();
 
@@ -81,7 +82,7 @@ function renderStellarAddressPlaceholder(stellarAddress){
 
 function nodeInfoRender(json, stellarAddress){
     var divs = renderStellarAddressPlaceholder(stellarAddress);
-    console.log(json);
+    debugLog(json);
     const keys = Object.keys(json);
     for( var i = 0; i < keys.length; i++ )
     {
@@ -115,9 +116,9 @@ function nodeInfoRenderAndProceed(json, stellarAddress){
 }
 
 function renderZblockAndProceed(json, params){
-    console.log(typeof(params))
+    debugLog(typeof(params))
     const [zblockIPFSHash, group, recursive] = params;
-    console.log(group);
+    debugLog(group);
     var zblockElement = document.querySelector('#zb-'+zblockIPFSHash);
     if(json.block){
         var p = {
@@ -222,7 +223,7 @@ function blockRenderAndProceed(json, params){
         resolveReferences();
         //radioLoad();
     } else {
-        console.log("deep in :" +group);
+        debugLog("deep in :" +group);
         if (recursive) seekZblock(json.previous, [group]);
     }
 }
@@ -254,7 +255,7 @@ function seekZchain(zchainIPNSLink,stellarAddress,json){
         makeElement(p, details);
     }
     archingKaosLog("Seeking zchain " + zchainIPNSLink + "...");
-    console.log(json)
+    debugLog(json)
     archingKaosFetchJSON(getIPNSURL(zchainIPNSLink), seekZblock, [zchainIPNSLink, stellarAddress, json]);
 }
 
@@ -267,11 +268,11 @@ function checkIfGenesis(zblockIPFSHash){
 }
 
 function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive){
-    console.log(blockIPFSHash);
-    console.log(zblockIPFSHash);
-    console.log(group);
-    console.log(zblockObject);
-    console.log(recursive);
+    debugLog(blockIPFSHash);
+    debugLog(zblockIPFSHash);
+    debugLog(group);
+    debugLog(zblockObject);
+    debugLog(recursive);
     archingKaosLog("Seeking block "+blockIPFSHash+"...");
     // detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
     progressPlaceholder().max++;
@@ -317,7 +318,7 @@ function renderGroupOnDataSection(group){
         };
         makeElement(details, divs);
     } else {
-        //console.log('Else got hit in seekZchain');
+        //debugLog('Else got hit in seekZchain');
         return 0;
     }
 }
@@ -336,8 +337,8 @@ function renderZblockUnderGroup(zblock, group){
 
 export function seekZblock(zblockIPFSHash, params){
     var [group, recursive=true] = params;
-    console.log(params)
-    console.log(group)
+    debugLog(params)
+    debugLog(group)
 //    const [zchainIPNSLink, stellarAddress, recursive] = params;
 
     renderGroupOnDataSection(group);
@@ -480,7 +481,7 @@ function sblockExpanding(json, args){
 function crawlSchain(sblockHash){
     var shatest = /0{128}/
     if ( shatest.test(sblockHash) ){
-        console.log('genesis!!!');
+        debugLog('genesis!!!');
     } else {
         setZchainLoadingStatus(sblockHash, {loading : "started"});
         increaseZchainsFound();
@@ -524,9 +525,9 @@ export function checkLocalNodeInfo(){
 
 export function checkLocalSchain(){
     archingKaosLog("Querying for schain...");
-    console.log(settings);
+    debugLog(settings);
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/slatest';
-    console.log(url);
+    debugLog(url);
     archingKaosFetchJSON(url, initCrawlSchain);
     archingKaosLog("Querying for schain... Done!");
 }

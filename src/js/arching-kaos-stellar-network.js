@@ -1,10 +1,10 @@
-/* Arching Kaos Stellar Network
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- */
+// Arching Kaos Stellar Network
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { archingKaosLog } from "./arching-kaos-log.js";
 import { archingKaosFetchJSON } from "./arching-kaos-fetch.js";
 import {
@@ -24,6 +24,7 @@ import {
 
 import { makeElement } from "./arching-kaos-generator.js";
 import { getConfiguration } from "./arching-kaos-tools.js";
+import { debugLog } from "./utils.js";
 
 var lastPage = '';
 
@@ -69,8 +70,8 @@ function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
     renderStellarAddress(stellarAddress);
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
     increaseStellarNetworkConfiguredAddresses();
-    console.log(atob(json.value));
-    console.log(stellarAddress);
+    debugLog(atob(json.value));
+    debugLog(stellarAddress);
     getConfiguration(atob(json.value),stellarAddress);
 }
 
@@ -128,7 +129,7 @@ function steptwo(i){
 }
 
 function letme(a){
-    console.log("HERE WE GO");
+    debugLog("HERE WE GO");
     server.accounts()
     .accountId(a)
     .call()
@@ -190,7 +191,7 @@ function connect(){
 //        showStellar();
 //    } else {
         const result = retrievePublicKey();
-//        console.log(result);
+//        debugLog(result);
 //    }
 }
 

@@ -1,20 +1,16 @@
-/* Arching Kaos Web UI App Launcher
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- *
- * Body and pageLayout resizer to device's resolution.
- *
- * TODO: Figure out why it doesn't work in fullscreen App mode (android)
- *
- */
+// Arching Kaos Web UI App Launcher
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { locationHashOnChange } from "./arching-kaos-spa-router.js";
 import { doubleFloorMenu, menuinit, menusel, stellarSubToggle, modulesSubToggle, exploreSubToggle } from './ui/menu.js';
 import { mainLayoutSpawn } from "./ui/mainLayout.js";
 import { scanStellarNetworkForPeers } from "./arching-kaos-stellar-network.js";
 import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekZblock } from "./arching-kaos-tools.js";
+import { refreshChat, refreshRadio, setDebug } from "./utils.js";
 
 window.menusel = menusel;
 window.locationHashOnChange = locationHashOnChange;
@@ -26,6 +22,9 @@ window.seekZblock = seekZblock;
 window.checkLocalNodeInfo = checkLocalNodeInfo;
 window.checkLocalPeers = checkLocalPeers;
 window.checkLocalSchain = checkLocalSchain;
+window.refreshChat = refreshChat;
+window.refreshRadio = refreshRadio;
+window.setDebug = setDebug;
 
 export function body()
 {

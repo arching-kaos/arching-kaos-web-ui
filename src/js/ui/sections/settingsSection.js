@@ -1,8 +1,16 @@
+// Arching Kaos Settings Section
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { makeElement } from "../../arching-kaos-generator.js";
 import { getSettings, showSettings } from "../../arching-kaos-web-ui-settings.js";
+import { debugLog } from "../../utils.js";
 
 var settings = getSettings();
-console.log(settings);
+debugLog(settings);
 
 export function settingsSection()
 {
@@ -30,19 +38,6 @@ export function getSettingsPage()
     return document.querySelector('#settings-section');
 }
 
-// var scripts = [
-//     {
-//         element:"script",
-//         type: "module",
-//         src:"./js/arching-kaos-web-ui-settings.js"
-//     }
-// ];
-//
-// for ( var i = 0; i < scripts.length; i++ )
-// {
-//     makeElement(scripts[i], document.querySelector('body'));
-// }
-
 // var server = new StellarSdk.Server(settings.stellar.horizon.list[settings.stellar.horizon.active], {allowHttp:true});
 
 // if ( getSettings().stellar.scan )
@@ -55,3 +50,4 @@ export function getSettingsPage()
 //     ringlocalbell();
 //     setInterval(ringlocalbell, 10*60*1000);
 // }
+// @license-end

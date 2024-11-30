@@ -1,13 +1,14 @@
-/* Arching Kaos Menu
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- */
+// Arching Kaos Menu
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 import { makeElement } from "../arching-kaos-generator.js";
 import { locationHashSetter } from "../arching-kaos-spa-router.js";
 import { mainContainer } from "../app.js";
+import { debugLog } from "../utils.js";
 
 export function doubleFloorMenu()
 {
@@ -179,7 +180,7 @@ export function menuinit(){
         }
         else
         {
-            console.log(`menuinit: ${menuids()[i]} was not found`);
+            debugLog(`menuinit: ${menuids()[i]} was not found`);
         }
     }
 }

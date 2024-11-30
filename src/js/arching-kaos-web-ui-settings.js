@@ -1,10 +1,10 @@
-/* Arching Kaos Settings
- *
- * Kaotisk Hund - 2024
- *
- * @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
- *
- */
+// Arching Kaos Settings
+//
+// Kaotisk Hund - 2024
+//
+// @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
+//
+
 /*
  * We will be using browser's localStorage for the clients to configure their
  * desired way to visit the web-ui.
@@ -24,6 +24,7 @@
  */
 import { makeElement } from "./arching-kaos-generator.js";
 import { getSettingsPage } from "./ui/sections/settingsSection.js";
+import { debugLog } from "./utils.js";
 
 var default_settings = {
     ipfs: {
@@ -158,7 +159,7 @@ function renderAssets(container, value){
 function settingPlaceToDOM(key, value){
     var container = document.createElement("details");
     var summary = document.createElement("summary");
-    console.log("~~KEY: "+key);
+    debugLog("~~KEY: "+key);
     summary.innerText=key;
     container.appendChild(summary);
     if ( Array.isArray(value) ){
@@ -174,7 +175,7 @@ function settingPlaceToDOM(key, value){
         });
         container.appendChild(ul);
     } else if (value.constructor.name === "Object" ) {
-        console.log("KEY: "+key);
+        debugLog("KEY: "+key);
         switch (key){
             case 'ipfs':
                 makeElement({ element:"h4",innerText:"Gateway" }, container);
@@ -205,7 +206,7 @@ function settingPlaceToDOM(key, value){
                 container.innerText += " unknonwn lol";
         }
     } else {
-        console.log(`Settings value: ${value}, type: ${typeof(value)}`);
+        debugLog(`Settings value: ${value}, type: ${typeof(value)}`);
 //        container.innerText = value;
     }
     getSettingsPage().appendChild(container);
@@ -235,7 +236,7 @@ export function getSettings()
     return default_settings;
 }
 
-// console.log(settings.ipfsGatewayAddress[settings.ipfsSelectedGatewayAddress]);
+// debugLog(settings.ipfsGatewayAddress[settings.ipfsSelectedGatewayAddress]);
 
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end
