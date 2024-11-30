@@ -27,6 +27,7 @@ export function makeElement(obj, attachTo)
     if ( obj.className !== undefined ) temp.className = obj.className;
     if ( obj.rel !== undefined ) temp.rel = obj.rel;
     if ( obj.href !== undefined ) temp.href = obj.href;
+    if ( obj.style !== undefined ) temp.style = obj.style;
     if ( obj.src !== undefined ) temp.src = obj.src;
     if ( obj.as !== undefined ) temp.as = obj.as;
     if ( obj.target !== undefined ) temp.target = obj.target;
