@@ -10,11 +10,11 @@
  * TODO: Figure out why it doesn't work in fullscreen App mode (android)
  *
  */
-import { makeElement } from "./arching-kaos-generator.js";
 import { locationHashOnChange } from "./arching-kaos-spa-router.js";
 import { doubleFloorMenu, menuinit, menusel, stellarSubToggle, modulesSubToggle, exploreSubToggle } from './ui/menu.js';
 import { mainLayoutSpawn } from "./ui/mainLayout.js";
 import { scanStellarNetworkForPeers } from "./arching-kaos-stellar-network.js";
+import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekZblock } from "./arching-kaos-tools.js";
 
 window.menusel = menusel;
 window.locationHashOnChange = locationHashOnChange;
@@ -22,6 +22,10 @@ window.stellarSubToggle = stellarSubToggle;
 window.modulesSubToggle = modulesSubToggle;
 window.exploreSubToggle = exploreSubToggle;
 window.scanStellarNetworkForPeers = scanStellarNetworkForPeers;
+window.seekZblock = seekZblock;
+window.checkLocalNodeInfo = checkLocalNodeInfo;
+window.checkLocalPeers = checkLocalPeers;
+window.checkLocalSchain = checkLocalSchain;
 
 export function body()
 {

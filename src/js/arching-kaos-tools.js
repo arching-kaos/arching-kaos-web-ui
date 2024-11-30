@@ -7,7 +7,7 @@
  */
 import { archingKaosLog } from "./arching-kaos-log.js";
 import { makeElement } from "./arching-kaos-generator.js";
-import { progressPlaceholder } from "./app.js";
+import { progressPlaceholder, resultsArea, aknet } from "./app.js";
 import { archingKaosFetchJSON } from "./arching-kaos-fetch.js";
 import { getIPFSURL, getIPNSURL } from "./url-generators.js";
 import {
@@ -19,13 +19,20 @@ import {
     setData,
     getParticipants,
     setZchainLoadingStatus,
-    getZchainLoadingStatuses
+    getZchainLoadingStatuses,
+    setSortedMixtapes,
+    getMixtapes,
+    increaseZchainsFound,
+    setZchain
 } from "./environment-setup.js";
 import { akModuleComments } from "./arching-kaos-modules-comments.js";
 import { akModuleFiles } from "./arching-kaos-modules-files.js";
 import { akModuleMixtapes } from "./arching-kaos-modules-mixtapes.js";
 import { akModuleNews } from "./arching-kaos-modules-news.js";
 import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
+import { getSettings } from "./arching-kaos-web-ui-settings.js";
+
+var settings = getSettings();
 
 function getArrayLength(array){
     var length = 0;
@@ -51,7 +58,7 @@ function showResult(id){
     };
     makeElement(closeButton, overlay);
     makeElement(found, overlay);
-    makeElement(overlay, resultsArea);
+    makeElement(overlay, resultsArea());
     closeButton = document.querySelector('#buttonCloseResult');
     closeButton.addEventListener("click", ()=>{
         document.querySelector('#unique-overlay').remove();
@@ -202,14 +209,14 @@ function blockRenderAndProceed(json, params){
         setZchainLoadingStatus(group, {loading: "completed"});
         if ( getZchainLoadingStatuses().length === getStellarNetworkConfiguredAddresses()){
             var x=0;
-            for ( element in getZchainLoadingStatuses() ) {
+            for ( var element = 0; element < getZchainLoadingStatuses().length; element++ ) {
                 if ( getZchainLoadingStatuses()[element].loading === "completed" ){
                     x++;
                 }
             }
             if ( x === getZchainLoadingStatuses().length ){
                 archingKaosLog("Everything is completed!");
-                sortedMixtapes = mixtapes.sort(mixtapeSorting);
+                setSortedMixtapes(getMixtapes().sort(mixtapeSorting));
             }
         }
         resolveReferences();
@@ -327,7 +334,7 @@ function renderZblockUnderGroup(zblock, group){
     makeElement(zblockElement, divs);
 }
 
-function seekZblock(zblockIPFSHash, params){
+export function seekZblock(zblockIPFSHash, params){
     var [group, recursive=true] = params;
     console.log(params)
     console.log(group)
@@ -369,7 +376,7 @@ function renderZblockAsModule(json, params){
         button.onclick = ()=>{
             showResult(params);
         };
-        resultsArea.appendChild(button);
+        resultsArea().appendChild(button);
     }
 }
 
@@ -439,13 +446,13 @@ export function getFullText(text, params)
 function checkIfZchainAndProceed(json, params){
     const [group] = params;
     if (json.zlatest) {
-        if (!aknet.querySelector('#ak-zchain-'+json.zchain)){
+        if (!aknet().querySelector('#ak-zchain-'+json.zchain)){
             var pre = {
                 element:"pre",
                 innerText:json.zchain,
                 id:'ak-zchain-'+json.zchain
             };
-            makeElement(pre, aknet);
+            makeElement(pre, aknet());
         }
     }
     seekZblock(json.zlatest, [group, true]);
@@ -454,13 +461,13 @@ function checkIfZchainAndProceed(json, params){
 function sblockExpanding(json, args){
     const [sblockHash] = args;
     if (json.zblocks){
-        for ( zblock in json.zblocks ){
+        for ( var zblock = 0; zblock < json.zblocks.length; zblock++ ){
             seekZblock(json.zblocks[zblock],sblockHash,false);
             archingKaosLog("Found "+json.zblocks[zblock]+" of "+sblockHash);
         }
     }
     if (json.zpairs){
-        for ( pair in json.zpairs ){
+        for ( var pair = 0; pair < json.zpairs.length; pair++ ){
             seekZchain(json.zpairs[pair].latest,json.zpairs[pair].zchain,true);
             archingKaosLog("Found "+json.zblocks[zblock]+" of "+json.zpairs[pair].zchain);
         }
@@ -471,14 +478,14 @@ function sblockExpanding(json, args){
 }
 
 function crawlSchain(sblockHash){
-    shatest = /0{128}/
+    var shatest = /0{128}/
     if ( shatest.test(sblockHash) ){
         console.log('genesis!!!');
     } else {
-        zchainLoadingStatus[sblockHash] = {loading : "started"};
-        zchainsFound++;
-        zchains[sblockHash] = [];
-        var url=settings.localAPI+'/v0/sblock/'+sblockHash;
+        setZchainLoadingStatus(sblockHash, {loading : "started"});
+        increaseZchainsFound();
+        setZchain(sblockHash, [])
+        var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/sblock/'+sblockHash;
         archingKaosLog("Fetching "+sblockHash+" sblock...");
         archingKaosFetchJSON(url, sblockExpanding, [sblockHash]);
         archingKaosLog("Fetching "+sblockHash+" sblock... Done!");
@@ -495,29 +502,31 @@ function initCrawlSchain(json){
 }
 
 function checkPeers(json){
-    for (peer in json){
+    for ( var peer = 0; peer < json; peer++){
         archingKaosLog("Checking peer: "+json[peer].cjdns.ip)
         checkIfZchainAndProceed(json[peer].node_info, [json[peer].node_info.gpg]);
     }
 }
 
-function checkLocalPeers(){
+export function checkLocalPeers(){
     archingKaosLog("🔎 Querying for peers...");
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/peers';
     archingKaosFetchJSON(url, checkPeers);
     archingKaosLog("Querying for peers... Done!");
 }
 
-function checkLocalNodeInfo(){
+export function checkLocalNodeInfo(){
     archingKaosLog("Ringing local bell...");
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/node_info';
     archingKaosFetchJSON(url, checkIfZchainAndProceed, ["localnode"]);
     archingKaosLog("Ringing local bell... Done!");
 }
 
-function checkLocalSchain(){
+export function checkLocalSchain(){
     archingKaosLog("Querying for schain...");
+    console.log(settings);
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/slatest';
+    console.log(url);
     archingKaosFetchJSON(url, initCrawlSchain);
     archingKaosLog("Querying for schain... Done!");
 }

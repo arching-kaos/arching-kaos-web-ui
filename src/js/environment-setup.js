@@ -22,7 +22,25 @@ export function getMixtapes()
 }
 
 var sortedMixtapes = new Array;
+export function setSortedMixtapes(value)
+{
+    sortedMixtapes = value;
+}
+export function getSortedMixtapes()
+{
+    return sortedMixtapes;
+}
+
 var zchainsFound = 0;
+export function getZchainsFound()
+{
+    return zchainsFound;
+}
+export function increaseZchainsFound()
+{
+    zchainsFound++;
+}
+
 var foundHolders = new Array;
 var gpglist = new Array;
 var stellarNetworkConfiguredAddresses = 0;
@@ -100,6 +118,15 @@ export function getZchainLoadingStatuses()
 }
 
 var zchains = new Array;
+export function getZchains()
+{
+    return zchains;
+}
+export function setZchain(zchain, value)
+{
+    zchains[zchain] = value;
+}
+
 var references = new Array;
 export function getReferences()
 {
