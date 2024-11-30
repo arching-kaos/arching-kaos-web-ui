@@ -1,5 +1,5 @@
 import { makeElement } from "../../arching-kaos-generator.js";
-import { getSettings } from "../../arching-kaos-web-ui-settings.js";
+import { getSettings, showSettings } from "../../arching-kaos-web-ui-settings.js";
 
 var settings = getSettings();
 console.log(settings);
@@ -22,6 +22,7 @@ export function settingsSection()
     };
 
     makeElement(settingsSection, document.querySelector('.main'));
+    showSettings();
 }
 
 export function getSettingsPage()

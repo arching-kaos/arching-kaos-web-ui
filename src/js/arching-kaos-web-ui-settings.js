@@ -157,13 +157,16 @@ function renderAssets(container, value){
 
 function settingPlaceToDOM(key, value){
     var container = document.createElement("details");
-    container.innerText=key;
+    var summary = document.createElement("summary");
+    console.log("~~KEY: "+key);
+    summary.innerText=key;
+    container.appendChild(summary);
     if ( Array.isArray(value) ){
         var ul = document.createElement("select");
         value.map((v)=>{
             if (v.constructor.name === "Object"){
                 Object.keys(v).forEach((value)=>{
-                    makeElement({element:"option", innerText:value + ': ' + v[value], value: value}, ul);
+                    makeElement({element:"option", innerText:`${value}: ${v[value]}`, value: value}, ul);
                 });
             } else {
                 makeElement({element:"option", innerText:v, value: v}, ul);
@@ -174,25 +177,28 @@ function settingPlaceToDOM(key, value){
         console.log("KEY: "+key);
         switch (key){
             case 'ipfs':
-                makeElement({ element:"summary",innerText:"IPFS" }, container);
+                makeElement({ element:"h4",innerText:"Gateway" }, container);
                 renderList(container, value.gateway);
 
                 break;
             case 'stellar':
-                makeElement({ element:"summary",innerText:"Asset" }, container);
+                makeElement({ element:"h4",innerText:"Asset" }, container);
                 renderAssets(container, value.asset);
+                makeElement({ element:"hr" }, container);
 
-                makeElement({ element:"summary",innerText:"Variable Names" }, container);
+                makeElement({ element:"h4",innerText:"Variable Names" }, container);
                 renderList(container, value.variableNames);
+                makeElement({ element:"hr" }, container);
 
-                makeElement({ element:"summary",innerText:"Horizon" }, container);
+                makeElement({ element:"h4",innerText:"Horizon" }, container);
                 renderList(container, value.horizon);
+                makeElement({ element:"hr" }, container);
 
-                makeElement({ element:"summary",innerText:"Scan" }, container);
+                makeElement({ element:"h4",innerText:"Scan" }, container);
                 renderCheck(container, value.scan);
                 break;
             case 'ak':
-                makeElement({ element:"summary",innerText:"Connect" }, container);
+                makeElement({ element:"h4",innerText:"Connect" }, container);
                 renderList(container, value.connect);
                 break;
             default:
@@ -205,17 +211,24 @@ function settingPlaceToDOM(key, value){
     getSettingsPage().appendChild(container);
 }
 
-// settingsKeys.forEach(
-//     (value) => {
-//         settingPlaceToDOM(value, settings[value]);
-//     }
-// );
+export function showSettings()
+{
+    for ( var i = 0; i < settingsKeys.length; i++ )
+    {
+        settingPlaceToDOM(settingsKeys[i], settings[settingsKeys[i]]);
+    }
+//    settingsKeys.forEach(
+//        (value) => {
+//            settingPlaceToDOM(value, settings[value]);
+//        }
+//    );
 
-/* Small dump as pre text */
-// var predump = document.createElement('pre');
-// predump.innerText = JSON.stringify(settings, null, 2);
-// getSettingsPage().appendChild(predump);
-/* END of: Small dump as pre text */
+    /* Small dump as pre text */
+    // var predump = document.createElement('pre');
+    // predump.innerText = JSON.stringify(settings, null, 2);
+    // getSettingsPage().appendChild(predump);
+    /* END of: Small dump as pre text */
+}
 
 export function getSettings()
 {
