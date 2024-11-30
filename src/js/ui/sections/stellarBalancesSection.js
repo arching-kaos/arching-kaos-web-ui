@@ -9,22 +9,26 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function stellarBalancesSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Stellar"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText: "Balances" }
+        ]
+    };
     var stellarBalancesSection = {
         element: "div",
         id: "stellar-balances",
-        innerHTML: `
-        <div class="where-am-i">
-            <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-            <span>&gt;</span>
-            <h2>Stellar</h2>
-            <span>&gt;</span>
-            <h2>Balances</h2>
-        </div>
-        <em id="stellar-balances-not-found">No data found (yet?)!</em>
-        <table id="stellar-balances-table"></table>
-        `
+        innerHTML: [
+            whereAmI,
+            { element: "em", id: "stellar-balances-not-found", innerText: "No data found (yet?)!" },
+            { element: "table", id:"stellar-balances-table" }
+        ]
     };
-
     makeElement(stellarBalancesSection, document.querySelector('.main'));
 }
 // @license-end

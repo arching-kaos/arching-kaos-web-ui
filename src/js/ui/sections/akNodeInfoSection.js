@@ -9,15 +9,26 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function akNodeInfoSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Stellar"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText: "Balances" }
+        ]
+    };
     var akNodeInfoSection = {
         element: "div",
         id: "arching-kaos-node-info",
-        innerHTML: `
-        <h2>Node Info</h2>
-        <em id="node-info-not-found">No data found (yet?)!</em>
-    `
+        innerHTML: [
+            whereAmI,
+            { element: "h2", innerText:"Node Info" },
+            { element: "em", id:"node-info-not-found", innerText:"No data found (yet?)!"}
+        ]
     };
-
     makeElement(akNodeInfoSection, document.querySelector('.main'));
 }
 // @license-end

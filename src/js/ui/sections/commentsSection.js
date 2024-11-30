@@ -9,11 +9,20 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function commentsSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Comments"}
+        ]
+    };
     var commentsSection = {
         element: 'div',
         id: 'comments-section',
         innerHTML: [
-            { element: "h2", innerText: "Comments" },
+            whereAmI,
             { element: "em", id:"comments-sec-not-found", innerText: "No data found (yet?)!"}
         ]
     };

@@ -9,25 +9,37 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function myPageSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Stellar"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText: "My Page" }
+        ]
+    };
     var myPageSection = {
         element: "div",
         id: "mypage-section",
-        innerHTML: `
-        <h2>My page</h2>
-        <button id="stellar-freigher-connect-address-button" onclick="connect()">Connect with Freighter wallet</button>
-        <div id="my-news">
-            <h3>My news</h3>
-            <em id="my-news-sec-not-found">No data found (yet?)!</em>
-        </div>
-        <div id="my-mixtapes">
-            <h3>My mixtapes</h3>
-            <em id="my-mixtapes-sec-not-found">No data found (yet?)!</em>
-        </div>
-        <div id="my-zchain">
-            <h3>My zchain</h3>
-            <em id="my-zchain-sec-not-found">No data found (yet?)!</em>
-        </div>
-    `
+        innerHTML: [
+            whereAmI,
+            { element: "h2", innerText: "My page" },
+            { element: "button", id: "stellar-freigher-connect-address-button", onclick:"connect()", innerText:"Connect with Freighter wallet" },
+            { element: "div", id:"my-news", innerHTML:[
+                { element: "h3", innerText:"My news"},
+                { element: "em", id:"my-news-sec-not-found", innerText:"No data found (yet?)!" }
+            ]},
+            { element: "div", id:"my-mixtapes", innerHTML:[
+                { element: "h3", innerText:"My mixtapes"},
+                { element: "em", id:"my-mixtapes-sec-not-found", innerText:"No data found (yet?)!" }
+            ]},
+            { element: "div", id:"my-zchain", innerHTML:[
+                { element: "h3", innerText:"My zchain"},
+                { element: "em", id:"my-zchain-sec-not-found", innerText:"No data found (yet?)!" }
+            ]}
+        ]
     };
 
     makeElement(myPageSection, document.querySelector('.main'));
