@@ -8,14 +8,13 @@
 import { makeElement } from "../../arching-kaos-generator.js";
 
 var whereAmI = {
-    element : "div",
-    className:"where-am-i",
-    innerHTML: `
-
-            <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-            <span>&gt;</span>
-            <h2>Home</h2>
-        `
+    element: "div",
+    className: "where-am-i",
+    innerHTML: [
+        { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+        { element: "span", innerText:">"},
+        { element: "h2", innerText:"Home"}
+    ]
 };
 
 var greeting = {
@@ -26,13 +25,43 @@ var greeting = {
 var homeGrid = {
     element: "div",
     id: "home-grid",
-    innerHTML: `
-                <button class="menu-clickable" id="#/mixtapes-section" onclick="menusel(this)" style="background-image: url(img/mixtapes-logo.png); background-repeat: round;"></button>
-                <button class="menu-clickable" id="#/news-section" onclick="menusel(this)" style="background-image: url(img/news-logo.png); background-repeat: round;"></button>
-                <button class="menu-clickable" id="#/chat-section" onclick="menusel(this)" style="background-image: url(img/chat-logo.png); background-repeat: round;"></button>
-                <button class="menu-clickable" id="#/radio-section" onclick="menusel(this)" style="background-image: url(img/radio-logo.png); background-repeat: round; background-size: cover;"></button>
-                <button class="menu-clickable" id="#/stats-section" onclick="menusel(this)">Stats</button>
-            `
+    innerHTML: [
+        {
+            element:"button",
+            className:"menu-clickable",
+            id:"#/mixtapes-section",
+            onclick:"menusel(this)",
+            style:"background-image: url(img/mixtapes-logo.png); background-repeat: round;"
+        },
+        {
+            element:"button",
+            className:"menu-clickable",
+            id:"#/news-section",
+            onclick:"menusel(this)",
+            style:"background-image: url(img/news-logo.png); background-repeat: round;"
+        },
+        {
+            element:"button",
+            className:"menu-clickable",
+            id:"#/chat-section",
+            onclick:"menusel(this)",
+            style:"background-image: url(img/chat-logo.png); background-repeat: round;"
+        },
+        {
+            element:"button",
+            className:"menu-clickable",
+            id:"#/radio-section",
+            onclick:"menusel(this)",
+            style:"background-image: url(img/radio-logo.png); background-repeat: round; background-size: cover;"
+        },
+        {
+            element:"button",
+            className:"menu-clickable",
+            id:"#/stats-section",
+            onclick:"menusel(this)",
+            innerText:"Stats"
+        }
+    ]
 };
 
 var renderTitle = {
@@ -43,10 +72,20 @@ var renderTitle = {
 var renderForm = {
     element: "div",
     style:"padding: 1vh 1vw; display: flex; flex-direction: row; align-items: center; gap: 10px;",
-    innerHTML: `
-        <input id="search-field" type="text" name="search" placeholder="Enter a zblock hash"/>
-        <button onclick="seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])">Render</button>
-    `
+    innerHTML: [
+        {
+            element: "input",
+            id:"search-field",
+            type:"text",
+            name:"search",
+            placeholder:"Enter a zblock hash"
+        },
+        {
+            element:"button",
+            onclick:"seekZblock(this.parentElement.querySelector('#search-field').value, ['search', false])",
+            innerText:"Render"
+        }
+    ]
 };
 
 export function welcomeSection()
@@ -118,7 +157,6 @@ export function welcomeSection()
                     }
                 ]
             },
-
             {
                 element: "details",
                 id: "logs-area",

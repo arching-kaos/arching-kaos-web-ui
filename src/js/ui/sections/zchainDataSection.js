@@ -9,21 +9,25 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function zchainDataSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Explore"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"zchains"}
+        ]
+    };
     var zchainDataSection = {
         element: "div",
         id:"zchain-data-section",
-        innerHTML: `
-                    <div class="where-am-i">
-                        <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-                        <span>&gt;</span>
-                        <h2>Explore</h2>
-                        <span>&gt;</span>
-                        <h2>zchains</h2>
-                    </div>
-                    <em id="zchain-data-sec-not-found">No data found (yet?)!</em>
-                    `
+        innerHTML: [
+            whereAmI,
+            { element: "em", id:"zchain-data-sec-not-found", innerText:"No data found (yet?)!" }
+        ]
     };
-
     makeElement(zchainDataSection, document.querySelector('.main'));
 }
 // @license-end

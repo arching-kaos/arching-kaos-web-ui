@@ -9,32 +9,36 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function statsSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Explore"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Stats"}
+        ]
+    };
     var statsSection = {
         element: 'div',
         id: "stats-section",
         innerHTML: [
-            { element: "div", className: "where-am-i", innerHTML: `
-            <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-            <span>&gt;</span>
-            <h2>Explore</h2>
-            <span>&gt;</span>
-            <h2>Stats</h2>
-        `},
-            { element: "div", className: "available-networks", innerHTML: `
-            <h3>Networks</h3>
-            <details class="stellar-network">
-                <summary>Stellar</summary>
-            </details>
-            <details class="aknet-network">
-                <summary>Arching Kaos Experimental Instance</summary>
-            </details>
-            <details class="aknet-sblocks">
-                <summary>Arching Kaos SBlocks</summary>
-            </details>
-        `}
+            whereAmI,
+            { element: "div", className: "available-networks", innerHTML: [
+                { element: "h3", innerText: "Networks" },
+                { element: "details", className: "stellar-network", innerHTML:[
+                    { element:"summary", innerText:"Stellar"}
+                ]},
+                { element: "details", className: "aknet-network", innerHTML:[
+                    { element:"summary", innerText:"Arching Kaos Experimental Instance"}
+                ]},
+                { element: "details", className: "aknet-sblocks", innerHTML:[
+                    { element:"summary", innerText:"Arching Kaos SBlocks"}
+                ]}
+            ]}
         ]
     };
-
     makeElement(statsSection, document.querySelector('.main'));
 }
 // @license-end

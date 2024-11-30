@@ -9,21 +9,23 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function mixtapesSection()
 {
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
+        innerHTML: [
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Mixtapes"}
+        ]
+    };
     var mixtapesSection = {
         element: "div",
         id: "mixtapes-section",
-        innerHTML: `
-        <div class="where-am-i">
-            <img src="./img/logo.png" onclick="menusel({id:'#/welcome-section'})"/>
-            <span>&gt;</span>
-            <h2>Modules</h2>
-            <span>&gt;</span>
-            <h2>Mixtapes</h2>
-        </div>
-        <em id="mixtapes-sec-not-found">No data found (yet?)!</em>
-                `
+        innerHTML: [
+            whereAmI,
+            { element: "em", id:"mixtapes-sec-not-found", innerText:"No data found (yet?)!"}
+        ]
     };
-
     makeElement(mixtapesSection, document.querySelector('.main'));
 }
 // @license-end

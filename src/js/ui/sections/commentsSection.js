@@ -26,7 +26,6 @@ export function commentsSection()
             { element: "em", id:"comments-sec-not-found", innerText: "No data found (yet?)!"}
         ]
     };
-
     makeElement(commentsSection, document.querySelector('.main'));
 }
 // @license-end
