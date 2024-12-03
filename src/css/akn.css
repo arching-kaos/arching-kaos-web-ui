@@ -553,3 +553,177 @@ details {
     display: flex;
     flex-direction: row;
 }
+
+/* Radio CSS */
+* {
+  padding: 0px;
+  margin: 0;
+}
+
+#radio-main div {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+#radio-main {
+    order: 2;
+    gap: 10px;
+}
+
+#radio-main .div-groups-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#radio-main progress {
+    width: auto;
+}
+
+#radio-main a {
+  color: orange;
+}
+
+#radio-main a:hover {
+  color: yellow;
+}
+
+#radio-main button {
+  background:black;
+  color:red;
+  font-family: 'Doto';
+  border: dotted 2px;
+  width: 100%;
+}
+
+#radio-main .no-break {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    word-break: none;
+}
+
+#radio-main button {
+  background:black;
+  color:red;
+  font-size: 24px;
+  border: dotted 2px;
+}
+
+#radio-main button:hover {
+  background:#ffff96;
+  color:red;
+  border: dotted 2px aliceblue;
+}
+
+#radio-main pre {
+    border: 1px dotted;
+    overflow-x: auto;
+    padding: 0.5vh 1vw;
+}
+
+#radio-main details {
+    border: 1px dotted;
+    padding: 1vh 2vw;
+    width: 88vh;
+}
+
+#radio-main summary {
+    border-bottom: 1px dotted;
+    padding: 0.5vh 1vw;
+}
+
+#radio-main summary:hover {
+    background-color: lightgreen;
+    color: black;
+}
+
+#radio-main .start-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#radio-main .previously-played {
+    flex-direction: column-reverse;
+    overflow-y: auto;
+    height: 40vh;
+    gap: 5px;
+}
+
+#radio-main .div-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#radio-main .previously-played img {
+    width: 48px;
+}
+
+#radio-main .previously-played div {
+    gap: 5px;
+}
+
+
+#radio-main .previously-played div:hover {
+    background-color: lightgreen;
+    color: black;
+}
+
+#radio-main .div-inline-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#radio-main .div-inline {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#radio-main table {
+    width: 100%;
+}
+
+#radio-main th, #radio-main td {
+    background-color: black;
+    padding: 2px;
+}
+
+#radio-main tr {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border: 1px dotted;
+    align-items: center;
+}
+
+#radio-main audio {
+    width: auto;
+}
+
+#radio-main .generated {
+    width: 128px;
+    height: 128px;
+    max-width: 128px;
+    max-height: 128px;
+}
+
+#radio-main .more-details {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
