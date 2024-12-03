@@ -30,14 +30,16 @@
 //   - show_info
 //
 import { makeElement } from "./arching-kaos-generator.js";
+import { getSettings } from "./arching-kaos-web-ui-settings.js";
 import { generateImage } from "./image-generator.js";
 
 var debugMode = false;
-const apiURL = "http://z.kaotisk-hund.com:8010/";
+const settings = getSettings();
+const apiURL = settings.ak.radio.list[settings.ak.radio.active];
 const version = "v0";
-const listRequest = `${apiURL}${version}/list`
-const jsonRequest = `${apiURL}${version}/application/json/`
-const audioRequest = `${apiURL}${version}/audio/ogg/`
+const listRequest = `${apiURL}/${version}/list`
+const jsonRequest = `${apiURL}/${version}/application/json/`
+const audioRequest = `${apiURL}/${version}/audio/ogg/`
 
 const documentTitle = "Radio Station Emulator";
 const separator = " :: ";
