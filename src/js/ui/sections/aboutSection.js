@@ -18,12 +18,11 @@ export function aboutSection()
             { element: "h2", innerText:"About"}
         ]
     };
-    var aboutSection = {
+
+    var content = {
         element: "div",
-        hidden: true,
-        id:"about-section",
+        className: "content",
         innerHTML: [
-            whereAmI,
             { element: "p", innerText:"Arching Kaos is a project about radio, music, communications and decentralization."},
             { element: "p", innerText:'On site, you can listen to the latest mixes of music (menu entry "Mixtapes"), read latest news ("News") of the network and chat (you guessed it, "Chat" menu entry).'},
             { element: "p", innerText:'You can see the zchains appearing in "zchain" and logs of the process on "Logs"'},
@@ -37,7 +36,17 @@ export function aboutSection()
                 { element:"li", innerText:"Your posted newsfeed (...)"}
             ]},
             { element:"p", innerText:"Finally, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin."}
-                    ]
+        ]
+    };
+
+    var aboutSection = {
+        element: "div",
+        hidden: true,
+        id:"about-section",
+        innerHTML: [
+            whereAmI,
+            content
+        ]
     };
 
     makeElement(aboutSection, document.querySelector('.main'));

@@ -9,15 +9,19 @@ import { makeElement } from "../../arching-kaos-generator.js";
 
 export function notFoundSection()
 {
-    var notFoundSection = {
-        element: 'div',
-        id: 'not-found-section',
-        hidden: true,
+    var whereAmI = {
+        element: "div",
+        className: "where-am-i",
         innerHTML: [
-            {
-                element: 'h2',
-                innerText: 'Not found'
-            },
+            { element: "img", src:"./img/logo.png", onclick:"menusel({id:'#/welcome-section'})"},
+            { element: "span", innerText:">"},
+            { element: "h2", innerText:"Not found"}
+        ]
+    };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
             {
                 element: 'p',
                 innerText: 'Soft 404'
@@ -26,6 +30,15 @@ export function notFoundSection()
                 element: 'p',
                 innerText: 'Please select an entry from the menu'
             }
+        ]
+    };
+    var notFoundSection = {
+        element: 'div',
+        id: 'not-found-section',
+        hidden: true,
+        innerHTML: [
+            whereAmI,
+            content
         ]
     };
 

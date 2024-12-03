@@ -88,6 +88,89 @@ var renderForm = {
     ]
 };
 
+var content = {
+    element : "div",
+    className: "content",
+    innerHTML: [
+        greeting,
+        homeGrid,
+        renderTitle,
+        renderForm,
+        {
+            element: "div",
+            className: "results-area",
+            innerHTML: [
+                {
+                    elements: "h3",
+                    innerText: "Results"
+                }
+            ]
+        },
+        {
+            element: "h3",
+            innerText: "Manual scan"
+        },
+        {
+            element: "div",
+            id: "manual-scan-section",
+            innerHTML: [
+                {
+                    element: "div",
+                    className: "manual-scan",
+                    innerHTML: [
+                        { element:"button", onclick:"scanStellarNetworkForPeers()", innerText:"Check Stellar Network"},
+                        { element:"button", onclick:"checkLocalNodeInfo()", innerText:"Check local Node"},
+                        { element:"button", onclick:"checkLocalPeers()", innerText:"Check local Peers"},
+                        { element:"button", onclick:"checkLocalSchain()", innerText:"Check Local Schain"}
+                    ]
+                }
+            ]
+        },
+        {
+            element: "div",
+            className: "preview"
+        },
+        {
+            element: "div",
+            className: "dialog",
+            innerHTML: [
+                {
+                    element: "h3",
+                    innerText: "Progress"
+                },
+                {
+                    element: "progress",
+                    id: "total-progress",
+                    value: 0
+                },
+                {
+                    element: "progress",
+                    id: "http-progress",
+                    value: 0
+                },
+                {
+                    element: "pre",
+                    id: "current-log-message"
+                }
+            ]
+        },
+        {
+            element: "details",
+            id: "logs-area",
+            innerHTML: [
+                {
+                    element: "summary",
+                    innerText: "Logs (click to expand)"
+                },
+                {
+                    element: "div",
+                    id: "logs-area-element"
+                }
+            ]
+        }
+    ]
+};
+
 export function welcomeSection()
 {
     var welcomeSection = {
@@ -95,82 +178,7 @@ export function welcomeSection()
         id: "welcome-section",
         innerHTML: [
             whereAmI,
-            greeting,
-            homeGrid,
-            renderTitle,
-            renderForm,
-            {
-                element: "div",
-                className: "results-area",
-                innerHTML: [
-                    {
-                        elements: "h3",
-                        innerText: "Results"
-                    }
-                ]
-            },
-            {
-                element: "h3",
-                innerText: "Manual scan"
-            },
-            {
-                element: "div",
-                id: "manual-scan-section",
-                innerHTML: [
-                    {
-                        element: "div",
-                        className: "manual-scan",
-                        innerHTML: [
-                            { element:"button", onclick:"scanStellarNetworkForPeers()", innerText:"Check Stellar Network"},
-                            { element:"button", onclick:"checkLocalNodeInfo()", innerText:"Check local Node"},
-                            { element:"button", onclick:"checkLocalPeers()", innerText:"Check local Peers"},
-                            { element:"button", onclick:"checkLocalSchain()", innerText:"Check Local Schain"}
-                        ]
-                    }
-                ]
-            },
-            {
-                element: "div",
-                className: "preview"
-            },
-            {
-                element: "div",
-                className: "dialog",
-                innerHTML: [
-                    {
-                        element: "h3",
-                        innerText: "Progress"
-                    },
-                    {
-                        element: "progress",
-                        id: "total-progress",
-                        value: 0
-                    },
-                    {
-                        element: "progress",
-                        id: "http-progress",
-                        value: 0
-                    },
-                    {
-                        element: "pre",
-                        id: "current-log-message"
-                    }
-                ]
-            },
-            {
-                element: "details",
-                id: "logs-area",
-                innerHTML: [
-                    {
-                        element: "summary",
-                        innerText: "Logs (click to expand)"
-                    },
-                    {
-                        element: "div",
-                        id: "logs-area-element"
-                    }
-                ]
-            }
+            content
         ]
     };
 

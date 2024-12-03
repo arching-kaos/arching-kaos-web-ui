@@ -20,12 +20,19 @@ export function akNodeInfoSection()
             { element: "h2", innerText:"Node Info" }
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"node-info-not-found", innerText:"No data found (yet?)!"}
+        ]
+    };
     var akNodeInfoSection = {
         element: "div",
         id: "arching-kaos-node-info",
         innerHTML: [
             whereAmI,
-            { element: "em", id:"node-info-not-found", innerText:"No data found (yet?)!"}
+            content
         ]
     };
     makeElement(akNodeInfoSection, document.querySelector('.main'));

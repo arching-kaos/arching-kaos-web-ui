@@ -20,12 +20,19 @@ export function newsSection()
             { element: "h2", innerText:"News"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"news-sec-not-found", innerText: "No data found (yet?)!"}
+        ]
+    };
     var newsSection = {
         element: 'div',
         id: 'news-section',
         innerHTML: [
             whereAmI,
-            { element: "em", id:"news-sec-not-found", innerText: "No data found (yet?)!"}
+            content
         ]
     };
     makeElement(newsSection, document.querySelector('.main'));

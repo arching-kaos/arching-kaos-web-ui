@@ -20,11 +20,10 @@ export function statsSection()
             { element: "h2", innerText:"Stats"}
         ]
     };
-    var statsSection = {
-        element: 'div',
-        id: "stats-section",
+    var content = {
+        element : "div",
+        className: "content",
         innerHTML: [
-            whereAmI,
             { element: "div", className: "available-networks", innerHTML: [
                 { element: "h3", innerText: "Networks" },
                 { element: "details", className: "stellar-network", innerHTML:[
@@ -37,6 +36,14 @@ export function statsSection()
                     { element:"summary", innerText:"Arching Kaos SBlocks"}
                 ]}
             ]}
+        ]
+    };
+    var statsSection = {
+        element: 'div',
+        id: "stats-section",
+        innerHTML: [
+            whereAmI,
+            content
         ]
     };
     makeElement(statsSection, document.querySelector('.main'));

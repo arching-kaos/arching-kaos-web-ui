@@ -20,12 +20,19 @@ export function filesSection()
             { element: "h2", innerText:"Files"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"files-sec-not-found", innerText: "No data found (yet?)!"}
+        ]
+    };
     var filesSection = {
         element: 'div',
         id: "files-section",
         innerHTML: [
             whereAmI,
-            { element: "em", id:"files-sec-not-found", innerText: "No data found (yet?)!"}
+            content
         ]
     };
 

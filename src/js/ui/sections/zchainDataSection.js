@@ -20,12 +20,19 @@ export function zchainDataSection()
             { element: "h2", innerText:"zchains"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"zchain-data-sec-not-found", innerText:"No data found (yet?)!" }
+        ]
+    };
     var zchainDataSection = {
         element: "div",
         id:"zchain-data-section",
         innerHTML: [
             whereAmI,
-            { element: "em", id:"zchain-data-sec-not-found", innerText:"No data found (yet?)!" }
+            content
         ]
     };
     makeElement(zchainDataSection, document.querySelector('.main'));

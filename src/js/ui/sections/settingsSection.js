@@ -14,18 +14,20 @@ debugLog(settings);
 
 export function settingsSection()
 {
+    var whereAmI = {
+        element: "div",
+        className:"where-am-i",
+        innerHTML:[
+            {element: "img", src:"./img/logo.png", onclick: "menusel({id:'#/welcome-section'})"},
+            {element: "span", innerText:">"},
+            {element: "h2", innerText:"🔧 Settings"}
+        ]
+    };
     var settingsSection = {
         element: 'div',
         id: "settings-section",
         innerHTML: [
-            {element: "div",
-                className:"where-am-i",
-                innerHTML:[
-                    {element: "img", src:"./img/logo.png", onclick: "menusel({id:'#/welcome-section'})"},
-                    {element: "span", innerText:">"},
-                    {element: "h2", innerText:"🔧 Settings"}
-                ]
-            }
+            whereAmI
         ]
     };
 

@@ -20,12 +20,19 @@ export function stellarDataConfigSection()
             { element: "h2", innerText:"Data"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"stellar-data-config-not-found", innerText:"No data found (yet?)!" }
+        ]
+    };
     var stellarDataConfigSection = {
         element: "div",
         id: "stellar-data-config",
         innerHTML: [
             whereAmI,
-            { element: "em", id:"stellar-data-config-not-found", innerText:"No data found (yet?)!" }
+            content
         ]
     };
     makeElement(stellarDataConfigSection, document.querySelector('.main'));

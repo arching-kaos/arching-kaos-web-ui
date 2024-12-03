@@ -20,11 +20,10 @@ export function myPageSection()
             { element: "h2", innerText: "My Page" }
         ]
     };
-    var myPageSection = {
+    var content = {
         element: "div",
-        id: "mypage-section",
+        className: "content",
         innerHTML: [
-            whereAmI,
             { element: "h2", innerText: "My page" },
             { element: "button", id: "stellar-freigher-connect-address-button", onclick:"connect()", innerText:"Connect with Freighter wallet" },
             { element: "div", id:"my-news", innerHTML:[
@@ -39,6 +38,14 @@ export function myPageSection()
                 { element: "h3", innerText:"My zchain"},
                 { element: "em", id:"my-zchain-sec-not-found", innerText:"No data found (yet?)!" }
             ]}
+        ]
+    };
+    var myPageSection = {
+        element: "div",
+        id: "mypage-section",
+        innerHTML: [
+            whereAmI,
+            content
         ]
     };
 

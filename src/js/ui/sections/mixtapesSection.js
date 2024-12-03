@@ -18,12 +18,19 @@ export function mixtapesSection()
             { element: "h2", innerText:"Mixtapes"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"mixtapes-sec-not-found", innerText:"No data found (yet?)!"}
+        ]
+    };
     var mixtapesSection = {
         element: "div",
         id: "mixtapes-section",
         innerHTML: [
             whereAmI,
-            { element: "em", id:"mixtapes-sec-not-found", innerText:"No data found (yet?)!"}
+            content
         ]
     };
     makeElement(mixtapesSection, document.querySelector('.main'));

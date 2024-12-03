@@ -18,12 +18,19 @@ export function commentsSection()
             { element: "h2", innerText:"Comments"}
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id:"comments-sec-not-found", innerText: "No data found (yet?)!"}
+        ]
+    };
     var commentsSection = {
         element: 'div',
         id: 'comments-section',
         innerHTML: [
             whereAmI,
-            { element: "em", id:"comments-sec-not-found", innerText: "No data found (yet?)!"}
+            content
         ]
     };
     makeElement(commentsSection, document.querySelector('.main'));

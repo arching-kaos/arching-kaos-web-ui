@@ -20,13 +20,20 @@ export function stellarBalancesSection()
             { element: "h2", innerText: "Balances" }
         ]
     };
+    var content = {
+        element: "div",
+        className: "content",
+        innerHTML: [
+            { element: "em", id: "stellar-balances-not-found", innerText: "No data found (yet?)!" },
+            { element: "table", id:"stellar-balances-table" }
+        ]
+    };
     var stellarBalancesSection = {
         element: "div",
         id: "stellar-balances",
         innerHTML: [
             whereAmI,
-            { element: "em", id: "stellar-balances-not-found", innerText: "No data found (yet?)!" },
-            { element: "table", id:"stellar-balances-table" }
+            content
         ]
     };
     makeElement(stellarBalancesSection, document.querySelector('.main'));
