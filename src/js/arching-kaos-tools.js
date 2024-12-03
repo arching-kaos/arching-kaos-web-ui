@@ -35,15 +35,8 @@ import { debugLog } from "./utils.js";
 
 var settings = getSettings();
 
-function getArrayLength(array){
-    var length = 0;
-    for ( e in array ) {
-        length++;
-    }
-    return length;
-}
-
-function showResult(id){
+function showResult(id)
+{
     const found = document.querySelector(`#${id}`).cloneNode(true);
     const overlay = document.createElement('div');
     overlay.id = 'unique-overlay';
@@ -66,9 +59,11 @@ function showResult(id){
     });
 }
 
-function renderStellarAddressPlaceholder(stellarAddress){
+function renderStellarAddressPlaceholder(stellarAddress)
+{
     var divs = document.querySelector('#'+stellarAddress);
-    if ( divs === null ){
+    if ( divs === null )
+    {
         var details = document.createElement('details');
         details.id = '#'+stellarAddress;
         var summary = document.createElement('summary');
@@ -80,14 +75,17 @@ function renderStellarAddressPlaceholder(stellarAddress){
     return divs;
 }
 
-function nodeInfoRender(json, stellarAddress){
+function nodeInfoRender(json, stellarAddress)
+{
     var divs = renderStellarAddressPlaceholder(stellarAddress);
     debugLog(json);
     const keys = Object.keys(json);
     for( var i = 0; i < keys.length; i++ )
     {
-        if ( typeof(json[keys[i]]) === "string" ) {
-            if(!document.querySelector('#'+keys[i]+'-'+stellarAddress)){
+        if ( typeof(json[keys[i]]) === "string" )
+        {
+            if(!document.querySelector('#'+keys[i]+'-'+stellarAddress))
+            {
                 var p = {
                     element:"p",
                     id: `${keys[i]}-${stellarAddress}`,
@@ -96,31 +94,37 @@ function nodeInfoRender(json, stellarAddress){
                 makeElement(p, divs);
             }
         }
-        else if ( typeof(json[keys[i]]) === "Object"||"Array" ) {
+        else if ( typeof(json[keys[i]]) === "Object"||"Array" )
+        {
             nodeInfoRender(json[keys[i]], stellarAddress);
         }
     }
 }
 
-function nodeInfoRenderAndProceed(json, stellarAddress){
+function nodeInfoRenderAndProceed(json, stellarAddress)
+{
     nodeInfoRender(json, stellarAddress);
     stellarParticipantInfo(stellarAddress, json);
-    if ( getStellarParticipantsScanned() === 0 ) {
+    if ( getStellarParticipantsScanned() === 0 )
+    {
         archingKaosLog('Scanned all Stellar participants');
     }
     progressPlaceholder().value++;
-    if (json.zlatest) {
+    if (json.zlatest)
+    {
         seekZblock(json.zlatest, [json.gpg, json]);
     }
     //seekZchain(json.zchain,stellarAddress,json);
 }
 
-function renderZblockAndProceed(json, params){
+function renderZblockAndProceed(json, params)
+{
     debugLog(typeof(params))
     const [zblockIPFSHash, group, recursive] = params;
     debugLog(group);
     var zblockElement = document.querySelector('#zb-'+zblockIPFSHash);
-    if(json.block){
+    if(json.block)
+    {
         var p = {
             element:"p",
             innerText:"Block: " +json.block,
@@ -128,7 +132,8 @@ function renderZblockAndProceed(json, params){
         };
         makeElement(p, zblockElement);
     }
-    if(json.block_signature){
+    if(json.block_signature)
+    {
         var p = {
             element:"p",
             innerText:"Signature: " +json.block_signature
@@ -141,11 +146,13 @@ function renderZblockAndProceed(json, params){
     seekBlock(json.block,zblockIPFSHash,group,json,recursive);
 }
 
-function mixtapeSorting(a,b){
+function mixtapeSorting(a,b)
+{
     return a.timestamp - b.timestamp
 }
 
-function blockRenderAndProceed(json, params){
+function blockRenderAndProceed(json, params)
+{
     const [group, zblockIPFSHash, blockIPFSHash, zblockObject, recursive] = params;
     /* Could be json object with
      *  - action
@@ -157,28 +164,32 @@ function blockRenderAndProceed(json, params){
      */
     // var divs = document.querySelector('#zchain-data-section');
     var detailsPlace = document.querySelector('#zb-'+zblockIPFSHash);
-    if(json.action){
+    if(json.action)
+    {
         var p = {
             element:"p",
             innerText:"Action: " +json.action
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    if(json.detach){
+    if(json.detach)
+    {
         var p = {
             element:"p",
             innerText:"Detach: " +json.detach
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    if(json.gpg){
+    if(json.gpg)
+    {
         var p = {
             element:"p",
             innerText:"GPG: " +json.gpg
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    if(json.data){
+    if(json.data)
+    {
         var p = {
             element:"p",
             innerText:"Data: ",
@@ -188,14 +199,16 @@ function blockRenderAndProceed(json, params){
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    if(json.timestamp){
+    if(json.timestamp)
+    {
         var p = {
             element:"p",
             innerText:"Timestamp: " +json.timestamp + " [" + new Date(json.timestamp*1000) + "]"
         };
         if(detailsPlace!== null) makeElement(p, detailsPlace);
     }
-    if(json.previous){
+    if(json.previous)
+    {
         var p = {
             element:"p",
             innerText:"Previous: " +json.previous
@@ -204,40 +217,50 @@ function blockRenderAndProceed(json, params){
     }
     progressPlaceholder().value++;
     exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject,recursive);
-    if ( checkIfGenesis(json.previous) ){
+    if ( checkIfGenesis(json.previous) )
+    {
         archingKaosLog("Done loading " + group + " zchain!")
         progressPlaceholder().value++;
         setZchainLoadingStatus(group, {loading: "completed"});
-        if ( getZchainLoadingStatuses().length === getStellarNetworkConfiguredAddresses()){
+        if ( getZchainLoadingStatuses().length === getStellarNetworkConfiguredAddresses())
+        {
             var x=0;
-            for ( var element = 0; element < getZchainLoadingStatuses().length; element++ ) {
-                if ( getZchainLoadingStatuses()[element].loading === "completed" ){
+            for ( var element = 0; element < getZchainLoadingStatuses().length; element++ )
+            {
+                if ( getZchainLoadingStatuses()[element].loading === "completed" )
+                {
                     x++;
                 }
             }
-            if ( x === getZchainLoadingStatuses().length ){
+            if ( x === getZchainLoadingStatuses().length )
+            {
                 archingKaosLog("Everything is completed!");
                 setSortedMixtapes(getMixtapes().sort(mixtapeSorting));
             }
         }
         resolveReferences();
         //radioLoad();
-    } else {
+    }
+    else
+    {
         debugLog("deep in :" +group);
         if (recursive) seekZblock(json.previous, [group]);
     }
 }
 
-export function getConfiguration(nodeInfoIPNSLink,stellarAddress){
+export function getConfiguration(nodeInfoIPNSLink,stellarAddress)
+{
     progressPlaceholder().max++;
-    archingKaosLog("Parsing the configuration...")
-    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress)
+    archingKaosLog("Parsing the configuration...");
+    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress);
 }
 
-function seekZchain(zchainIPNSLink,stellarAddress,json){
+function seekZchain(zchainIPNSLink,stellarAddress,json)
+{
     var divs = document.querySelector('#zchain-data-section');
     var details = 0;
-    if ( document.querySelector('#zd-' + zchainIPNSLink) === null ){
+    if ( document.querySelector('#zd-' + zchainIPNSLink) === null )
+    {
         details = {
             element:"details",
             id : 'zd-' + zchainIPNSLink,
@@ -247,7 +270,8 @@ function seekZchain(zchainIPNSLink,stellarAddress,json){
     }
     details = document.querySelector('#zd-' + zchainIPNSLink);
 
-    if(zchainIPNSLink){
+    if(zchainIPNSLink)
+    {
         var p = {
             element:"summary",
             innerText:"zchain: " + zchainIPNSLink
@@ -255,19 +279,24 @@ function seekZchain(zchainIPNSLink,stellarAddress,json){
         makeElement(p, details);
     }
     archingKaosLog("Seeking zchain " + zchainIPNSLink + "...");
-    debugLog(json)
+    debugLog(json);
     archingKaosFetchJSON(getIPNSURL(zchainIPNSLink), seekZblock, [zchainIPNSLink, stellarAddress, json]);
 }
 
-function checkIfGenesis(zblockIPFSHash){
-    if(zblockIPFSHash==="QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH" || zblockIPFSHash === "genesis"){
+function checkIfGenesis(zblockIPFSHash)
+{
+    if(zblockIPFSHash==="QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH" || zblockIPFSHash === "genesis")
+    {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
 
-function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive){
+function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive)
+{
     debugLog(blockIPFSHash);
     debugLog(zblockIPFSHash);
     debugLog(group);
@@ -283,7 +312,8 @@ function seekBlock(blockIPFSHash, zblockIPFSHash, group, zblockObject, recursive
     );
 }
 
-export function getNicknameAssossiatedWithGPG(gpgIPFSHash){
+export function getNicknameAssossiatedWithGPG(gpgIPFSHash)
+{
     const participants = getParticipants();
     for (var i = 0; i < participants.length; i++)
     {
@@ -302,12 +332,15 @@ export function getNicknameAssossiatedWithGPG(gpgIPFSHash){
     return gpgIPFSHash;
 }
 
-function renderGroupOnDataSection(group){
+function renderGroupOnDataSection(group)
+{
     var divs = document.querySelector('#zchain-data-section');
-    if (divs.querySelector("#zchain-data-sec-not-found")){
+    if (divs.querySelector("#zchain-data-sec-not-found"))
+    {
         divs.querySelector("#zchain-data-sec-not-found").remove();
     }
-    if ( divs.querySelector('#zd-' + group) === null ){
+    if ( divs.querySelector('#zd-' + group) === null )
+    {
         var details = {
             element:"details",
             id : 'zd-' + group,
@@ -317,13 +350,16 @@ function renderGroupOnDataSection(group){
             ]
         };
         makeElement(details, divs);
-    } else {
+    }
+    else
+    {
         //debugLog('Else got hit in seekZchain');
         return 0;
     }
 }
 
-function renderZblockUnderGroup(zblock, group){
+function renderZblockUnderGroup(zblock, group)
+{
     const divs = document.querySelector('#zd-' + group);
     var zblockElement = {
         element:"article",
@@ -335,45 +371,55 @@ function renderZblockUnderGroup(zblock, group){
     makeElement(zblockElement, divs);
 }
 
-export function seekZblock(zblockIPFSHash, params){
+export function seekZblock(zblockIPFSHash, params)
+{
     var [group, recursive=true] = params;
-    debugLog(params)
-    debugLog(group)
+    debugLog(params);
+    debugLog(group);
 //    const [zchainIPNSLink, stellarAddress, recursive] = params;
 
     renderGroupOnDataSection(group);
     renderZblockUnderGroup(zblockIPFSHash, group);
     archingKaosLog("Seeking ZBLOCK " + zblockIPFSHash + "...");
-//    if (recursive !== true || recursive !== false){
+//    if (recursive !== true || recursive !== false)
+//    {
 //        recursive = true;
 //    }
     archingKaosFetchJSON(getIPFSURL(zblockIPFSHash), renderZblockAndProceed, [zblockIPFSHash, group, recursive]);
 }
 
-function renderZblockAsModule(json, params){
+function renderZblockAsModule(json, params)
+{
     const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
-    if (action == "files/add") {
+    if (action == "files/add")
+    {
         akModuleFiles(zblockIPFSHash, blockObject, json);
     }
-    else if (action == "news/add") {
+    else if (action == "news/add")
+    {
         akModuleNews(zblockIPFSHash, zblockObject, blockObject, json);
     }
-    else if (action == "comments/add") {
+    else if (action == "comments/add")
+    {
         akModuleComments(zblockIPFSHash,blockObject, json);
     }
-    else if (action == "references/add"){
+    else if (action == "references/add")
+    {
         storeReference(zblockIPFSHash, zblockObject, blockObject, json, references);
     }
-    else if (action == "mixtape/add") {
+    else if (action == "mixtape/add")
+    {
         akModuleMixtapes(zblockIPFSHash, zblockObject, blockObject, json);
     }
-    else {
+    else
+    {
         archingKaosLog(action + " module not found");
     }
-    if (!recursive) {
+    if (!recursive)
+    {
         var button = document.createElement('button');
         button.innerText =`${action.split('/')[0]}-${zblockIPFSHash} 📖`;
-        var params = `${action.split('/')[0]}-${zblockIPFSHash}`
+        var params = `${action.split('/')[0]}-${zblockIPFSHash}`;
         button.onclick = ()=>{
             showResult(params);
         };
@@ -381,7 +427,8 @@ function renderZblockAsModule(json, params){
     }
 }
 
-function saveDataAndFullZblocks(json,params){
+function saveDataAndFullZblocks(json,params)
+{
     const [action, group, zblockIPFSHash, zblockObject, blockObject, references, recursive] = params;
     setFullZblock(zblockIPFSHash, {
         zblock:zblockIPFSHash,
@@ -401,12 +448,14 @@ function saveDataAndFullZblocks(json,params){
     progressPlaceholder().value++;
 }
 
-function doStuffWithFetchedDataBlock(json, params){
+function doStuffWithFetchedDataBlock(json, params)
+{
     saveDataAndFullZblocks(json, params);
     renderZblockAsModule(json, params);
 }
 
-function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject,recursive){
+function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject,recursive)
+{
     archingKaosLog(`Render ZBLOCK ${zblockIPFSHash} as ${action}  ...`);
     archingKaosFetchJSON(
         getIPFSURL(dataIPFSHash),
@@ -419,7 +468,8 @@ export function getPreviewText(text, params)
 {
     var [ articleid ] = params;
     var divs = document.querySelector(articleid);
-    if(text){
+    if(text)
+    {
         var newtext = text.substring(0, 500);
         var pre = {
             element:"div",
@@ -434,7 +484,8 @@ export function getFullText(text, params)
 {
     var [ articleid ] = params;
     var divs = document.querySelector(articleid);
-    if(text){
+    if(text)
+    {
         var pre = {
             element:"div",
             className:"news-text",
@@ -444,10 +495,13 @@ export function getFullText(text, params)
     }
 }
 
-function checkIfZchainAndProceed(json, params){
+function checkIfZchainAndProceed(json, params)
+{
     const [group] = params;
-    if (json.zlatest) {
-        if (!aknet().querySelector('#ak-zchain-'+json.zchain)){
+    if (json.zlatest)
+    {
+        if (!aknet().querySelector('#ak-zchain-'+json.zchain))
+        {
             var pre = {
                 element:"pre",
                 innerText:json.zchain,
@@ -459,33 +513,43 @@ function checkIfZchainAndProceed(json, params){
     seekZblock(json.zlatest, [group, true]);
 }
 
-function sblockExpanding(json, args){
+function sblockExpanding(json, args)
+{
     const [sblockHash] = args;
-    if (json.zblocks){
-        for ( var zblock = 0; zblock < json.zblocks.length; zblock++ ){
+    if (json.zblocks)
+    {
+        for ( var zblock = 0; zblock < json.zblocks.length; zblock++ )
+        {
             seekZblock(json.zblocks[zblock],sblockHash,false);
             archingKaosLog("Found "+json.zblocks[zblock]+" of "+sblockHash);
         }
     }
-    if (json.zpairs){
-        for ( var pair = 0; pair < json.zpairs.length; pair++ ){
+    if (json.zpairs)
+    {
+        for ( var pair = 0; pair < json.zpairs.length; pair++ )
+        {
             seekZchain(json.zpairs[pair].latest,json.zpairs[pair].zchain,true);
             archingKaosLog("Found "+json.zblocks[zblock]+" of "+json.zpairs[pair].zchain);
         }
     }
-    if (json.previous) {
+    if (json.previous)
+    {
         crawlSchain(json.previous);
     }
 }
 
-function crawlSchain(sblockHash){
+function crawlSchain(sblockHash)
+{
     var shatest = /0{128}/
-    if ( shatest.test(sblockHash) ){
+    if ( shatest.test(sblockHash) )
+    {
         debugLog('genesis!!!');
-    } else {
+    }
+    else
+    {
         setZchainLoadingStatus(sblockHash, {loading : "started"});
         increaseZchainsFound();
-        setZchain(sblockHash, [])
+        setZchain(sblockHash, []);
         var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/sblock/'+sblockHash;
         archingKaosLog("Fetching "+sblockHash+" sblock...");
         archingKaosFetchJSON(url, sblockExpanding, [sblockHash]);
@@ -493,11 +557,15 @@ function crawlSchain(sblockHash){
     }
 }
 
-function initCrawlSchain(json){
-    if (json.latest_block){
+function initCrawlSchain(json)
+{
+    if (json.latest_block)
+    {
         crawlSchain(json.latest_block);
         archingKaosLog("Diving in "+json.latest_block+" ...");
-    } else {
+    }
+    else
+    {
         archingKaosLog("Can't dive ...");
     }
 }
@@ -509,21 +577,24 @@ function checkPeers(json){
     }
 }
 
-export function checkLocalPeers(){
+export function checkLocalPeers()
+{
     archingKaosLog("🔎 Querying for peers...");
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/peers';
-    archingKaosFetchJSON(url, checkPeers);
+    archingKaosFetchJSON(url, checkPeers, ["localpeers"]);
     archingKaosLog("Querying for peers... Done!");
 }
 
-export function checkLocalNodeInfo(){
+export function checkLocalNodeInfo()
+{
     archingKaosLog("Ringing local bell...");
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/node_info';
     archingKaosFetchJSON(url, checkIfZchainAndProceed, ["localnode"]);
     archingKaosLog("Ringing local bell... Done!");
 }
 
-export function checkLocalSchain(){
+export function checkLocalSchain()
+{
     archingKaosLog("Querying for schain...");
     debugLog(settings);
     var url=settings.ak.connect.list[settings.ak.connect.active]+'/v0/slatest';
@@ -532,7 +603,8 @@ export function checkLocalSchain(){
     archingKaosLog("Querying for schain... Done!");
 }
 
-async function ringlocalbell(){
+async function ringlocalbell()
+{
       checkLocalNodeInfo();
 //    checkLocalPeers();
 //    checkLocalSchain();
