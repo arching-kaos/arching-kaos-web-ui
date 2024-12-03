@@ -570,9 +570,11 @@ function initCrawlSchain(json)
     }
 }
 
-function checkPeers(json){
-    for ( var peer = 0; peer < json; peer++){
-        archingKaosLog("Checking peer: "+json[peer].cjdns.ip)
+function checkPeers(json)
+{
+    for ( var peer = 0; peer < json.length; peer++)
+    {
+        archingKaosLog("Checking peer: "+json[peer].cjdns.ip);
         checkIfZchainAndProceed(json[peer].node_info, [json[peer].node_info.gpg]);
     }
 }
