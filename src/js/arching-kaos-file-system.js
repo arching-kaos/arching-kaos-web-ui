@@ -1,4 +1,4 @@
-// Arching Kaos Fetch
+// Arching Kaos File System
 //
 // Kaotisk Hund - 2024
 //
@@ -15,6 +15,7 @@ var leafs_head_counter = 0;
 var first_chunk_spotted = 0;
 var first_chunk_size = 0;
 var final_array_seq = [];
+var status = [];
 var output = "";
 
 function akfsReset()
@@ -27,6 +28,7 @@ function akfsReset()
     first_chunk_size = 0;
     final_array_seq = null;
     final_array_seq = [];
+    status = [];
     output = "";
 }
 
@@ -70,6 +72,7 @@ function akfsFromMapGetLevelOneMapHash(reply, params)
             map_hash: hash
         };
         thingy[`${level_1_map}`] = [];
+        status[`${level_1_map}`] = 'working';
     }
 }
 
@@ -121,7 +124,7 @@ function akfsChunkOrLeaf(reply, params)
     var base64regexp = /^[-A-Za-z0-9+/]*={0,3}$/;
     if(typeof(reply) === "string")
     {
-        if ( hashregexp.test(reply.split('\n')[0]) && hashregexp.test(reply.split('\n')[1]) )
+        if ( hashregexp.test(reply.split('\n')[0]) && hashregexp.test(reply.split('\n')[1]) && ( thingy.leafs[hash] === undefined ) )
         {
             if ( leafs_counter === 0 )
             {
@@ -144,11 +147,11 @@ function akfsChunkOrLeaf(reply, params)
             {
                 console.log("Current is a root_hash");
             }
-            if ( thingy[hash] !== undefined )
-            {
-                thingy[hash][reply.split('\n')[0]] = [];
-                thingy[hash][reply.split('\n')[1]] = [];
-            }
+            // if ( thingy[hash] !== undefined )
+            // {
+            //     thingy[hash][reply.split('\n')[0]] = [];
+            //     thingy[hash][reply.split('\n')[1]] = [];
+            // }
             var leaf = {
                 hash: hash,
                 head: reply.split('\n')[0],
@@ -163,12 +166,12 @@ function akfsChunkOrLeaf(reply, params)
                 archingKaosFetchBlob(akfsGetChunkURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash]);
             }
         }
-        else if ( base64regexp.test(reply.split('\n')[0]) )
+        else if ( base64regexp.test(reply.replaceAll('\n', '')) && ( thingy.chunks[hash] === undefined ) )
         {
             if ( first_chunk_spotted === 0 )
             {
                 first_chunk_spotted = leafs_head_counter;
-                console.log("first_chunk_spotted : "+ first_chunk_spotted);
+                // console.log(`first_chunk_spotted : ${first_chunk_spotted}`);
                 first_chunk_size = reply.length;
             }
             var chunk = {
