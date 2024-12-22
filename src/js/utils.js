@@ -26,4 +26,13 @@ export function debugLog(message)
 {
     if (showDebug) console.log(message);
 }
+
+export function offerDownloadableData(data)
+{
+    var link = document.createElement('a');
+    link.download = 'data';
+    var blob = new Blob([data]); // , {type: 'text/plain'}
+    link.href = window.URL.createObjectURL(blob);
+    link.click();
+}
 // @license-end

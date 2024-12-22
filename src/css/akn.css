@@ -204,6 +204,7 @@ select {
 }
 
 article {
+    font-family: monospace;
     border: none;
     border-radius: 40px;
     border-left: 2px dashed #672178;
