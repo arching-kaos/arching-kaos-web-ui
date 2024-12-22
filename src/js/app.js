@@ -11,6 +11,7 @@ import { mainLayoutSpawn } from "./ui/mainLayout.js";
 import { scanStellarNetworkForPeers } from "./arching-kaos-stellar-network.js";
 import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekPeer, seekZblock, showResult } from "./arching-kaos-tools.js";
 import { refreshChat, refreshRadio, setDebug } from "./utils.js";
+import { akfsGetMap } from "./arching-kaos-file-system.js";
 
 window.menusel = menusel;
 window.locationHashOnChange = locationHashOnChange;
@@ -133,5 +134,8 @@ menuinit();
 locationHashOnChange();
 
 window.isMobile ? doubleFloorMenu().style.display = 'none': doubleFloorMenu().style.display = 'flex';
+// TESTS BELOW
+window.akfsGetMap = akfsGetMap;
+//akfsGetMap('48965fddebc826632a4bc1bbe1ed6c1909541e1c03023c3cdb481fc3a5b53cfad1b6d92fd4cb77a4f75b6891e4dd005fa26d108b29ba203b732c92e4ce3d5e0c');
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end

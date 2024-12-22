@@ -65,4 +65,32 @@ export async function archingKaosFetchText( url, callback, params ){
     request.open("GET", url);
     request.send();
 }
+
+export function archingKaosFetchBlob( url, callback, params ){
+    const request = new XMLHttpRequest();
+    request.addEventListener("load", ()=>{
+        var blob = request.response;
+        if(request.status !== 404){
+            callback(blob, params);
+        } else {
+            archingKaosLog(`ERROR ${request.status} while loading ${url}`);
+        }
+    });
+    request.addEventListener("error", ()=>{
+        debugLog("An error occured.");
+    });
+    request.addEventListener("progress", (event)=>{
+        if (event.lengthComputable && progressPlaceholder()){
+            httpProgressPlaceholder().value = (event.loaded / event.total) * 100;
+        } else {
+            httpProgressPlaceholder.value = 0;
+            debugLog("Supposingly zeroed progressPlaceholder");
+        }
+    });
+    request.addEventListener("abort", ()=>{
+        debugLog("Request aborted.");
+    });
+    request.open("GET", url);
+    request.send();
+}
 // @license-end

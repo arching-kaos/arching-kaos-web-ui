@@ -56,5 +56,19 @@ export function getTrustlinesURL(code=null, issuer=null)
         '&asset_issuer='+issuer;
 }
 
+export function akfsGetMapURL(hash=null)
+{
+    return settings.ak.connect.list[settings.ak.connect.active]+'/v0/map/'+hash;
+}
+
+export function akfsGetLeafURL(hash=null)
+{
+    return settings.ak.connect.list[settings.ak.connect.active]+'/v0/leaf/'+hash;
+}
+
+export function akfsGetChunkURL(hash=null)
+{
+    return settings.ak.connect.list[settings.ak.connect.active]+'/v0/chunk/'+hash;
+}
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end
