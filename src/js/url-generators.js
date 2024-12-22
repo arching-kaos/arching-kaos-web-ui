@@ -18,7 +18,8 @@ import { getSettings } from "./arching-kaos-web-ui-settings.js";
 
 const settings = getSettings();
 
-export function getStellarConfigurationVariableURL(stellarAddress){
+export function getStellarConfigurationVariableURL(stellarAddress)
+{
     return settings.stellar.horizon.list[settings.stellar.horizon.active]+
         'accounts/'+
         stellarAddress+
@@ -26,15 +27,18 @@ export function getStellarConfigurationVariableURL(stellarAddress){
         settings.stellar.variableNames.list[settings.stellar.variableNames.active];
 }
 
-export function getIPNSURL(ipnsKey){
+export function getIPNSURL(ipnsKey)
+{
     return settings.ipfs.gateway.list[settings.ipfs.gateway.active]+'ipns/'+ipnsKey;
 }
 
-export function getIPFSURL(ipfsHash){
+export function getIPFSURL(ipfsHash)
+{
     return settings.ipfs.gateway.list[settings.ipfs.gateway.active]+'ipfs/'+ipfsHash;
 }
 
-export function getHoldersOfActiveAssetURL(){
+export function getHoldersOfActiveAssetURL()
+{
     return settings.stellar.horizon.list[settings.stellar.horizon.active]+
         'accounts?asset='+
         settings.stellar.asset.list[settings.stellar.asset.active].code+
@@ -43,7 +47,8 @@ export function getHoldersOfActiveAssetURL(){
         '&limit=200';
 }
 
-export function getTrustlinesURL(code=null, issuer=null){
+export function getTrustlinesURL(code=null, issuer=null)
+{
     var code = (code === null)? settings.stellar.asset.list[settings.stellar.asset.active].code : code;
     var issuer = (issuer === null) ? settings.stellar.asset.list[settings.stellar.asset.active].issuer : issuer;
     return settings.stellar.horizon.list[settings.stellar.horizon.active]+

@@ -88,6 +88,30 @@ var renderForm = {
     ]
 };
 
+var manualPeerTitle = {
+    element : "h3",
+    innerText: "Connect to specific peer manually"
+};
+
+var manualPeerForm = {
+    element: "div",
+    style:"padding: 1vh 1vw; display: flex; flex-direction: row; align-items: center; gap: 10px;",
+    innerHTML: [
+        {
+            element: "input",
+            id:"peer-field",
+            type:"text",
+            name:"search",
+            placeholder:"Enter an arching-kaos node address"
+        },
+        {
+            element:"button",
+            onclick:"seekPeer(this.parentElement.querySelector('#peer-field').value, ['search', false])",
+            innerText:"Try"
+        }
+    ]
+};
+
 var content = {
     element : "div",
     className: "content",
@@ -96,12 +120,14 @@ var content = {
         homeGrid,
         renderTitle,
         renderForm,
+        manualPeerTitle,
+        manualPeerForm,
         {
             element: "div",
             className: "results-area",
             innerHTML: [
                 {
-                    elements: "h3",
+                    element: "h3",
                     innerText: "Results"
                 }
             ]
@@ -164,6 +190,7 @@ var content = {
                 },
                 {
                     element: "div",
+                    style: "font-size: 9px;",
                     id: "logs-area-element"
                 }
             ]

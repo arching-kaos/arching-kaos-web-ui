@@ -39,6 +39,13 @@ export function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
     }
     if (!document.querySelector('#news-preview-'+zblockIPFSHash)){
         var newsSectionDivElement = document.querySelector('.preview');
+        var button = {
+            element:'button',
+            className:'read-more-button',
+            // innerText:`${blockObject.action.split('/')[0]}-${zblockIPFSHash} 📖`,
+            innerText:`Read more`,
+            onclick: `showResult("${blockObject.action.split('/')[0]}-${zblockIPFSHash}")`
+        }
         var articleContainerElement = {
             element:"article",
             id:`news-preview-${zblockIPFSHash}`,
@@ -48,12 +55,13 @@ export function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
                 { element:"a", innerText:'[permalink]', target: '_blank', href:'https://news.arching-kaos.net/?from_zblock='+zblockIPFSHash },
                 { element:"p", innerText:"Published: " + new Date(blockObject.timestamp*1000) },
                 { element:"p", innerText:"Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg) },
+                button,
                 { element:"hr" }
             ]
         };
         makeElement(articleContainerElement, newsSectionDivElement);
         if(json.ipfs){
-            archingKaosFetchText(getIPFSURL(json.ipfs), getPreviewText, [`#news-preview-${zblockIPFSHash}`]);
+            archingKaosFetchText(getIPFSURL(json.ipfs), getPreviewText, [`#news-preview-${zblockIPFSHash}`, button]);
         }
         makeElement({ element:"hr"}, newsSectionDivElement);
     }

@@ -9,7 +9,7 @@ import { locationHashOnChange } from "./arching-kaos-spa-router.js";
 import { doubleFloorMenu, menuinit, menusel, stellarSubToggle, modulesSubToggle, exploreSubToggle } from './ui/menu.js';
 import { mainLayoutSpawn } from "./ui/mainLayout.js";
 import { scanStellarNetworkForPeers } from "./arching-kaos-stellar-network.js";
-import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekZblock } from "./arching-kaos-tools.js";
+import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekPeer, seekZblock, showResult } from "./arching-kaos-tools.js";
 import { refreshChat, refreshRadio, setDebug } from "./utils.js";
 
 window.menusel = menusel;
@@ -25,6 +25,8 @@ window.checkLocalSchain = checkLocalSchain;
 window.refreshChat = refreshChat;
 window.refreshRadio = refreshRadio;
 window.setDebug = setDebug;
+window.showResult = showResult;
+window.seekPeer = seekPeer;
 
 export function body()
 {

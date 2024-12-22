@@ -75,7 +75,7 @@ var default_settings = {
         connect: {
             list: [
                 'http://127.0.0.1:8610',
-                'http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]:8610',
+                'http://z.kaotisk-hund.com:8610',
                 'http://api.aknet.z.kaotisk-hund.com/'
             ],
             active: 1
@@ -83,7 +83,7 @@ var default_settings = {
         radio: {
             list: [
                 'http://127.0.0.1:8010',
-                'http://api.radio.z.kaotisk-hund.com',
+                'http://z.kaotisk-hund.com:8610',
                 'https://api.radio.arching-kaos.com'
             ],
             active: 2
@@ -119,6 +119,7 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
     settings.ipfs.gateway.active = 1;
     settings.stellar.horizon.active = 1;
+    settings.ak.connect.active = 1;
     settings.ak.radio.active = 1;
 } else if ( location.origin === "http://localhost:3000" ) {
     settings.ipfs.gateway.active = 2;

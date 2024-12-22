@@ -35,24 +35,35 @@ import { debugLog } from "./utils.js";
 
 var settings = getSettings();
 
-function showResult(id)
+export function showResult(id)
 {
     const found = document.querySelector(`#${id}`).cloneNode(true);
-    const overlay = document.createElement('div');
-    overlay.id = 'unique-overlay';
     const title = {
         element:'h3',
         innerText : "Result"
     };
-    makeElement(title, overlay);
     var closeButton = {
         element:'button',
         innerHTML: 'x',
         id:"buttonCloseResult"
     };
-    makeElement(closeButton, overlay);
-    makeElement(found, overlay);
+    var resultsHeader = {
+        element: 'div',
+        id: 'results-header',
+        innerHTML:[
+            title,
+            closeButton
+        ]
+    };
+    const overlay = {
+        element:'div',
+        id:'unique-overlay',
+        innerHTML:[
+            resultsHeader
+        ]
+    };
     makeElement(overlay, resultsArea());
+    document.querySelector('#unique-overlay').appendChild(found);
     closeButton = document.querySelector('#buttonCloseResult');
     closeButton.addEventListener("click", ()=>{
         document.querySelector('#unique-overlay').remove();
@@ -466,15 +477,21 @@ function exe(action,dataIPFSHash,blockObject,zblockIPFSHash,group,zblockObject,r
 
 export function getPreviewText(text, params)
 {
-    var [ articleid ] = params;
+    var [ articleid, button ] = params;
     var divs = document.querySelector(articleid);
     if(text)
     {
         var newtext = text.substring(0, 500);
         var pre = {
             element:"div",
-            className:"news-text",
-            innerHTML:DOMPurify.sanitize(marked.parse(newtext))
+            innerHTML:[
+                {
+                    element:"div",
+                    className:"news-text",
+                    innerHTML:DOMPurify.sanitize(marked.parse(newtext))
+                },
+                button
+            ]
         };
         makeElement(pre, divs);
     }
@@ -574,9 +591,22 @@ function checkPeers(json)
 {
     for ( var peer = 0; peer < json.length; peer++)
     {
-        archingKaosLog("Checking peer: "+json[peer].cjdns.ip);
-        checkIfZchainAndProceed(json[peer].node_info, [json[peer].node_info.gpg]);
+        if ( json[peer].cjdns !== undefined )
+        {
+            archingKaosLog("Checking peer: "+json[peer].cjdns.ip);
+            checkIfZchainAndProceed(json[peer].node_info, [json[peer].node_info.gpg]);
+        }
+        if ( json[peer].yggdrasil !== undefined )
+        {
+            archingKaosLog("Checking peer: "+json[peer].yggdrasil.ip);
+            checkIfZchainAndProceed(json[peer].node_info, [json[peer].node_info.gpg]);
+        }
     }
+}
+
+export function seekPeer(value)
+{
+    archingKaosFetchJSON(`http://[${value}]:8610/v0/node_info`, checkIfZchainAndProceed, ["custom"]);
 }
 
 export function checkLocalPeers()
