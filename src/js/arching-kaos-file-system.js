@@ -79,20 +79,20 @@ function akfsSerializeChunks(hash)
     {
         final_array_seq.push(hash);
     }
-    else
+    else if ( thingy.leafs[hash] !== undefined )
     {
-        if ( thingy.leafs[hash] !== undefined )
+        if ( thingy.leafs[hash].head !== undefined )
         {
-            console.log(`The following hash is failing: ${hash}`)
-            if ( thingy.leafs[hash].head !== undefined )
-            {
-                akfsSerializeChunks(thingy.leafs[hash].head);
-            }
+            akfsSerializeChunks(thingy.leafs[hash].head);
         }
         if ( thingy.leafs[hash].head !== thingy.leafs[hash].tail )
         {
             akfsSerializeChunks(thingy.leafs[hash].tail);
         }
+    }
+    else
+    {
+        console.log(`The following hash is failing: ${hash}`)
     }
 }
 
