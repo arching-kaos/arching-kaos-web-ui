@@ -42,7 +42,6 @@ export function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
         var button = {
             element:'button',
             className:'read-more-button',
-            // innerText:`${blockObject.action.split('/')[0]}-${zblockIPFSHash} 📖`,
             innerText:`Read more`,
             onclick: `showResult("${blockObject.action.split('/')[0]}-${zblockIPFSHash}")`
         }
@@ -55,7 +54,6 @@ export function akModuleNews(zblockIPFSHash, zblockObject, blockObject, json){
                 { element:"a", innerText:'[permalink]', target: '_blank', href:'https://news.arching-kaos.net/?from_zblock='+zblockIPFSHash },
                 { element:"p", innerText:"Published: " + new Date(blockObject.timestamp*1000) },
                 { element:"p", innerText:"Contributor: " + getNicknameAssossiatedWithGPG(blockObject.gpg) },
-                button,
                 { element:"hr" }
             ]
         };
