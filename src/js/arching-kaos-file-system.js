@@ -29,6 +29,7 @@ function akfsReset()
     final_array_seq = null;
     final_array_seq = [];
     status = [];
+    workspace = [];
     output = "";
 }
 
@@ -64,7 +65,7 @@ function akfsFromMapGetLevelOneMapHash(reply, params)
     const level_1_map = reply.split('\n')[1].split('  ')[0];
     if(typeof(reply) === "string" && hashregexp.test(level_1_map))
     {
-        archingKaosFetchBlob(akfsGetLeafURL(level_1_map), akfsChunkOrLeaf, [level_1_map, hash]);
+        archingKaosFetchBlob(akfsGetLeafURL(level_1_map), akfsChunkOrLeaf, [level_1_map, hash, 0]);
         thingy = {
             leafs: [],
             chunks: [],
@@ -78,24 +79,32 @@ function akfsFromMapGetLevelOneMapHash(reply, params)
 
 function akfsSerializeChunks(hash)
 {
-    if ( thingy.chunks[hash] !== undefined )
+    if ( status[hash] === 'ready' )
     {
-        final_array_seq.push(hash);
-    }
-    else if ( thingy.leafs[hash] !== undefined )
-    {
-        if ( thingy.leafs[hash].head !== undefined )
+        if ( thingy.chunks[hash] !== undefined )
         {
-            akfsSerializeChunks(thingy.leafs[hash].head);
+            final_array_seq.push(hash);
         }
-        if ( thingy.leafs[hash].head !== thingy.leafs[hash].tail )
+        else if ( thingy.leafs[hash] !== undefined )
         {
-            akfsSerializeChunks(thingy.leafs[hash].tail);
+            if ( thingy.leafs[hash].head !== undefined )
+            {
+                akfsSerializeChunks(thingy.leafs[hash].head);
+            }
+            if ( thingy.leafs[hash].head !== thingy.leafs[hash].tail )
+            {
+                akfsSerializeChunks(thingy.leafs[hash].tail);
+            }
+        }
+        else
+        {
+            console.log(`The following hash is failing: ${hash}`)
         }
     }
     else
     {
-        console.log(`The following hash is failing: ${hash}`)
+        console.log(status);
+        console.log('next call');
     }
 }
 
@@ -104,22 +113,26 @@ function makeUpData()
     let response = "";
     for ( var i = 0; i < final_array_seq.length; i++ )
     {
-        // console.log(`${i} ${final_array_seq[i]}`);
         response += thingy.chunks[final_array_seq[i]].data;
     }
-    return Uint8Array.fromBase64(response.replaceAll('\n', ''));
+    return Uint8Array.fromBase64(response.replaceAll('\n', '')); // incompatible atm for Chromium afaik
 }
 
-function akfsWorkOnChunks()
+export function akfsWorkOnChunks()
 {
     akfsSerializeChunks(thingy.root_hash);
     var data = makeUpData();
     offerDownloadableData(data);
+    console.log(workspace);
 }
 
 function akfsChunkOrLeaf(reply, params)
 {
-    const [ hash, previous ] = params;
+    var [ hash, previous, wsn ] = params;
+    if ( workspace[wsn] === undefined ) workspace[wsn] = [];
+    if ( hash === thingy.root_hash ) workspace[wsn].push(hash);
+    wsn++;
+    if ( workspace[wsn] === undefined ) workspace[wsn] = [];
     var hashregexp = /^[0-9a-f]{128}$/;
     var base64regexp = /^[-A-Za-z0-9+/]*={0,3}$/;
     if(typeof(reply) === "string")
@@ -152,18 +165,24 @@ function akfsChunkOrLeaf(reply, params)
             //     thingy[hash][reply.split('\n')[0]] = [];
             //     thingy[hash][reply.split('\n')[1]] = [];
             // }
+            archingKaosLog(`${hash} is a leaf`);
             var leaf = {
                 hash: hash,
                 head: reply.split('\n')[0],
                 tail: reply.split('\n')[1]
             };
             thingy.leafs[leaf.hash] = leaf;
-            archingKaosFetchBlob(akfsGetLeafURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash]);
-            archingKaosFetchBlob(akfsGetChunkURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash]);
+            status[leaf.hash] = 'ready';
+            status[leaf.head] = 'working';
+            archingKaosFetchBlob(akfsGetLeafURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash, wsn]);
+            archingKaosFetchBlob(akfsGetChunkURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash, wsn]);
+            workspace[wsn].push(leaf.head);
             if ( leaf.head !== leaf.tail )
             {
-                archingKaosFetchBlob(akfsGetLeafURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash]);
-                archingKaosFetchBlob(akfsGetChunkURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash]);
+                status[leaf.tail] = 'working';
+                archingKaosFetchBlob(akfsGetLeafURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash, wsn]);
+                archingKaosFetchBlob(akfsGetChunkURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash, wsn]);
+                workspace[wsn].push(leaf.tail);
             }
         }
         else if ( base64regexp.test(reply.replaceAll('\n', '')) && ( thingy.chunks[hash] === undefined ) )
@@ -178,10 +197,12 @@ function akfsChunkOrLeaf(reply, params)
                 hash: hash,
                 data: reply
             };
+            archingKaosLog(`${hash} is a chunk`);
+            status[chunk.hash] = 'ready';
             thingy.chunks[chunk.hash] = chunk;
             if ( first_chunk_size > chunk.data.length || chunk.data.length < 1024 || ( chunk.data.length < 4096 && first_chunk_size >= 4096 ) )
             {
-                akfsWorkOnChunks();
+                // akfsWorkOnChunks();
             }
         }
         else
