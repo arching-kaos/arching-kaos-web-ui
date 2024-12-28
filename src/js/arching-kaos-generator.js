@@ -7,9 +7,13 @@
 
 export function makeElement(obj, attachTo)
 {
-    if (obj.element !== 'head' && obj.element !== 'body' )
+    if (obj.element !== 'head' && obj.element !== 'body' && obj.element !== 'svg' && obj.element !== 'circle')
     {
         var temp = document.createElement(obj.element);
+    }
+    else if ( obj.element === 'svg' || obj.element === 'circle' )
+    {
+        var temp = document.createElementNS("http://www.w3.org/2000/svg", obj.element);
     }
     else if ( obj.id !== null && document.querySelector('#'+obj.id) )
     {
@@ -24,7 +28,7 @@ export function makeElement(obj, attachTo)
     if ( obj.type !== undefined ) temp.type = obj.type;
     if ( obj.content !== undefined ) temp.content = obj.content;
     if ( obj.property !== undefined ) temp.property = obj.property;
-    if ( obj.className !== undefined ) temp.className = obj.className;
+    if ( obj.className !== undefined && obj.element !== 'svg') temp.className = obj.className;
     if ( obj.rel !== undefined ) temp.rel = obj.rel;
     if ( obj.href !== undefined ) temp.href = obj.href;
     if ( obj.style !== undefined ) temp.style = obj.style;
@@ -40,6 +44,17 @@ export function makeElement(obj, attachTo)
     if ( obj.placeholder !== undefined ) temp.placeholder = obj.placeholder;
     if ( obj.classes !== undefined ) temp.classList = obj.classes;
     if ( obj.innerText !== undefined ) temp.innerText = obj.innerText;
+    if ( obj.viewBox !== undefined ) temp.setAttribute("viewBox", obj.viewBox);
+    if ( obj.cx !== undefined ) temp.setAttribute("cx", obj.cx);
+    if ( obj.cy !== undefined ) temp.setAttribute("cy", obj.cy);
+    if ( obj.r !== undefined ) temp.setAttribute("r", obj.r);
+    if ( obj.xmlns !== undefined ) temp.setAttribute("xmlns", obj.xmlns);
+    if ( obj.fill !== undefined ) temp.setAttribute("fill", obj.fill);
+    if ( obj.stroke !== undefined ) temp.setAttribute("stroke", obj.stroke);
+    if ( obj.strokeWidth !== undefined ) temp.setAttribute("stroke-width", obj.strokeWidth);
+    if ( obj.version !== undefined ) temp.setAttribute("version", obj.version);
+    if ( obj.width !== undefined ) temp.setAttribute("width", obj.width);
+    if ( obj.height !== undefined ) temp.setAttribute("height", obj.height);
     if ( obj.innerHTML !== undefined && Array.isArray(obj.innerHTML) )
     {
         obj.innerHTML.forEach((value)=>{makeElement(value, temp)});

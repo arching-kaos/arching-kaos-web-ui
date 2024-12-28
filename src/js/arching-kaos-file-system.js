@@ -8,6 +8,8 @@
 import { akfsGetChunkURL, akfsGetLeafURL, akfsGetMapURL } from "./url-generators.js";
 import { archingKaosFetchBlob } from "./arching-kaos-fetch.js";
 import { offerDownloadableData } from "./utils.js";
+import {archingKaosLog} from "./arching-kaos-log.js";
+import { makeElement } from "./arching-kaos-generator.js";
 
 var thingy = {};
 var leafs_counter = 0;
@@ -16,7 +18,25 @@ var first_chunk_spotted = 0;
 var first_chunk_size = 0;
 var final_array_seq = [];
 var status = [];
+var workspace = [];
 var output = "";
+
+function drawWorkSpace()
+{
+    var ele = {
+        element:"svg",
+        className: "akfsmap",
+        viewBox: "0 0 700 50",
+        version: "1.1",
+        width: 700,
+        height:50,
+        style:"background-color:#333;width: 100%;height:100%;",
+        xmlns: "http://www.w3.org/2000/svg",
+        innerHTML:[
+        ]
+    };
+    if ( document.querySelector('svg') === null ) makeElement(ele, document.querySelector('.results-area'));
+}
 
 function akfsReset()
 {
@@ -31,11 +51,13 @@ function akfsReset()
     status = [];
     workspace = [];
     output = "";
+    if ( document.querySelector('svg') !== null ) document.querySelector('svg').remove();
 }
 
 export function akfsGetMap(hash)
 {
     akfsReset();
+    drawWorkSpace();
     archingKaosFetchBlob(akfsGetMapURL(hash), akfsFromMapGetLevelOneMapHash, [hash])
     return hash;
 }
@@ -159,6 +181,14 @@ function akfsChunkOrLeaf(reply, params)
             else if ( hash === thingy.root_hash )
             {
                 console.log("Current is a root_hash");
+                makeElement({
+                    element:"circle",
+                    id:`c-${hash}`,
+                    fill:"red",
+                    cx:1+(workspace[wsn].length+1)*3,
+                    cy:2+((wsn-1)*3),
+                    r:"1"
+                }, document.querySelector('svg'));
             }
             // if ( thingy[hash] !== undefined )
             // {
@@ -172,17 +202,34 @@ function akfsChunkOrLeaf(reply, params)
                 tail: reply.split('\n')[1]
             };
             thingy.leafs[leaf.hash] = leaf;
+            document.querySelector(`#c-${leaf.hash}`).setAttribute("fill", "lightgreen");
             status[leaf.hash] = 'ready';
             status[leaf.head] = 'working';
             archingKaosFetchBlob(akfsGetLeafURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash, wsn]);
             archingKaosFetchBlob(akfsGetChunkURL(leaf.head), akfsChunkOrLeaf, [leaf.head, hash, wsn]);
             workspace[wsn].push(leaf.head);
+            makeElement({
+                element:"circle",
+                id:`c-${leaf.head}`,
+                fill:"red",
+                cx:1+(workspace[wsn].length*3),
+                cy:2+((wsn)*3),
+                r:"1"
+            }, document.querySelector('svg'));
             if ( leaf.head !== leaf.tail )
             {
                 status[leaf.tail] = 'working';
                 archingKaosFetchBlob(akfsGetLeafURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash, wsn]);
                 archingKaosFetchBlob(akfsGetChunkURL(leaf.tail), akfsChunkOrLeaf, [leaf.tail, hash, wsn]);
                 workspace[wsn].push(leaf.tail);
+                makeElement({
+                    element:"circle",
+                    id:`c-${leaf.tail}`,
+                    fill:"red",
+                    cx:1+(workspace[wsn].length*3),
+                    cy:2+((wsn)*3),
+                    r:"1"
+                }, document.querySelector('svg'));
             }
         }
         else if ( base64regexp.test(reply.replaceAll('\n', '')) && ( thingy.chunks[hash] === undefined ) )
@@ -197,6 +244,7 @@ function akfsChunkOrLeaf(reply, params)
                 hash: hash,
                 data: reply
             };
+            document.querySelector(`#c-${chunk.hash}`).setAttribute("fill", "lightgreen");
             archingKaosLog(`${hash} is a chunk`);
             status[chunk.hash] = 'ready';
             thingy.chunks[chunk.hash] = chunk;
