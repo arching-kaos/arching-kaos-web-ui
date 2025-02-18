@@ -86,28 +86,49 @@ function renderStellarAddressPlaceholder(stellarAddress)
     return divs;
 }
 
-function nodeInfoRender(json, stellarAddress)
+function nodeInfoRender(json, stellarAddress, parentTag=null)
 {
     var divs = renderStellarAddressPlaceholder(stellarAddress);
-    debugLog(json);
     const keys = Object.keys(json);
-    for( var i = 0; i < keys.length; i++ )
+    if ( parentTag === null )
     {
-        if ( typeof(json[keys[i]]) === "string" )
+        debugLog(json);
+        for( var i = 0; i < keys.length; i++ )
         {
-            if(!document.querySelector('#'+keys[i]+'-'+stellarAddress))
+            if ( typeof(json[keys[i]]) === "string" )
             {
-                var p = {
-                    element:"p",
-                    id: `${keys[i]}-${stellarAddress}`,
-                    innerText: `${keys[i]}: ${json[keys[i]]}`
-                };
-                makeElement(p, divs);
+                if(!document.querySelector('#'+keys[i]+'-'+stellarAddress))
+                {
+                    var p = {
+                        element:"p",
+                        id: `${keys[i]}-${stellarAddress}`,
+                        innerText: `${keys[i]}: ${json[keys[i]]}`
+                    };
+                    makeElement(p, divs);
+                }
+            }
+            else if ( typeof(json[keys[i]]) === "Object"||"Array" )
+            {
+                nodeInfoRender(json[keys[i]], stellarAddress, keys[i]);
             }
         }
-        else if ( typeof(json[keys[i]]) === "Object"||"Array" )
+    }
+    else if ( typeof(parentTag) === "string" )
+    {
+        for( var i = 0; i < keys.length; i++ )
         {
-            nodeInfoRender(json[keys[i]], stellarAddress);
+            if ( typeof(json[keys[i]]) === "string" )
+            {
+                if(!document.querySelector(`#${parentTag}-${keys[i]}-${stellarAddress}`))
+                {
+                    var p = {
+                        element:"p",
+                        id: `${parentTag}-${keys[i]}-${stellarAddress}`,
+                        innerText: `${parentTag}.${keys[i]}: ${json[keys[i]]}`
+                    };
+                    makeElement(p, divs);
+                }
+            }
         }
     }
 }
