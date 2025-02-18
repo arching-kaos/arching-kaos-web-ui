@@ -371,14 +371,23 @@ function renderGroupOnDataSection(group)
     {
         divs.querySelector("#zchain-data-sec-not-found").remove();
     }
-    if ( divs.querySelector('#zd-' + group) === null )
+    var group_render = "";
+    if ( typeof(group) === "string" )
+    {
+        group_render = group;
+    }
+    else
+    {
+        group_render = group.fingerprint;
+    }
+    if ( divs.querySelector('#zd-' + group_render) === null )
     {
         var details = {
             element:"details",
-            id : 'zd-' + group,
+            id : 'zd-' + group_render,
             className : 'zchain-details',
             innerHTML:[
-                { element:'summary', innerText: group }
+                { element:'summary', innerText: group_render }
             ]
         };
         makeElement(details, divs);
@@ -392,7 +401,16 @@ function renderGroupOnDataSection(group)
 
 function renderZblockUnderGroup(zblock, group)
 {
-    const divs = document.querySelector('#zd-' + group);
+    var group_render = "";
+    if ( typeof(group) === "string" )
+    {
+        group_render = group;
+    }
+    else
+    {
+        group_render = group.fingerprint;
+    }
+    const divs = document.querySelector('#zd-' + group_render);
     var zblockElement = {
         element:"article",
         id: "zb-"+zblock,
