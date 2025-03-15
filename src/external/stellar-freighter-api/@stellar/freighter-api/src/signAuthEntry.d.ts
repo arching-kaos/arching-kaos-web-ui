@@ -1,3 +1,10 @@
+import { FreighterApiError } from "@shared/api/types";
 export declare const signAuthEntry: (entryXdr: string, opts?: {
-    accountToSign?: string | undefined;
-} | undefined) => Promise<string>;
+    networkPassphrase?: string;
+    address?: string;
+}) => Promise<{
+    signedAuthEntry: Buffer | null;
+    signerAddress: string;
+} & {
+    error?: FreighterApiError;
+}>;

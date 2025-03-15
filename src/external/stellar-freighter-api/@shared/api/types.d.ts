@@ -1,10 +1,11 @@
 import BigNumber from "bignumber.js";
-import { Horizon } from "stellar-sdk";
-import { Types } from "@stellar/wallet-sdk";
+import { AssetType as SdkAssetType, Horizon } from "stellar-sdk";
+import Blockaid from "@blockaid/client";
 import { SERVICE_TYPES, EXTERNAL_SERVICE_TYPES } from "../constants/services";
 import { APPLICATION_STATE } from "../constants/applicationState";
 import { WalletType } from "../constants/hardwareWallet";
 import { NetworkDetails } from "../constants/stellar";
+import { AssetsLists, AssetsListItem } from "../constants/soroban/token";
 export declare enum ActionStatus {
     IDLE = "IDLE",
     PENDING = "PENDING",
@@ -14,8 +15,12 @@ export declare enum ActionStatus {
 export interface UserInfo {
     publicKey: string;
 }
+export type MigratableAccount = Account & {
+    keyIdIndex: number;
+};
 export interface Response {
     error: string;
+    apiError: FreighterApiError;
     messagedId: number;
     applicationState: APPLICATION_STATE;
     publicKey: string;
@@ -31,9 +36,11 @@ export interface Response {
         sign: (sourceKeys: {}) => void;
     };
     transactionXDR: string;
+    signerAddress: string;
     signedTransaction: string;
-    signedBlob: string;
-    signedAuthEntry: string;
+    signedPayload: string | Buffer;
+    signedBlob: Buffer | null;
+    signedAuthEntry: Buffer | null;
     source: string;
     type: SERVICE_TYPES;
     url: string;
@@ -43,10 +50,20 @@ export interface Response {
     isSafetyValidationEnabled: boolean;
     isValidatingSafeAssetsEnabled: boolean;
     isExperimentalModeEnabled: boolean;
+    isHashSigningEnabled: boolean;
+    isSorobanPublicEnabled: boolean;
+    isRpcHealthy: boolean;
+    userNotification: UserNotification;
+    assetsLists: AssetsLists;
+    assetsList: AssetsListItem;
+    isDeleteAssetsList: boolean;
+    settingsState: SettingsState;
+    experimentalFeaturesState: SettingsState;
     networkDetails: NetworkDetails;
     sorobanRpcUrl: string;
     networksList: NetworkDetails[];
-    allAccounts: Array<Account>;
+    allAccounts: Account[];
+    migratedAccounts: MigratedAccount[];
     accountName: string;
     assetCode: string;
     assetCanonical: string;
@@ -54,11 +71,11 @@ export interface Response {
     network: string;
     networkIndex: number;
     networkName: string;
-    recentAddresses: Array<string>;
+    recentAddresses: string[];
+    lastUsedAccount: string;
     hardwareWalletType: WalletType;
     bipPath: string;
-    blockedDomains: BlockedDomains;
-    blockedAccounts: BlockedAccount[];
+    memoRequiredAccounts: MemoRequiredAccount[];
     assetDomain: string;
     contractId: string;
     tokenId: string;
@@ -67,32 +84,40 @@ export interface Response {
     isAllowed: boolean;
     userInfo: UserInfo;
     allowList: string[];
+    migratableAccounts: MigratableAccount[];
+    balancesToMigrate: BalanceToMigrate[];
+    isMergeSelected: boolean;
+    recommendedFee: string;
+    isNonSSLEnabled: boolean;
+    isHideDustEnabled: boolean;
 }
-export interface BlockedDomains {
-    [key: string]: boolean;
-}
-export interface BlockedAccount {
+export interface MemoRequiredAccount {
     address: string;
     name: string;
     domain: string | null;
     tags: string[];
 }
 export interface ExternalRequestBase {
-    network: string;
-    networkPassphrase: string;
-    accountToSign: string;
+    accountToSign?: string;
+    address?: string;
+    networkPassphrase?: string;
     type: EXTERNAL_SERVICE_TYPES;
+}
+export interface ExternalRequestToken extends ExternalRequestBase {
+    contractId: string;
 }
 export interface ExternalRequestTx extends ExternalRequestBase {
     transactionXdr: string;
+    network?: string;
 }
 export interface ExternalRequestBlob extends ExternalRequestBase {
+    apiVersion: string;
     blob: string;
 }
 export interface ExternalRequestAuthEntry extends ExternalRequestBase {
     entryXdr: string;
 }
-export declare type ExternalRequest = ExternalRequestTx | ExternalRequestBlob | ExternalRequestAuthEntry;
+export type ExternalRequest = ExternalRequestToken | ExternalRequestTx | ExternalRequestBlob | ExternalRequestAuthEntry;
 export interface Account {
     publicKey: string;
     name: string;
@@ -107,13 +132,35 @@ export declare enum AccountType {
 export interface Preferences {
     isDataSharingAllowed: boolean;
     isMemoValidationEnabled: boolean;
-    isSafetyValidationEnabled: boolean;
-    isValidatingSafeAssetsEnabled: boolean;
     networksList: NetworkDetails[];
+    isHideDustEnabled: boolean;
     error: string;
-    isExperimentalModeEnabled: boolean;
 }
-export declare type Settings = {
+export interface ExperimentalFeatures {
+    isExperimentalModeEnabled: boolean;
+    isHashSigningEnabled: boolean;
+    isNonSSLEnabled: boolean;
+    networkDetails: NetworkDetails;
+    networksList: NetworkDetails[];
+    experimentalFeaturesState: SettingsState;
+}
+export declare enum SettingsState {
+    IDLE = "IDLE",
+    LOADING = "LOADING",
+    ERROR = "ERROR",
+    SUCCESS = "SUCCESS"
+}
+export interface UserNotification {
+    enabled: boolean;
+    message: string;
+}
+export interface IndexerSettings {
+    settingsState: SettingsState;
+    isSorobanPublicEnabled: boolean;
+    isRpcHealthy: boolean;
+    userNotification: UserNotification;
+}
+export type Settings = {
     allowList: string[];
     networkDetails: NetworkDetails;
     networksList: NetworkDetails[];
@@ -125,29 +172,116 @@ export interface AssetIcons {
 export interface AssetDomains {
     [code: string]: string;
 }
-export declare type Balances = Types.BalanceMap | null;
+export interface SoroswapToken {
+    code: string;
+    contract: string;
+    decimals: number;
+    icon: string;
+    name: string;
+}
+export interface NativeToken {
+    type: SdkAssetType;
+    code: string;
+}
+export interface Issuer {
+    key: string;
+    name?: string;
+    url?: string;
+    hostName?: string;
+}
+export interface AssetToken {
+    type: SdkAssetType;
+    code: string;
+    issuer: Issuer;
+    anchorAsset?: string;
+    numAccounts?: BigNumber;
+    amount?: BigNumber;
+    bidCount?: BigNumber;
+    askCount?: BigNumber;
+    spread?: BigNumber;
+}
+export type Token = NativeToken | AssetToken;
+export interface Balance {
+    token: Token;
+    available: BigNumber;
+    total: BigNumber;
+    buyingLiabilities: string;
+    sellingLiabilities: string;
+    liquidityPoolId?: string;
+    reserves?: Horizon.HorizonApi.Reserve[];
+    contractId?: string;
+    blockaidData: BlockAidScanAssetResult;
+}
+export type BlockAidScanAssetResult = Blockaid.TokenScanResponse;
+export type BlockAidScanSiteResult = Blockaid.SiteScanResponse;
+export type BlockAidScanTxResult = Blockaid.StellarTransactionScanResponse & {
+    request_id: string;
+};
+export type BlockAidBulkScanAssetResult = Blockaid.TokenBulkScanResponse;
+export interface AssetBalance extends Balance {
+    limit: BigNumber;
+    token: AssetToken;
+    sponsor?: string;
+}
+export interface NativeBalance extends Balance {
+    token: NativeToken;
+    minimumBalance: BigNumber;
+}
+export interface TokenBalance extends AssetBalance {
+    name: string;
+    symbol: string;
+    decimals: number;
+    total: BigNumber;
+}
+export interface BalanceMap {
+    [key: string]: AssetBalance | NativeBalance | TokenBalance;
+    native: NativeBalance;
+}
+export type Balances = BalanceMap | null;
 export interface SorobanBalance {
     contractId: string;
     total: BigNumber;
     name: string;
     symbol: string;
     decimals: number;
+    token?: {
+        code: string;
+        issuer: {
+            key: string;
+        };
+    };
 }
-export declare type AssetType = Types.AssetBalance | Types.NativeBalance | SorobanBalance;
-export declare type TokenBalances = SorobanBalance[];
-export declare type HorizonOperation = any;
+export type AssetType = AssetBalance | NativeBalance | TokenBalance;
+export type TokenBalances = SorobanBalance[];
+export type HorizonOperation = Horizon.ServerApi.OperationRecord;
 export interface AccountBalancesInterface {
     balances: Balances;
     isFunded: boolean | null;
     subentryCount: number;
+    error?: {
+        horizon: any;
+        soroban: any;
+    };
 }
 export interface AccountHistoryInterface {
     operations: Array<HorizonOperation> | [];
 }
 export interface ErrorMessage {
     errorMessage: string;
-    response?: Horizon.ErrorResponseData.TransactionFailed;
+    response?: Horizon.HorizonApi.ErrorResponseData.TransactionFailed;
 }
+export interface BalanceToMigrate {
+    publicKey: string;
+    name: string;
+    minBalance: string;
+    xlmBalance: string;
+    trustlineBalances: Horizon.HorizonApi.BalanceLine[];
+    keyIdIndex: number;
+}
+export type MigratedAccount = BalanceToMigrate & {
+    newPublicKey: string;
+    isMigrated: boolean;
+};
 declare global {
     interface Window {
         freighter: boolean;
@@ -155,4 +289,9 @@ declare global {
             [key: string]: any;
         };
     }
+}
+export interface FreighterApiError {
+    code: number;
+    message: string;
+    ext?: string[];
 }
