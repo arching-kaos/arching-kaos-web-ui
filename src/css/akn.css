@@ -416,7 +416,7 @@ summary {
 details {
     border: 2px solid var(--hili);
     background-color: var(--back);
-    padding: 0px;
+    padding: 5px;
 }
 
 #logs-area-element {
