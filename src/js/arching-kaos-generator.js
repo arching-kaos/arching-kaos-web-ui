@@ -30,6 +30,9 @@ export function makeElement(obj, attachTo)
     if ( obj.property !== undefined ) temp.property = obj.property;
     if ( obj.className !== undefined && obj.element !== 'svg') temp.className = obj.className;
     if ( obj.rel !== undefined ) temp.rel = obj.rel;
+    if ( obj.min !== undefined ) temp.min = obj.min;
+    if ( obj.max !== undefined ) temp.max = obj.max;
+    if ( obj.step !== undefined ) temp.step = obj.step;
     if ( obj.href !== undefined ) temp.href = obj.href;
     if ( obj.style !== undefined ) temp.style = obj.style;
     if ( obj.src !== undefined ) temp.src = obj.src;
