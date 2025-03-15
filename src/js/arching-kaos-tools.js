@@ -29,6 +29,7 @@ import { akModuleComments } from "./arching-kaos-modules-comments.js";
 import { akModuleFiles } from "./arching-kaos-modules-files.js";
 import { akModuleMixtapes } from "./arching-kaos-modules-mixtapes.js";
 import { akModuleNews } from "./arching-kaos-modules-news.js";
+import { akModuleMarkdown } from "./arching-kaos-modules-markdown.js";
 import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
 import { getSettings } from "./arching-kaos-web-ui-settings.js";
 import { debugLog } from "./utils.js";
@@ -390,7 +391,7 @@ function renderGroupOnDataSection(group)
                 { element:'summary', innerText: group_render }
             ]
         };
-        makeElement(details, divs);
+        makeElement(details, divs.querySelector('.content'));
     }
     else
     {
@@ -448,6 +449,10 @@ function renderZblockAsModule(json, params)
     else if (action == "news/add")
     {
         akModuleNews(zblockIPFSHash, zblockObject, blockObject, json);
+    }
+    else if (action == "markdown/add")
+    {
+        akModuleMarkdown(zblockIPFSHash, zblockObject, blockObject, json);
     }
     else if (action == "comments/add")
     {

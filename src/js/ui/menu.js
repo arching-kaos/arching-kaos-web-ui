@@ -79,6 +79,7 @@ export function menuSpawn()
             { element:'button', onclick:"modulesSubToggle()", innerText:".."},
             { element:'button', onclick:'menusel({id:"#/mixtapes-section"})', innerText:"Mixtapes"},
             { element:'button', onclick:'menusel({id:"#/news-section"})', innerText:"News"},
+            { element:'button', onclick:'menusel({id:"#/markdown-section"})', innerText:"Markdown"},
             { element:'button', onclick:'menusel({id:"#/comments-section"})', innerText:"Comments"},
             { element:'button', onclick:'menusel({id:"#/files-section"})', innerText:"Files"}
         ]
@@ -156,6 +157,7 @@ export function menuids()
         '#news-section',
         '#comments-section',
         '#stats-section',
+        '#markdown-section',
         '#mixtapes-section',
         '#chat-section',
         '#radio-section',
