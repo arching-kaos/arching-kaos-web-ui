@@ -212,6 +212,7 @@ select {
     border: 1px solid;
     background-color: #1a1a1a;
     color: #7ef07e;
+    width: 100%;
 }
 
 article {
