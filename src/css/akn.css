@@ -2,6 +2,14 @@
     animation: fadeIn 0.5s;
 }
 
+:root {
+    --back: #000501;
+    --extr: #73ab84;
+    --text: #99d19c;
+    --link: #79c7c5;
+    --hili: #ade1e5;
+}
+
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -18,8 +26,8 @@ body {
     padding: 1%;
     font-family: 'Doto';
     font-size: medium;
-    background-color: #1a1a1a;
-    color: #7ef07e;
+    background-color: var(--back);
+    color: var(--text);
     display: block;
     margin: auto;
     padding: 5px;
@@ -44,14 +52,17 @@ p {
 }
 
 a {
-    color:rgb(51, 200, 234);
+    color: var(--link);
     text-decoration:none;
 }
 
 a:hover{
-    color: #c5f0ff;
+    color: var(--hili);
 }
 
+ul, ol {
+    list-style-position: inside;
+}
 #header {
     cursor: pointer;
 }
@@ -118,7 +129,7 @@ h1 {
 #contact {
     border-style: dashed;
     border-width: 3px;
-    border-color: #276a4b;
+    border-color: var(--link);
 }
 
 label {
@@ -130,7 +141,7 @@ input {
     border: 0px;
     border-radius: 0px;
     padding: 1vh 1vw;
-    color: yellow;
+    color: var(--text);
     background: black;
     border: lightyellow 1px dashed;
 }
@@ -139,10 +150,10 @@ input {
     border-radius: 0px;
     border-width: 1px;
     border-style: solid;
-    border-color: #7ef07e;
+    border-color: var(--hili);
     padding: 1.1%;
-    background: #1a1a1a;
-    color: #7ef07e;
+    background: var(--back);
+    color: var(--link);
     text-align: center;
     padding: 1% 0 1% 0;
 }
@@ -165,8 +176,8 @@ textarea {
 }
 
 .success {
-    background-color: green;
-    color: white;
+    background-color: var(--link);
+    color: var(--back);
 }
 
 .alert {
@@ -237,7 +248,7 @@ article {
 .main{
     position: fixed;
     top: 48px;
-    background-color: #000000;
+    background-color: var(--back);
     bottom: 32px;
     width: auto;
     right: 0vw;
@@ -288,28 +299,27 @@ h1 {
     padding: 2px;
     overflow-y: auto;
     display: flex;
-    background: #cacaca;
+    /* background: #cacaca; */
     width: 100%;
-    color:rgb(51, 200, 234);
+    color: var(--text);
 }
 
 .button {
     border: 0px;
     padding: 7px;
-    color: white;
+    color: var(--text);
 }
 
 button {
-    color: rgb(0, 255, 231);
+    color: var(--text);
     text-decoration: none;
     font-family: 'Doto';
-    border: 1px solid #17392e;
     padding: 10px;
     margin: 1px;
     cursor: pointer;
     display: flex;
-    background: #000000;
-    border: 1px solid #17392e;
+    background: var(--back);
+    border: 1px solid var(--link);
     padding: 1vh 1vw;
     margin: 1px;
     width: auto;
@@ -321,8 +331,9 @@ button {
 }
 
 button:hover {
-    background: #535353;
-    border-color: #eef7ff;
+    background: var(--text);
+    color: var(--back);
+    border-color: var(--extr);
 }
 
 #mobile-menu {
@@ -363,7 +374,7 @@ button:hover {
 article hr {
     border: none;
     border-top-width: 1px;
-    border-top-color: #672178;
+    border-top-color: var(--hili);
     border-top-style: dotted;
     margin-left: 0vw;
     margin-right: 0vw;
@@ -372,7 +383,7 @@ article hr {
 hr {
     border: none;
     border-top-width: 1px;
-    border-top-color: #7ef07e;
+    border-top-color: var(--hili);
     border-top-style: dashed;
     margin-left: 10vw;
     margin-right: 10vw;
@@ -396,14 +407,14 @@ audio {
 }
 
 summary {
-    background-color: #080808;
+    background-color: var(--back);
     padding: 4px;
     word-break: break-all;
 }
 
 details {
-    border: 2px solid #3a3a3a;
-    background-color: #000000;
+    border: 2px solid var(--hili);
+    background-color: var(--back);
     padding: 0px;
 }
 
@@ -412,7 +423,7 @@ details {
 }
 
 .zchain-details {
-    border: 2px solid #672178;
+    border: 2px solid var(--hili);
     padding: 24px;
 }
 
@@ -469,7 +480,7 @@ details {
         top: 0px;
         z-index: 0;
         align-items: center;
-        background-color: #1a1a1a8a;
+        background-color: var(--back);
         height: 100%;
         width: 100%;
     }
@@ -588,20 +599,16 @@ details {
     width: auto;
 }
 
-#radio-main a {
-  color: orange;
-}
-
-#radio-main a:hover {
-  color: yellow;
-}
-
 #radio-main button {
-  background:black;
-  color:red;
-  font-family: 'Doto';
+  /*
+  background: var(--back);
   border: dotted 2px;
+  color: var(--text);
+  */
+  border: solid 2px var(--hili);
+  font-family: 'Doto';
   width: 100%;
+  font-size: 24px;
 }
 
 #radio-main .no-break {
@@ -611,17 +618,10 @@ details {
     word-break: none;
 }
 
-#radio-main button {
-  background:black;
-  color:red;
-  font-size: 24px;
-  border: dotted 2px;
-}
-
 #radio-main button:hover {
-  background:#ffff96;
-  color:red;
-  border: dotted 2px aliceblue;
+  background: var(--hili);
+  color: var(--text);
+  border: solid 2px var(--text);
 }
 
 #radio-main pre {
