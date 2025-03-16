@@ -32,9 +32,10 @@ var default_settings = {
             list: [
                 'https://ipfs.arching-kaos.com/',
                 'http://gw.ipfs.z.kaotisk-hund.com/',
-                'http://localhost:8080/'
+                'http://127.0.0.1:8080/',
+                'http://127.0.0.1:8082/'
             ],
-            active: 0
+            active: 3
         }
     },
     stellar: {
@@ -83,7 +84,7 @@ var default_settings = {
         radio: {
             list: [
                 'http://127.0.0.1:8010',
-                'http://z.kaotisk-hund.com:8610',
+                'http://z.kaotisk-hund.com:8010',
                 'https://api.radio.arching-kaos.com'
             ],
             active: 2
@@ -121,8 +122,8 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     settings.stellar.horizon.active = 1;
     settings.ak.connect.active = 1;
     settings.ak.radio.active = 1;
-} else if ( location.origin === "http://localhost:3000" ) {
-    settings.ipfs.gateway.active = 2;
+} else if ( location.origin === "http://127.0.0.1" ) {
+    settings.ipfs.gateway.active = 3;
 } else {
     settings.ipfs.gateway.active = 0;
 }
