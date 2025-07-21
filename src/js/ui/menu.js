@@ -153,6 +153,7 @@ export function menuids()
     return [
         '#welcome-section',
         '#about-section',
+        '#donation-section',
         '#zchain-data-section',
         '#news-section',
         '#comments-section',

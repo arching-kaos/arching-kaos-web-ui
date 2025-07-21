@@ -8,11 +8,15 @@
 import { locationHashOnChange } from "./arching-kaos-spa-router.js";
 import { doubleFloorMenu, menuinit, menusel, stellarSubToggle, modulesSubToggle, exploreSubToggle } from './ui/menu.js';
 import { mainLayoutSpawn } from "./ui/mainLayout.js";
-import { scanStellarNetworkForPeers } from "./arching-kaos-stellar-network.js";
+import { scanStellarNetworkForPeers, connect } from "./arching-kaos-stellar-network.js";
 import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekPeer, seekZblock, showResult } from "./arching-kaos-tools.js";
 import { refreshChat, refreshRadio, setDebug } from "./utils.js";
 import { akfsGetMap, akfsWorkOnChunks } from "./arching-kaos-file-system.js";
+import { freighterWalletConnect, triggerDonation } from "./ui/sections/donationSection.js";
 
+window.triggerDonation = triggerDonation;
+window.freighterWalletConnect = freighterWalletConnect;
+window.connect = connect;
 window.menusel = menusel;
 window.locationHashOnChange = locationHashOnChange;
 window.stellarSubToggle = stellarSubToggle;

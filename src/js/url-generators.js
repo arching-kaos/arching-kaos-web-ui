@@ -70,5 +70,15 @@ export function akfsGetChunkURL(hash=null)
 {
     return settings.ak.connect.list[settings.ak.connect.active]+'/v0/chunk/'+hash;
 }
+
+export function aknsGetURL(hash=null)
+{
+    return settings.ak.connect.list[settings.ak.connect.active]+'/v0/ns_get/'+hash;
+}
+
+export function aknsGetFromBaseURL(hash=null)
+{
+    return settings.ak.connect.list[settings.ak.connect.active]+'/v0/ns_get_base/'+hash;
+}
 // vim: tabstop=4 shiftwidth=4 expandtab softtabstop=4
 // @license-end

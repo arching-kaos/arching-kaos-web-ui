@@ -33,6 +33,7 @@ var default_settings = {
                 'https://ipfs.arching-kaos.com/',
                 'http://gw.ipfs.z.kaotisk-hund.com/',
                 'http://127.0.0.1:8080/',
+                'http://z.kaotisk-hund.com:8610/v0/',
                 'http://127.0.0.1:8082/'
             ],
             active: 3
@@ -118,12 +119,12 @@ window.localStorage.removeItem("ak-settings");
 if (( location.origin === "http://z.kaotisk-hund.com") ||
     ( location.origin === "http://gw.ipfs.z.kaotisk-hund.com") ||
     ( location.origin === "http://[fc59:6076:6299:6776:c13d:fbb2:1226:ead0]")) {
-    settings.ipfs.gateway.active = 1;
+    settings.ipfs.gateway.active = 3;
     settings.stellar.horizon.active = 1;
     settings.ak.connect.active = 1;
     settings.ak.radio.active = 1;
 } else if ( location.origin === "http://127.0.0.1" ) {
-    settings.ipfs.gateway.active = 3;
+    settings.ipfs.gateway.active = 4;
 } else {
     settings.ipfs.gateway.active = 0;
 }

@@ -9,7 +9,7 @@ import { archingKaosLog } from "./arching-kaos-log.js";
 import { makeElement } from "./arching-kaos-generator.js";
 import { progressPlaceholder, resultsArea, aknet } from "./app.js";
 import { archingKaosFetchJSON } from "./arching-kaos-fetch.js";
-import { getIPFSURL, getIPNSURL } from "./url-generators.js";
+import { getIPFSURL, getIPNSURL, aknsGetFromBaseURL } from "./url-generators.js";
 import {
     stellarParticipantInfo,
     getStellarParticipantsScanned,
@@ -136,18 +136,24 @@ function nodeInfoRender(json, stellarAddress, parentTag=null)
 
 function nodeInfoRenderAndProceed(json, stellarAddress)
 {
-    nodeInfoRender(json, stellarAddress);
-    stellarParticipantInfo(stellarAddress, json);
-    if ( getStellarParticipantsScanned() === 0 )
+    if ( json.key && json.resolved )
     {
-        archingKaosLog('Scanned all Stellar participants');
+        archingKaosFetchJSON(getIPFSURL(json.resolved), nodeInfoRenderAndProceed, stellarAddress);
     }
-    progressPlaceholder().value++;
-    if (json.zlatest)
+    else
     {
-        seekZblock(json.zlatest, [json.gpg, json]);
+        nodeInfoRender(json, stellarAddress);
+        stellarParticipantInfo(stellarAddress, json);
+        if ( getStellarParticipantsScanned() === 0 )
+        {
+            archingKaosLog('Scanned all Stellar participants');
+        }
+        progressPlaceholder().value++;
+        if (json.zlatest)
+        {
+            seekZblock(json.zlatest, [json.gpg, json]);
+        }
     }
-    //seekZchain(json.zchain,stellarAddress,json);
 }
 
 function renderZblockAndProceed(json, params)
@@ -252,6 +258,16 @@ function blockRenderAndProceed(json, params)
     exe(json.action,json.data,json,zblockIPFSHash,group,zblockObject,recursive);
     if ( checkIfGenesis(json.previous) )
     {
+        if(typeof(group) === "object")
+        {
+            archingKaosLog("Done loading " + group.fingerprint + " zchain!")
+            console.log(group.fingerprint);
+        }
+        else
+        {
+            archingKaosLog("Done loading " + group + " zchain!")
+            console.log(group);
+        }
         archingKaosLog("Done loading " + group + " zchain!")
         progressPlaceholder().value++;
         setZchainLoadingStatus(group, {loading: "completed"});
@@ -281,11 +297,19 @@ function blockRenderAndProceed(json, params)
     }
 }
 
-export function getConfiguration(nodeInfoIPNSLink,stellarAddress)
+export function getConfiguration(nodeInfoNSLink,stellarAddress)
 {
     progressPlaceholder().max++;
     archingKaosLog("Parsing the configuration...");
-    archingKaosFetchJSON(getIPNSURL(nodeInfoIPNSLink), nodeInfoRenderAndProceed, stellarAddress);
+    const base64Regex = /^[A-Z0-9+\/=]{28}/i;
+    if ( !(nodeInfoNSLink.startsWith("k51qzi5uqu")) && base64Regex.test(nodeInfoNSLink) )
+    {
+        archingKaosFetchJSON(aknsGetFromBaseURL(nodeInfoNSLink), nodeInfoRenderAndProceed, stellarAddress);
+    }
+    else
+    {
+        archingKaosFetchJSON(getIPNSURL(nodeInfoNSLink), nodeInfoRenderAndProceed, stellarAddress);
+    }
 }
 
 function seekZchain(zchainIPNSLink,stellarAddress,json)
@@ -395,7 +419,6 @@ function renderGroupOnDataSection(group)
     }
     else
     {
-        //debugLog('Else got hit in seekZchain');
         return 0;
     }
 }

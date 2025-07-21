@@ -35,7 +35,9 @@ export function aboutSection()
                 { element:"li", innerText:"Your zchain (...)"},
                 { element:"li", innerText:"Your posted newsfeed (...)"}
             ]},
-            { element:"p", innerText:"Finally, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin."}
+            { element:"p", innerText:"Also, on the stats page you can find people that are participating over the Stellar Network, using the ARCHINGKAOS token/asset/coin."},
+            { element:"p", innerText:"If you like what you see or you think the project has potential, you can use the button below to donate."},
+            { element: "button", onclick:'menusel({id:"#/donation-section"})', innerText:"Donation"}
         ]
     };
 

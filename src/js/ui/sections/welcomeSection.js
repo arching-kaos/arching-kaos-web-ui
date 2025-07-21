@@ -59,7 +59,8 @@ var homeGrid = {
             className:"menu-clickable",
             id:"#/stats-section",
             onclick:"menusel(this)",
-            innerText:"Stats"
+            // innerText:"Stats",
+            style:"background-image: url(img/stats-logo.png); background-repeat: round; background-size: cover;"
         }
     ]
 };

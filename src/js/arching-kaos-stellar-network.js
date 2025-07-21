@@ -66,13 +66,22 @@ function renderStellarAddressesAndProceed(json){
     if (json._links.next) getHolders(json._links.next.href);
 }
 
-function renderConfigurationIPNSLinkAndProceed(json, stellarAddress){
+function renderConfigurationLinkAndProceed(json, stellarAddress){
     renderStellarAddress(stellarAddress);
     document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
     increaseStellarNetworkConfiguredAddresses();
     debugLog(atob(json.value));
     debugLog(stellarAddress);
-    getConfiguration(atob(json.value),stellarAddress);
+    var key = json.value
+    const base64Regex = /^[A-Z0-9+\/=]{28}/i;
+    if (base64Regex.test(atob(key)))
+    {
+        getConfiguration(atob(key), stellarAddress);
+    }
+    else
+    {
+        getConfiguration(atob(key),stellarAddress);
+    }
 }
 
 function getTrustlines(){
@@ -106,7 +115,7 @@ function getHolders(a=0){
 
 function checkAddressForConfigurationVariable(stellarAddress) {
     archingKaosLog("Checking configuration for "+ stellarAddress+ "...");
-    archingKaosFetchJSON(getStellarConfigurationVariableURL(stellarAddress), renderConfigurationIPNSLinkAndProceed, stellarAddress);
+    archingKaosFetchJSON(getStellarConfigurationVariableURL(stellarAddress), renderConfigurationLinkAndProceed, stellarAddress);
     progressPlaceholder().value++;
 }
 
@@ -155,7 +164,17 @@ async function fetchNodeInfoFromClientWallet(stellarAddress){
                 makeElement(cnf, document.querySelector('#stellar-data-config'));
                 progressPlaceholder().max++;
                 progressPlaceholder().value++;
-                getConfiguration(atob(json.value),stellarAddress);
+                key = json.value
+                regex= /[a-zA-Z0-9+\/=]{29}/
+                const base64Regex = /^[A-Z0-9+\/=]{28}/i;
+                if (base64Regex.test(atob(key)))
+                {
+                    getConfiguration(atob(key), stellarAddress);
+                }
+                else
+                {
+                    getConfiguration(atob(key),stellarAddress);
+                }
             });
         }
     });
@@ -186,7 +205,7 @@ const retrievePublicKey = async () => {
     return publicKey;
 };
 
-function connect(){
+export function connect(){
 //    if ( stellar_connection_status === 1 ){
 //        showStellar();
 //    } else {

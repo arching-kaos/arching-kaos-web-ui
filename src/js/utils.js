@@ -35,4 +35,17 @@ export function offerDownloadableData(data)
     link.href = window.URL.createObjectURL(blob);
     link.click();
 }
+
+export function decodeBase64ToHex(base64String) {
+    const binaryString = atob(base64String);
+    // Convert the binary string to a byte array
+    const byteArray = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        byteArray[i] = binaryString.charCodeAt(i);
+    }
+    // Convert the byte array to a hex string representation
+    return Array.from(byteArray)
+        .map(byte => byte.toString(16).padStart(2, '0')) // Convert to hex and pad with zeros
+        .join(''); // Join with spaces for readability
+}
 // @license-end

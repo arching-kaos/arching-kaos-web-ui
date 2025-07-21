@@ -15,7 +15,7 @@ export function headerSpawn()
         className: 'header',
         innerHTML: [
             { element: "a", id:"logo-button", innerHTML:[
-                {element: "img", src:"./img/header-logo.png" }
+                {element: "img", src:"./img/logo.png" }
             ]},
             { element: "h1", style:"text-align: center;", innerText: "Arching Kaos"}
         ],

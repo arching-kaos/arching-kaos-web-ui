@@ -22,6 +22,7 @@ import { stellarDataConfigSection } from "./sections/stellarDataConfigSection.js
 import { stellarSection } from "./sections/stellarSection.js";
 import { welcomeSection } from "./sections/welcomeSection.js";
 import { zchainDataSection } from "./sections/zchainDataSection.js";
+import { donationSection } from "./sections/donationSection.js";
 import { markdownSection } from "./sections/markdownSection.js";
 
 export function mainSpawn()
@@ -30,6 +31,7 @@ export function mainSpawn()
     akNodeInfoSection();
     chatSection();
     commentsSection();
+    donationSection()
     markdownSection()
     filesSection();
     mixtapesSection();

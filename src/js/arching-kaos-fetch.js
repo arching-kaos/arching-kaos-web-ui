@@ -63,6 +63,7 @@ export async function archingKaosFetchText( url, callback, params ){
         debugLog("Request aborted.");
     });
     request.open("GET", url);
+    request.responseType = "";
     request.send();
 }
 
