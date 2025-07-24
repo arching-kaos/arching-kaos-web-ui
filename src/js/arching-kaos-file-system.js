@@ -88,10 +88,21 @@ function akfsFromMapGetOriginalHash(reply, params)
 
 function akfsFromMapGetOriginalFilename(reply, params)
 {
-    const [ hash ] = params;
+    const [ data, toDownload ] = params;
     if(typeof(reply) === "string")
     {
-        console.log(reply.split('\n')[0].split('  ')[1]);
+        // console.log(reply.split('\n')[0].split('  ')[1]);
+        var first_line = reply.split('\n')[0].split('  ');
+        var filename = "";
+        for ( let i = 1; i < first_line.length; i++ )
+        {
+            filename += first_line[i];
+            if ( i < first_line.length - 1 )
+            {
+                filename += " ";
+            }
+        }
+        if ( toDownload ) offerDownloadableData(data, filename);
     }
 }
 
@@ -159,9 +170,9 @@ export function akfsWorkOnChunks()
 {
     akfsSerializeChunks(thingy.root_hash);
     var data = makeUpData();
-    offerDownloadableData(data);
+    archingKaosFetchBlob(akfsGetMapURL(thingy.map_hash), akfsFromMapGetOriginalFilename, [data, true]);
     downloaded = true;
-    console.log(workspace);
+    // console.log(workspace);
 }
 
 function akfsChunkOrLeaf(reply, params)

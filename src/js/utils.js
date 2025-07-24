@@ -27,10 +27,10 @@ export function debugLog(message)
     if (showDebug) console.log(message);
 }
 
-export function offerDownloadableData(data)
+export function offerDownloadableData(data, filename)
 {
     var link = document.createElement('a');
-    link.download = 'data';
+    link.download = filename === undefined ? 'data': filename;
     var blob = new Blob([data]); // , {type: 'text/plain'}
     link.href = window.URL.createObjectURL(blob);
     link.click();
@@ -46,6 +46,6 @@ export function decodeBase64ToHex(base64String) {
     // Convert the byte array to a hex string representation
     return Array.from(byteArray)
         .map(byte => byte.toString(16).padStart(2, '0')) // Convert to hex and pad with zeros
-        .join(''); // Join with spaces for readability
+        .join('');
 }
 // @license-end
