@@ -136,7 +136,7 @@ function nodeInfoRender(json, stellarAddress, parentTag=null)
 
 function nodeInfoRenderAndProceed(json, stellarAddress)
 {
-    if ( json.key && json.resolved )
+    if ( json.fingerprint && json.resolved && json.proof )
     {
         archingKaosFetchJSON(getIPFSURL(json.resolved), nodeInfoRenderAndProceed, stellarAddress);
     }
