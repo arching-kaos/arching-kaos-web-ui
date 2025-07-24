@@ -20,6 +20,8 @@ var final_array_seq = [];
 var status = [];
 var workspace = [];
 var output = "";
+var downloaded = false;
+var ready = false;
 
 function drawWorkSpace()
 {
@@ -48,6 +50,7 @@ function akfsReset()
     final_array_seq = [];
     status = [];
     workspace = [];
+    downloaded = false;
     output = "";
     if ( document.querySelector('svg') !== null ) document.querySelector('svg').remove();
 }
@@ -57,7 +60,21 @@ export function akfsGetMap(hash)
     akfsReset();
     drawWorkSpace();
     archingKaosFetchBlob(akfsGetMapURL(hash), akfsFromMapGetLevelOneMapHash, [hash])
+    setInterval(pollStatus, 5000);
     return hash;
+}
+
+function pollStatus()
+{
+    if ( downloaded ) return;
+    for ( let x in status ) {
+        if ( status[x] === "working" ) {
+            console.log("Not ready!");
+            return
+        }
+    }
+    console.log("Ready!");
+    akfsWorkOnChunks();
 }
 
 function akfsFromMapGetOriginalHash(reply, params)
@@ -123,7 +140,7 @@ function akfsSerializeChunks(hash)
     }
     else
     {
-        console.log(status);
+        // console.log(status);
         console.log('next call');
     }
 }
@@ -143,6 +160,7 @@ export function akfsWorkOnChunks()
     akfsSerializeChunks(thingy.root_hash);
     var data = makeUpData();
     offerDownloadableData(data);
+    downloaded = true;
     console.log(workspace);
 }
 
