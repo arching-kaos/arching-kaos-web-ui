@@ -1,6 +1,9 @@
 Web UI for arching-kaos
 -----------------------
 
+Disclaimer: any use of AI tools upon this code base is STRICTLY prohibited. This
+affects ALL commits and branches.
+
 This repository hosts the html, css and js files for presenting "arching-kaos"
 to visitors.
 
