@@ -16,7 +16,7 @@ export function footerSpawn()
             {
                 element:"div",
                 innerHTML:[
-                    {element:"p", innerText:"Arching Kaos 2019-2025"},
+                    {element:"p", innerText:"Arching Kaos 2019-2026"},
                     {element:"a", target:"_blank", href:"https://github.com/arching-kaos/arching-kaos-tools", innerText:"Tools"},
                     {element:"a", target:"_blank", href:"https://arching-kaos.org", innerText:"Org"},
                     {element:"a", target:"_blank", href:"https://arching-kaos.net", innerText:"Net"},
