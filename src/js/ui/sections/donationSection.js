@@ -120,9 +120,6 @@ export async function triggerDonation()
         console.log('An error has occured:');
         console.log(e);
     }
-    // } catch (e) {
-    //     console.log(e);
-    // }
 }
 
 export function donationSection()

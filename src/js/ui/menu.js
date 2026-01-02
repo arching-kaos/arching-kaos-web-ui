@@ -81,7 +81,8 @@ export function menuSpawn()
             { element:'button', onclick:'menusel({id:"#/news-section"})', innerText:"News"},
             { element:'button', onclick:'menusel({id:"#/markdown-section"})', innerText:"Markdown"},
             { element:'button', onclick:'menusel({id:"#/comments-section"})', innerText:"Comments"},
-            { element:'button', onclick:'menusel({id:"#/files-section"})', innerText:"Files"}
+            { element:'button', onclick:'menusel({id:"#/files-section"})', innerText:"Files"},
+            { element:'button', onclick:'menusel({id:"#/generic-section"})', innerText:"Generic"}
         ]
     };
 
@@ -169,6 +170,7 @@ export function menuids()
         '#files-section',
         '#settings-section',
         '#stellar-section',
+        '#generic-section',
         '#not-found-section'
     ]
 };

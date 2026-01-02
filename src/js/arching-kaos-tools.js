@@ -28,6 +28,7 @@ import {
 import { akModuleComments } from "./arching-kaos-modules-comments.js";
 import { akModuleFiles } from "./arching-kaos-modules-files.js";
 import { akModuleMixtapes } from "./arching-kaos-modules-mixtapes.js";
+import { akModuleGeneric } from "./arching-kaos-modules-generic.js";
 import { akModuleNews } from "./arching-kaos-modules-news.js";
 import { akModuleMarkdown } from "./arching-kaos-modules-markdown.js";
 import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
@@ -491,6 +492,7 @@ function renderZblockAsModule(json, params)
     }
     else
     {
+        akModuleGeneric(zblockIPFSHash, zblockObject, blockObject, json);
         archingKaosLog(action + " module not found");
     }
     if (!recursive)
