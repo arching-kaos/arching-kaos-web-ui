@@ -1,6 +1,6 @@
 // Arching Kaos Welcome Section
 //
-// Kaotisk Hund - 2024
+// Kaotisk Hund - 2024 - 2026
 //
 // @license magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt AGPL v3.0
 //
@@ -11,8 +11,6 @@ import { scanMethodsArea } from "../components/scanButtons/index.js";
 import { akfsGetForm } from "../components/akfsGet/index.js";
 import { renderForm } from "../components/renderForm/index.js";
 import { manualPeerForm } from "../components/manualPeer/index.js";
-import { progressArea } from "../components/progressArea/index.js";
-import { logsArea } from "../components/logsArea/index.js";
 import { previewArea } from "../components/previewArea/index.js";
 import { resultsArea } from "../components/resultsArea/index.js";
 
@@ -26,21 +24,10 @@ const whereAmI = {
     ]
 };
 
-const greeting = {
-    element: "div",
-    innerHTML: [
-        {
-            element: "p",
-            innerText: "Welcome to Arching Kaos project."
-        }
-    ]
-};
-
 const groupA = {
     element: "div",
-    style: "width: 20vw; flex-shrink: 0; overflow-y: scroll;",
+    style: "width: 20vw; flex-shrink: 0; overflow-y: auto;",
     innerHTML: [
-        greeting,
         homeGrid,
         renderForm,
         akfsGetForm,
@@ -51,7 +38,7 @@ const groupA = {
 
 const groupB = {
     element: "div",
-    style: "overflow-y: scroll; height: 100vh;",
+    style: "overflow-y: auto; height: 100vh; width: 100%;",
     innerHTML: [
         resultsArea,
         previewArea
@@ -67,20 +54,11 @@ const containerA = {
     ]
 }
 
-const containerB = {
-    element: "div",
-    innerHTML: [
-        progressArea,
-        logsArea
-    ]
-}
-
 const content = {
     element : "div",
     className: "content",
     innerHTML: [
         containerA,
-        containerB,
     ]
 };
 

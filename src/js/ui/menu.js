@@ -62,6 +62,7 @@ export function menuSpawn()
                 { element: "button", onclick:'menusel({id:"#/radio-section"})', innerText:"Radio"},
                 { element: "button", onclick:'menusel({id:"#/settings-section"})', innerText:"Settings"},
                 { element: "button", onclick:'stellarSubToggle()', innerText:"Stellar"},
+                { element: "button", onclick:'menusel({id:"#/logs-section"})', innerText:"Logs"},
                 { element: "button", onclick:'menusel({id:"#/about-section"})', innerText:"About"}
             ]
             },
@@ -171,6 +172,7 @@ export function menuids()
         '#settings-section',
         '#stellar-section',
         '#generic-section',
+        '#logs-section',
         '#not-found-section'
     ]
 };

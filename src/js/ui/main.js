@@ -25,6 +25,7 @@ import { zchainDataSection } from "./sections/zchainDataSection.js";
 import { donationSection } from "./sections/donationSection.js";
 import { markdownSection } from "./sections/markdownSection.js";
 import { genericSection } from "./sections/genericSection.js";
+import { logSection } from "./sections/logSection.js";
 
 export function mainSpawn()
 {
@@ -48,5 +49,6 @@ export function mainSpawn()
     welcomeSection();
     zchainDataSection();
     genericSection();
+    logSection();
 }
 // @license-end

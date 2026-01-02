@@ -8,12 +8,6 @@
 export const resultsArea = {
     element: "div",
     className: "results-area",
-    innerHTML: [
-        {
-            element: "h3",
-            innerText: "Results"
-        }
-    ]
 };
 
 // @license-end
