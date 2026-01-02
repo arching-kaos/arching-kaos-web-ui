@@ -222,7 +222,7 @@ function akfsChunkOrLeaf(reply, params)
             //     thingy[hash][reply.split('\n')[0]] = [];
             //     thingy[hash][reply.split('\n')[1]] = [];
             // }
-            archingKaosLog(`${hash} is a leaf`);
+            // archingKaosLog(`${hash} is a leaf`);
             var leaf = {
                 hash: hash,
                 head: reply.split('\n')[0],
@@ -272,7 +272,7 @@ function akfsChunkOrLeaf(reply, params)
                 data: reply
             };
             document.querySelector(`#c-${chunk.hash}`).setAttribute("fill", "lightgreen");
-            archingKaosLog(`${hash} is a chunk`);
+            // archingKaosLog(`${hash} is a chunk`);
             status[chunk.hash] = 'ready';
             thingy.chunks[chunk.hash] = chunk;
             if ( first_chunk_size > chunk.data.length || chunk.data.length < 1024 || ( chunk.data.length < 4096 && first_chunk_size >= 4096 ) )

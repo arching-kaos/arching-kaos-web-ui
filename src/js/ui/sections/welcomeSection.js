@@ -16,7 +16,7 @@ import { logsArea } from "../components/logsArea/index.js";
 import { previewArea } from "../components/previewArea/index.js";
 import { resultsArea } from "../components/resultsArea/index.js";
 
-var whereAmI = {
+const whereAmI = {
     element: "div",
     className: "where-am-i",
     innerHTML: [
@@ -26,25 +26,61 @@ var whereAmI = {
     ]
 };
 
-var greeting = {
-    element: "p",
-    innerText: "Welcome to Arching Kaos project."
+const greeting = {
+    element: "div",
+    innerHTML: [
+        {
+            element: "p",
+            innerText: "Welcome to Arching Kaos project."
+        }
+    ]
 };
 
-var content = {
-    element : "div",
-    className: "content",
+const groupA = {
+    element: "div",
+    style: "width: 20vw; flex-shrink: 0; overflow-y: scroll;",
     innerHTML: [
         greeting,
         homeGrid,
         renderForm,
         akfsGetForm,
         manualPeerForm,
+        scanMethodsArea
+    ]
+}
+
+const groupB = {
+    element: "div",
+    style: "overflow-y: scroll; height: 100vh;",
+    innerHTML: [
         resultsArea,
-        scanMethodsArea,
-        previewArea,
+        previewArea
+    ]
+}
+
+const containerA = {
+    element: "div",
+    style: "display: flex; gap: 10px;",
+    innerHTML: [
+        groupA,
+        groupB
+    ]
+}
+
+const containerB = {
+    element: "div",
+    innerHTML: [
         progressArea,
         logsArea
+    ]
+}
+
+const content = {
+    element : "div",
+    className: "content",
+    innerHTML: [
+        containerA,
+        containerB,
     ]
 };
 

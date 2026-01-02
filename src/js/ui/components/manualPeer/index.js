@@ -6,8 +6,8 @@
 //
 
 const label = {
-    element : "h3",
-    innerText: "Connect to specific peer manually"
+    element : "h4",
+    innerText: "Connect to peer"
 };
 
 const input = {

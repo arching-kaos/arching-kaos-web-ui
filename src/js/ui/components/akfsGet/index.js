@@ -6,7 +6,7 @@
 //
 
 const label = {
-    element : "h3",
+    element : "h4",
     innerText: "Get a file via AKFS"
 };
 

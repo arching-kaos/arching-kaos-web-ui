@@ -8,23 +8,25 @@
 export const scanMethodsArea = {
     element: "div",
     id: "scan-methods-area",
+    style:"padding: 1vh 1vw; display: flex; flex-direction: column; align-items: center; gap: 10px;",
     innerHTML: [
         {
             element: "h3",
-            innerText: "Manual scan"
+            innerText: "Retrieve from"
         },
         {
             element: "div",
             id: "manual-scan-section",
+            className: "p-6px",
             innerHTML: [
                 {
-                    element: "div",
-                    className: "manual-scan",
+                    element: "select",
+                    className: "p-6px manual-scan",
                     innerHTML: [
-                        { element:"button", onclick:"scanStellarNetworkForPeers()", innerText:"Check Stellar Network"},
-                        { element:"button", onclick:"checkLocalNodeInfo()", innerText:"Check local Node"},
-                        { element:"button", onclick:"checkLocalPeers()", innerText:"Check local Peers"},
-                        { element:"button", onclick:"checkLocalSchain()", innerText:"Check Local Schain"}
+                        { element:"option", onclick:"scanStellarNetworkForPeers()", innerText:"Stellar Network"},
+                        { element:"option", onclick:"checkLocalNodeInfo()", innerText:"Local Node"},
+                        { element:"option", onclick:"checkLocalPeers()", innerText:"Local Peers"},
+                        { element:"option", onclick:"checkLocalSchain()", innerText:"Local Schain"}
                     ]
                 }
             ]

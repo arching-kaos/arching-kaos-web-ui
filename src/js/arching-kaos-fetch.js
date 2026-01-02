@@ -74,7 +74,7 @@ export function archingKaosFetchBlob( url, callback, params ){
         if(request.status !== 404){
             callback(blob, params);
         } else {
-            archingKaosLog(`ERROR ${request.status} while loading ${url}`);
+            // archingKaosLog(`ERROR ${request.status} while loading ${url}`);
         }
     });
     request.addEventListener("error", ()=>{

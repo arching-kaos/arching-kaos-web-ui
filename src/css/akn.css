@@ -215,6 +215,10 @@ select {
     width: 100%;
 }
 
+.p-6px {
+    padding: 6px;
+}
+
 article {
     font-family: monospace;
     border: none;
@@ -530,15 +534,22 @@ details {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 3px;
 }
 
 #home-grid button {
-    width: 128px;
-    height: 128px;
+    width: 56px;
+    height: 56px;
     margin: 0px;
     text-align: center;
     align-items: center;
     justify-content: center;
+}
+
+#home-grid button:hover {
+    background-color: var(--text);
+    color: var(--back);
+    border-color: var(--extr);
 }
 
 .manual-scan {
