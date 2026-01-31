@@ -8,8 +8,18 @@
 import { locationHashOnChange } from "./arching-kaos-spa-router.js";
 import { doubleFloorMenu, menuinit, menusel, stellarSubToggle, modulesSubToggle, exploreSubToggle } from './ui/menu.js';
 import { mainLayoutSpawn } from "./ui/mainLayout.js";
-import { scanStellarNetworkForPeers, connect } from "./arching-kaos-stellar-network.js";
-import { checkLocalNodeInfo, checkLocalPeers, checkLocalSchain, seekPeer, seekZblock, showResult } from "./arching-kaos-tools.js";
+import { connect } from "./arching-kaos-stellar-network.js";
+import {
+    checkEverything,
+    checkLocalNodeInfo,
+    checkLocalPeers,
+    checkLocalPeersAndNode,
+    checkLocalSchain,
+    checkStellarNetwork,
+    seekPeer,
+    seekZblock,
+    showResult
+} from "./arching-kaos-tools.js";
 import { refreshChat, refreshRadio, setDebug } from "./utils.js";
 import { akfsGetMap, akfsWorkOnChunks } from "./arching-kaos-file-system.js";
 import { freighterWalletConnect, triggerDonation } from "./ui/sections/donationSection.js";
@@ -22,11 +32,14 @@ window.locationHashOnChange = locationHashOnChange;
 window.stellarSubToggle = stellarSubToggle;
 window.modulesSubToggle = modulesSubToggle;
 window.exploreSubToggle = exploreSubToggle;
-window.scanStellarNetworkForPeers = scanStellarNetworkForPeers;
+//window.scanStellarNetworkForPeers = scanStellarNetworkForPeers;
+window.checkStellarNetwork = checkStellarNetwork;
 window.seekZblock = seekZblock;
 window.checkLocalNodeInfo = checkLocalNodeInfo;
 window.checkLocalPeers = checkLocalPeers;
 window.checkLocalSchain = checkLocalSchain;
+window.checkLocalPeersAndNode = checkLocalPeersAndNode;
+window.checkEverything = checkEverything;
 window.refreshChat = refreshChat;
 window.refreshRadio = refreshRadio;
 window.setDebug = setDebug;

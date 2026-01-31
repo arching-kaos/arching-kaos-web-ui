@@ -376,6 +376,11 @@ button:hover {
     word-break: break-word;
 }
 
+.news-text p {
+    text-align: justify;
+    padding: 8px 0;
+}
+
 article hr {
     border: none;
     border-top-width: 1px;
@@ -748,5 +753,9 @@ details {
 }
 
 .content * {
-    font-family: system-ui;
+    font-family: mono;
+}
+
+.grid {
+    display: grid;
 }

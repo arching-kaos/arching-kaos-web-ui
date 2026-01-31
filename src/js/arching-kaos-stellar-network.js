@@ -47,6 +47,7 @@ function renderStellarAddress(stellarAddress){
         var d = {
             element:"details",
             className:"stellar-address",
+            id: 'sa-'+stellarAddress,
             innerHTML:[
                 {element:"summary", innerText:stellarAddress, id:stellarAddress}
             ]
@@ -68,7 +69,7 @@ function renderStellarAddressesAndProceed(json){
 
 function renderConfigurationLinkAndProceed(json, stellarAddress){
     renderStellarAddress(stellarAddress);
-    document.querySelector('#'+stellarAddress).style="color: #3dbb3d;"
+    document.querySelector('#sa-'+stellarAddress).style="color: #3dbb3d;"
     increaseStellarNetworkConfiguredAddresses();
     debugLog(atob(json.value));
     debugLog(stellarAddress);

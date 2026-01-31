@@ -17,18 +17,14 @@ export const scanMethodsArea = {
         {
             element: "div",
             id: "manual-scan-section",
-            className: "p-6px",
+            className: "p-6px grid",
             innerHTML: [
-                {
-                    element: "select",
-                    className: "p-6px manual-scan",
-                    innerHTML: [
-                        { element:"option", onclick:"scanStellarNetworkForPeers()", innerText:"Stellar Network"},
-                        { element:"option", onclick:"checkLocalNodeInfo()", innerText:"Local Node"},
-                        { element:"option", onclick:"checkLocalPeers()", innerText:"Local Peers"},
-                        { element:"option", onclick:"checkLocalSchain()", innerText:"Local Schain"}
-                    ]
-                }
+                { element:"button", onclick:"checkStellarNetwork()", innerText:"Stellar Network"},
+                { element:"button", onclick:"checkLocalNodeInfo()", innerText:"Local Node"},
+                { element:"button", onclick:"checkLocalPeers()", innerText:"Local Peers"},
+                { element:"button", onclick:"checkLocalSchain()", innerText:"Local Schain"},
+                { element:"button", onclick:"checkLocalPeersAndNode()", innerText:"Local Peers + Node"},
+                { element:"button", onclick:"checkEverything()", innerText:"Everything"}
             ]
         },
     ]

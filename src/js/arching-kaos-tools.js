@@ -34,6 +34,7 @@ import { akModuleMarkdown } from "./arching-kaos-modules-markdown.js";
 import { storeReference, resolveReferences } from "./arching-kaos-modules-references.js";
 import { getSettings } from "./arching-kaos-web-ui-settings.js";
 import { debugLog } from "./utils.js";
+import {scanStellarNetworkForPeers} from "./arching-kaos-stellar-network.js";
 
 var settings = getSettings();
 
@@ -90,7 +91,7 @@ function renderStellarAddressPlaceholder(stellarAddress)
 
 function nodeInfoRender(json, stellarAddress, parentTag=null)
 {
-    var divs = renderStellarAddressPlaceholder(stellarAddress);
+    var divs = renderStellarAddressPlaceholder('sa-'+stellarAddress);
     const keys = Object.keys(json);
     if ( parentTag === null )
     {
@@ -702,6 +703,25 @@ export function checkLocalSchain()
     debugLog(url);
     archingKaosFetchJSON(url, initCrawlSchain);
     archingKaosLog("Querying for schain... Done!");
+}
+
+export function checkEverything()
+{
+    checkStellarNetwork()
+    checkLocalPeers()
+    checkLocalNodeInfo()
+    checkLocalSchain()
+}
+
+export function checkLocalPeersAndNode()
+{
+    checkLocalPeers()
+    checkLocalNodeInfo()
+}
+
+export function checkStellarNetwork()
+{
+    scanStellarNetworkForPeers()
 }
 
 async function ringlocalbell()

@@ -78,7 +78,8 @@ var default_settings = {
             list: [
                 'http://127.0.0.1:8610',
                 'http://z.kaotisk-hund.com:8610',
-                'http://api.aknet.z.kaotisk-hund.com/'
+                'http://api.aknet.z.kaotisk-hund.com',
+                'https://api.aknet.arching-kaos.net'
             ],
             active: 1
         },
@@ -127,6 +128,7 @@ if (( location.origin === "http://z.kaotisk-hund.com") ||
     settings.ipfs.gateway.active = 4;
 } else {
     settings.ipfs.gateway.active = 0;
+    settings.ak.connect.active = 3;
 }
 
 var settingsKeys = Object.keys(settings);
